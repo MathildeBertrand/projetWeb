@@ -132,6 +132,10 @@ while(<CODE>)
 		$hash[1]{$EC}=$s_name;
 		$hash[2]{$EC}=$reac;
 		$hash[3]{$EC}=$cof;
+		$hash[4]{$EC}=$sp;
+		$hash[5]{$EC}=$prosite;
+		$hash[6]{$EC}=$comments;
+		$hash[7]{$EC}=$disease;
 	}
 
 }
