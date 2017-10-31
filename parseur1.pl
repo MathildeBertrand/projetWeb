@@ -10,7 +10,13 @@
 #Usage: perl parseur1.pl
 
 open CODE,"db_enzyme.txt";
-%hash;
+
+
+#Ecriture dans le fichier de sortie
+open (FICHIER1, ">enzymeSortie1.txt") || die ("Vous ne pouvez pas créer le fichier \"enzymeSortie1.txt\""); #contiendra les sortie prosites
+open (FICHIER2, ">enzymeSortie2.txt") || die ("Vous ne pouvez pas créer le fichier \"enzymeSortie2.txt\""); #SP pour chaque enzyme
+
+
 while(<CODE>)
 {
 	chomp;
@@ -125,26 +131,16 @@ while(<CODE>)
 	#push @parseur2,[@parseur];
 	
 	
-	if (exists $hash{$EC}){	#Si le numero EC a deja ete vu, on ne remplit pas la table de hash
-		print 1;
-	}else{#sinon on remplit la table
-		$hash[0]{$EC}=$EC;
-		$hash[1]{$EC}=$s_name;
-		$hash[2]{$EC}=$reac;
-		$hash[3]{$EC}=$cof;
-		$hash[4]{$EC}=$sp;
-		$hash[5]{$EC}=$prosite;
-		$hash[6]{$EC}=$comments;
-		$hash[7]{$EC}=$disease;
-	}
+	#Ecriture dans les fichiers de sortie
+	print FICHIER1 $EC ." ".$o_name." ".$reac." ".$comments." ".$cof." ".$disease." ".$prosite. "\n";
+	print FICHIER2 $EC ." ".$sp. "\n";
+	
 
 }
 close CODE;
 
 
-for $j(keys %{$hash[$i]}){
-		print "$hash[0]{$j}\n";
-	}
+
 
 
 

@@ -11,6 +11,8 @@
 #Importation des donnees du premier fichier parse
 open CODE2,"intenz.txt";
 
+#Ecriture dans le fichier de sortie
+open (FICHIER, ">intenzSortie.txt") || die ("Vous ne pouvez pas créer le fichier \"intenzSortie.txt\"");
 
 while(<CODE2>)
 {
@@ -57,15 +59,15 @@ while(<CODE2>)
 			}elsif($balise=~/history/){
 				$history=$contenu;
 			}
-			
-			
+				
 
 	}
+	#Ecriture dans le fichier de sortie
+	print FICHIER $EC ." ".$accepted_name." ".$history." ".$comment." ".$authors." ".$title." ".$year." ".$volume." ".$first_page." ".$last_page." ".$pubmed." ".$medline." ".$synonym. "\n";
 }
 close CODE2;
 
-print $T1[19][0];
-#On ecrit dans les fichiers de sortie
+
 
 
 
