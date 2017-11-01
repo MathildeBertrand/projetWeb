@@ -14,8 +14,6 @@ open CODE,"db_enzyme.txt";
 
 #Ecriture dans le fichier de sortie
 open (FICHIER1, ">enzymeInsertion.txt") || die ("Vous ne pouvez pas créer le fichier \"enzymeInsertion.txt\""); #remplir la table Enzyme
-open (FICHIER2, ">proteinInsertion.txt") || die ("Vous ne pouvez pas créer le fichier \"proteinInsertion.txt\""); #pour la table ProteinFamilie et Appartient
-open (FICHIER3, ">DiseaseInsertion.txt") || die ("Vous ne pouvez pas créer le fichier \"proteinInsertion.txt\"");
 
 while(<CODE>)
 {
@@ -128,14 +126,10 @@ while(<CODE>)
 		
 	
 	#Ecriture dans les fichiers de sortie
-	#print FICHIER1 "INSERT INTO Enzyme(num_EC,reaction,comments,cofactor) VALUES('".$EC."','".$reac."','".$comment."','".$cof."')"."\n";
-	#Marche pas
-	
+	print FICHIER1 "INSERT INTO Enzyme(num_EC,reaction,comments,cofactor) VALUES('".$EC."','".$reac."','".$comment."','".$cof."')"."\n";	
 	print FICHIER1 "INSERT INTO ProteinFamilie(SP,PROSITE) VALUES('".$sp."','".$prosite."')"."\n"; #Marche
-	print FICHIER2 "INSERT INTO Appartient(num_EC) VALUES ('".$EC."')"."\n";
-	
-	print FICHIER3 "INSERT INTO Disease(disease_name) VALUES ('".$disease."')"."\n";#marche pas mais bon y a paq
-	print FICHIER3 "INSERT INTO ImpliqueDisease(disease_name,num_EC) VALUES ('".$disease."','".$EC."')"."\n"; 
+	print FICHIER1 "INSERT INTO Disease(disease_name) VALUES ('".$disease."')"."\n";#marche pas mais bon y a paq
+	print FICHIER1 "INSERT INTO ImpliqueDisease(num_EC) VALUES ('".$EC."')"."\n"; 
 
 }
 close CODE;

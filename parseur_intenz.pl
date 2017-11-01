@@ -13,7 +13,7 @@ open CODE2,"intenz.txt";
 
 #Ecriture dans les fichier de sortie
 open (FICHIER, ">publiInsertion.txt") || die ("Vous ne pouvez pas créer le fichier \"publiInsertion.txt\""); #pour les tables Publication et Ecrire
-open (FICHIER1, ">NamesInsertion.txt") || die ("Vous ne pouvez pas créer le fichier \"NamesInsertion.txt\""); #pour la table Names et a pour possedNom
+
 
 while(<CODE2>)
 {
@@ -64,11 +64,13 @@ while(<CODE2>)
 
 	}
 	#Ecriture dans le fichier de sortie
-	print FICHIER "INSERT INTO Publication(titre,auteurs,first_page,last_page,volume,pubmed,medline) VALUES('".$title."','".$authors."','".$first_page."','".$last_page."','".$volume."','".$pubmed."','".$medline."')". "\n";
-	#print FICHIER "INSERT INTO Ecrire (num_EC,pubmed)VALUES('".$EC."','".$pubmed. "')". "\n";
+	print FICHIER "INSERT INTO Publication(titre,auteurs,first_page,last_page,volume,pubmed,medline,num_EC) VALUES('".$title."','".$authors."','".$first_page."','".$last_page."','".$volume."','".$pubmed."','".$medline."','".$EC."')". "\n";
+	print FICHIER "INSERT INTO Names(accepted_name,synonym_name,o_name) VALUES('".$accepted_name."','".$synonym."','".$EC. "')". "\n";
 	
-	#print FICHIER1 "INSERT INTO Names(accepted_name,synonym_name) VALUES('".$accepted_name."','".$synonym. "')". "\n";
-	#print FICHIER1 "INSERT INTO PossedeNom (num_EC,accepted_name)VALUES('".$EC."','".$accepted_name. "')". "\n";
+	
+	#print FICHIER "INSERT INTO Ecrire(num_EC) VALUES('".$EC. "')". "\n"; on aura pas besoins non plus pour les requetes
+	#print FICHIER "INSERT INTO PossedeNom (num_EC,o_name)VALUES('".$EC."','".$EC. "')". "\n"; =>de toute maniere on aurra pas besoins de cette table
+	
 }
 close CODE2;
 
