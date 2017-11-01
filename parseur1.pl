@@ -13,9 +13,9 @@ open CODE,"db_enzyme.txt";
 
 
 #Ecriture dans le fichier de sortie
-open (FICHIER1, ">enzymeSortie1.txt") || die ("Vous ne pouvez pas créer le fichier \"enzymeSortie1.txt\""); #contiendra les sortie prosites
-open (FICHIER2, ">enzymeSortie2.txt") || die ("Vous ne pouvez pas créer le fichier \"enzymeSortie2.txt\""); #SP pour chaque enzyme
-
+open (FICHIER1, ">enzymeInsertion.txt") || die ("Vous ne pouvez pas créer le fichier \"enzymeInsertion.txt\""); #remplir la table Enzyme
+open (FICHIER2, ">proteinInsertion.txt") || die ("Vous ne pouvez pas créer le fichier \"proteinInsertion.txt\""); #pour la table ProteinFamilie et Appartient
+open (FICHIER3, ">diseaseInsertion.txt") || die ("Vous ne pouvez pas créer le fichier \"proteinInsertion.txt\""); #pour la table Disease et ApourDisease
 
 while(<CODE>)
 {
@@ -125,16 +125,15 @@ while(<CODE>)
 	}
 	$sp=reverse($sp);
 	#print "$sp\n";
-	
-	#On stocke toutes les information dans un tableau de hash
-	#@parseur=($EC,$s_name,$o_name,$reac,$cof,$comments,$disease,$prosite,$sp);
-	#push @parseur2,[@parseur];
-	
+		
 	
 	#Ecriture dans les fichiers de sortie
-	print FICHIER1 $EC ." ".$o_name." ".$reac." ".$comments." ".$cof." ".$disease." ".$prosite. "\n";
-	print FICHIER2 $EC ." ".$sp. "\n";
+	print FICHIER1 "INSERT INTO Enzyme(num_EC,reaction,comment,cofactor) VALUES('".$EC ."','".$reac."','".$comments."','".$cof. "')". "\n";
+	print FICHIER2 "INSERT INTO ProteinFamilie (SP,PROSITE) VALUES ('".$sp."','".$prosite."')"."\n";
+	print FICHIER2 "INSERT INTO Appartient (num_EC,SP) VALUES ('".$EC."','".$sp."')"."\n";
 	
+	print FICHIER3 "INSERT INTO Disease(disease_name) VALUES ('".$disease."')"."\n";
+	print FICHIER3 "INSERT INTO ImpliqueDisease(disease_name,num_EC) VALUES ('".$disease."','".$EC."')"."\n";
 
 }
 close CODE;

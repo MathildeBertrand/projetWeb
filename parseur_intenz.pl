@@ -11,8 +11,9 @@
 #Importation des donnees du premier fichier parse
 open CODE2,"intenz.txt";
 
-#Ecriture dans le fichier de sortie
-open (FICHIER, ">intenzSortie.txt") || die ("Vous ne pouvez pas créer le fichier \"intenzSortie.txt\"");
+#Ecriture dans les fichier de sortie
+open (FICHIER, ">publiInsertion.txt") || die ("Vous ne pouvez pas créer le fichier \"publiInsertion.txt\""); #pour les tables Publication et Ecrire
+open (FICHIER1, ">NamesInsertion.txt") || die ("Vous ne pouvez pas créer le fichier \"NamesInsertion.txt\""); #pour la table Names et a pour possedNom
 
 while(<CODE2>)
 {
@@ -63,7 +64,11 @@ while(<CODE2>)
 
 	}
 	#Ecriture dans le fichier de sortie
-	print FICHIER $EC ." ".$accepted_name." ".$history." ".$comment." ".$authors." ".$title." ".$year." ".$volume." ".$first_page." ".$last_page." ".$pubmed." ".$medline." ".$synonym. "\n";
+	print FICHIER "INSERT INTO Publication(titre,auteurs,first_page,last_page,volume,pubmed) VALUES('".$title."','".$authors."','".$first_page."','".$last_page."','".$volume."','".$pubmed."','".$medline. "')". "\n";
+	print FICHIER "INSERT INTO Ecrire (num_EC,titre,auteurs)VALUES('".$EC."','".$titre."','".$authors. "')". "\n";
+	
+	print FICHIER1 "INSERT INTO Names(accepted_name,synonym_name) VALUES('".$accepted_name."','".$synonym. "')". "\n";
+	print FICHIER1 "INSERT INTO PossedeNom (num_EC,accepted_name)VALUES('".$EC."','".$accepted_name. "')". "\n";
 }
 close CODE2;
 
