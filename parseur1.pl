@@ -128,6 +128,7 @@ while(<CODE>)
 	#Ecriture dans les fichiers de sortie
 	print FICHIER1 "INSERT INTO Enzyme(num_EC,reaction,comments,cofactor) VALUES('".$EC."','".$reac."','".$comment."','".$cof."')"."\n";	
 	print FICHIER1 "INSERT INTO ProteinFamilie(SP,PROSITE) VALUES('".$sp."','".$prosite."')"."\n"; #Marche
+	print FICHIER1 "INSERT INTO Appartient(num_EC) VALUES('".$EC."')"."\n"; #Marche
 	print FICHIER1 "INSERT INTO Disease(disease_name) VALUES ('".$disease."')"."\n";#marche pas mais bon y a paq
 	print FICHIER1 "INSERT INTO ImpliqueDisease(num_EC) VALUES ('".$EC."')"."\n"; 
 
