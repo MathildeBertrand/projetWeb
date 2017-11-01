@@ -15,7 +15,7 @@ open CODE,"db_enzyme.txt";
 #Ecriture dans le fichier de sortie
 open (FICHIER1, ">enzymeInsertion.txt") || die ("Vous ne pouvez pas créer le fichier \"enzymeInsertion.txt\""); #remplir la table Enzyme
 open (FICHIER2, ">proteinInsertion.txt") || die ("Vous ne pouvez pas créer le fichier \"proteinInsertion.txt\""); #pour la table ProteinFamilie et Appartient
-open (FICHIER3, ">diseaseInsertion.txt") || die ("Vous ne pouvez pas créer le fichier \"proteinInsertion.txt\""); #pour la table Disease et ApourDisease
+open (FICHIER3, ">DiseaseInsertion.txt") || die ("Vous ne pouvez pas créer le fichier \"proteinInsertion.txt\"");
 
 while(<CODE>)
 {
@@ -79,15 +79,15 @@ while(<CODE>)
 	
 	
 	#On recupere les commentaires
-	$comments=$tmp[4];
-	$comments=substr($comments,10);
-	$comments=reverse($comments);
-	if(length($comments)>9){
-		$comments=substr($comments,11);
+	$comment=$tmp[4];
+	$comment=substr($comment,10);
+	$comment=reverse($comment);
+	if(length($comment)>9){
+		$comment=substr($comment,11);
 	}else{
-		$comments=substr($comments,10);
+		$comment=substr($comment,10);
 	}
-	$comments=reverse($comments);
+	$comment=reverse($comment);
 	#print "$comments\n";
 	
 	#On recupere les maladies sil y en a
@@ -128,12 +128,14 @@ while(<CODE>)
 		
 	
 	#Ecriture dans les fichiers de sortie
-	print FICHIER1 "INSERT INTO Enzyme(num_EC,reaction,comment,cofactor) VALUES('".$EC ."','".$reac."','".$comments."','".$cof. "')". "\n";
-	print FICHIER2 "INSERT INTO ProteinFamilie (SP,PROSITE) VALUES ('".$sp."','".$prosite."')"."\n";
-	print FICHIER2 "INSERT INTO Appartient (num_EC,SP) VALUES ('".$EC."','".$sp."')"."\n";
+	#print FICHIER1 "INSERT INTO Enzyme(num_EC,reaction,comments,cofactor) VALUES('".$EC."','".$reac."','".$comment."','".$cof."')"."\n";
+	#Marche pas
 	
-	print FICHIER3 "INSERT INTO Disease(disease_name) VALUES ('".$disease."')"."\n";
-	print FICHIER3 "INSERT INTO ImpliqueDisease(disease_name,num_EC) VALUES ('".$disease."','".$EC."')"."\n";
+	print FICHIER1 "INSERT INTO ProteinFamilie(SP,PROSITE) VALUES('".$sp."','".$prosite."')"."\n"; #Marche
+	print FICHIER2 "INSERT INTO Appartient(num_EC) VALUES ('".$EC."')"."\n";
+	
+	print FICHIER3 "INSERT INTO Disease(disease_name) VALUES ('".$disease."')"."\n";#marche pas mais bon y a paq
+	print FICHIER3 "INSERT INTO ImpliqueDisease(disease_name,num_EC) VALUES ('".$disease."','".$EC."')"."\n"; 
 
 }
 close CODE;

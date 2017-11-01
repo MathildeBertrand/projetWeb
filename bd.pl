@@ -116,13 +116,13 @@ $dbh->do($sql_create_table_implique_disease) or die "Impossible de créer la tab
 #my $sql_create_table_ecrire= <<"SQL";
 
 #CREATE TABLE Ecrire (
-#	num_EC VARCHAR(20) NOT NULL,
-#	titre VARCHAR(100) NOT NULL,
-#	auteurs VARCHAR(100) NOT NULL,
-#	PRIMARY KEY (titre,auteurs,num_EC),
-#	FOREIGN KEY (titre, auteurs) REFERENCES Publication(titre, auteurs),
-#	FOREIGN KEY (num_EC) REFERENCES Enzyme(num_EC)
-#)
+	num_EC VARCHAR(20) NOT NULL,
+	titre VARCHAR(100) NOT NULL,
+	auteurs VARCHAR(100) NOT NULL,
+	PRIMARY KEY (titre,auteurs,num_EC),
+	FOREIGN KEY (titre, auteurs) REFERENCES Publication(titre, auteurs),
+	FOREIGN KEY (num_EC) REFERENCES Enzyme(num_EC)
+)
 #SQL
 #$dbh->do('DROP TABLE IF EXISTS Ecrire;') or die "Impossible de supprimer la table Ecrire\n\n";
 #$dbh->do($sql_create_table_ecrire) or die "Impossible de créer la table Ecrire";
@@ -131,12 +131,12 @@ $dbh->do($sql_create_table_implique_disease) or die "Impossible de créer la tab
 #my $sql_create_table_appartient= <<"SQL";
 
 #CREATE TABLE Appartient (
-#	num_EC VARCHAR(20) NOT NULL,
-#	SP VARCHAR(10) NOT NULL,
-#	PRIMARY KEY (num_EC,SP),
-#	FOREIGN KEY (num_EC) REFERENCES Enzyme(num_EC),
-#	FOREIGN KEY (SP) REFERENCES Enzyme(ProteinFamilie)
-#)
+	num_EC VARCHAR(20) NOT NULL,
+	SP VARCHAR(10) NOT NULL,
+	PRIMARY KEY (num_EC,SP),
+	FOREIGN KEY (num_EC) REFERENCES Enzyme(num_EC),
+	FOREIGN KEY (SP) REFERENCES Enzyme(ProteinFamilie)
+)
 #SQL
 #$dbh->do('DROP TABLE IF EXISTS Appartient;') or die "Impossible de supprimer la table Appartient\n\n";
 #$dbh->do($sql_create_table_appartient) or die "Impossible de créer la table Appartient";
@@ -145,12 +145,12 @@ $dbh->do($sql_create_table_implique_disease) or die "Impossible de créer la tab
 #my $sql_create_table_PossedeNom= <<"SQL";
 
 #CREATE TABLE PossedeNom (
-#	num_EC VARCHAR(20) NOT NULL,
-#	accepted_name VARCHAR(50) NOT NULL,
-#	PRIMARY KEY (num_EC,accepted_name),
-#	FOREIGN KEY (num_EC) REFERENCES Enzyme(num_EC),
-#	FOREIGN KEY (accepted_name) REFERENCES Enzyme(Names)
-#)
+	num_EC VARCHAR(20) NOT NULL,
+	accepted_name VARCHAR(50) NOT NULL,
+	PRIMARY KEY (num_EC,accepted_name),
+	FOREIGN KEY (num_EC) REFERENCES Enzyme(num_EC),
+	FOREIGN KEY (accepted_name) REFERENCES Enzyme(Names)
+)
 #SQL
 #$dbh->do('DROP TABLE IF EXISTS PossedeNom;') or die "Impossible de supprimer la table PossedeNom\n\n";
 #$dbh->do($sql_create_table_PossedeNom) or die "Impossible de créer la table PossedeNom";

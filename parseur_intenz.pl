@@ -64,11 +64,11 @@ while(<CODE2>)
 
 	}
 	#Ecriture dans le fichier de sortie
-	print FICHIER "INSERT INTO Publication(titre,auteurs,first_page,last_page,volume,pubmed) VALUES('".$title."','".$authors."','".$first_page."','".$last_page."','".$volume."','".$pubmed."','".$medline. "')". "\n";
-	print FICHIER "INSERT INTO Ecrire (num_EC,titre,auteurs)VALUES('".$EC."','".$titre."','".$authors. "')". "\n";
+	print FICHIER "INSERT INTO Publication(titre,auteurs,first_page,last_page,volume,pubmed,medline) VALUES('".$title."','".$authors."','".$first_page."','".$last_page."','".$volume."','".$pubmed."','".$medline."')". "\n";
+	#print FICHIER "INSERT INTO Ecrire (num_EC,pubmed)VALUES('".$EC."','".$pubmed. "')". "\n";
 	
-	print FICHIER1 "INSERT INTO Names(accepted_name,synonym_name) VALUES('".$accepted_name."','".$synonym. "')". "\n";
-	print FICHIER1 "INSERT INTO PossedeNom (num_EC,accepted_name)VALUES('".$EC."','".$accepted_name. "')". "\n";
+	#print FICHIER1 "INSERT INTO Names(accepted_name,synonym_name) VALUES('".$accepted_name."','".$synonym. "')". "\n";
+	#print FICHIER1 "INSERT INTO PossedeNom (num_EC,accepted_name)VALUES('".$EC."','".$accepted_name. "')". "\n";
 }
 close CODE2;
 
