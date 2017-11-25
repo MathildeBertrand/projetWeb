@@ -1,9 +1,7 @@
-
 <?php
 	
 	require("functions.php");
 	$AFF=TRUE; //Sert pour le debuggage
-
 	try
 	{
 	//Connexion a Mysql
@@ -24,68 +22,24 @@
 $requetes=array(
 "Enzyme"=>"CREATE TABLE IF NOT EXISTS Enzyme
 	(num_EC VARCHAR(20) NOT NULL,
-	reaction TEXT NOT NULL,
-	comments TEXT NOT NULL,
-	cofactor VARCHAR(100) ,
+	reaction TEXT,
+	comments TEXT,
+	cofactor TEXT ,
+	disease_name VARCHAR(20),
+	titre TEXT ,
+	auteurs TEXT,
+	first_page INT,
+	last_page INT,
+	volume INT,
+	pubmed INT,
+	medline INT,
+	accepted_name VARCHAR(500),
+	synonym_name VARCHAR(500),
+	SP TEXT,
+	PROSITE TEXT,
 	PRIMARY KEY (num_EC)
 	)",
-	"Disease"=>"CREATE TABLE IF NOT EXISTS Disease
-	(id INT AUTO_INCREMENT NOT NULL,
-	disease_name VARCHAR(20) NOT NULL ,
-	PRIMARY KEY (id)
-	)",
-	"Publication"=>"CREATE TABLE IF NOT EXISTS Publication
-	(id INT AUTO_INCREMENT NOT NULL,
-	titre TEXT NOT NULL,
-	auteurs TEXT NOT NULL,
-	first_page INT NOT NULL,
-	last_page INT NOT NULL,
-	volume INT NOT NULL,
-	pubmed INT NOT NULL,
-	medline INT NOT NULL,
-	num_EC VARCHAR(20) NOT NULL,
-	PRIMARY KEY (id)
-	)",
-	"Names"=>"CREATE TABLE IF NOT EXISTS Names
-	(accepted_name VARCHAR(500) NOT NULL,
-	synonym_name VARCHAR(500) NOT NULL,
-	o_name VARCHAR(500) NOT NULL,
-	PRIMARY KEY (o_name)
-	)",
-	"ProteinFamilie"=>"CREATE TABLE IF NOT EXISTS ProteinFamilie
-	(id INT AUTO_INCREMENT NOT NULL,
-	SP TEXT NOT NULL,
-	PROSITE TEXT NOT NULL,
-	PRIMARY KEY (id)
-	)",
-	"ImpliqueDisease"=>"CREATE TABLE IF NOT EXISTS ImpliqueDisease
-	(id INT AUTO_INCREMENT NOT NULL,
-	num_EC VARCHAR(20) NOT NULL,
-	PRIMARY KEY (id,num_EC),
-	FOREIGN KEY (id) REFERENCES Disease(id),
-	FOREIGN KEY (num_EC) REFERENCES Enzyme(num_EC)
-	)",
-	"Ecrire"=>"CREATE TABLE IF NOT EXISTS Ecrire
-	(num_EC VARCHAR(20) NOT NULL,
-	id INT AUTO_INCREMENT NOT NULL,
-	PRIMARY KEY (num_EC,id),
-	FOREIGN KEY (num_EC) REFERENCES Enzyme(num_EC),
-	FOREIGN KEY (id) REFERENCES Publication(id)
-	)",
-	"Appartient"=>"CREATE TABLE IF NOT EXISTS Appartient
-	(num_EC VARCHAR(20) NOT NULL,
-	id INT AUTO_INCREMENT NOT NULL,
-	PRIMARY KEY (num_EC,id),
-	FOREIGN KEY (num_EC) REFERENCES Enzyme(num_EC),
-	FOREIGN KEY (id) REFERENCES ProteinFamilie(id)
-	)",
-	"PossedeNom"=>"CREATE TABLE IF NOT EXISTS PossedeNom
-	(num_EC VARCHAR(20) NOT NULL,
-	o_name VARCHAR(500) NOT NULL,
-	PRIMARY KEY (num_EC,o_name),
-	FOREIGN KEY (num_EC) REFERENCES Enzyme(num_EC),
-	FOREIGN KEY (o_name) REFERENCES Names(o_name)
-	)"
+
 );
 	
 	
@@ -106,7 +60,6 @@ $requetes=array(
 		
 	}
 	fclose($enzyme);
-
 	
 	$disease=fopen('/home/mathilde/Bureau/gitrepertoire/projetWeb/publiInsertion.txt','r');
 	while (!feof($disease)){
@@ -114,5 +67,4 @@ $requetes=array(
 		Excecuter2($bd,$buffer);	
 	}
 	fclose($disease);
-
 ?>

@@ -61,7 +61,7 @@ function Excecuter2($bdd,$requete){ //Pour une requete INSERT,DELETE ou UPDATE
 		
 		if($AFF){
 			 echo "<hr>Erreur <br>$requete<hr>";
-			 echo "error code:",$bdd->errorCode();
+			 echo "error code:",$bdd->errorInfo();
 		 }
 		 return FALSE;
 	}

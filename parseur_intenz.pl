@@ -64,11 +64,11 @@ while(<CODE2>)
 
 	}
 	#Ecriture dans le fichier de sortie
-	print FICHIER "INSERT INTO Publication(titre,auteurs,first_page,last_page,volume,pubmed,medline,num_EC) VALUES('".$title."','".$authors."','".$first_page."','".$last_page."','".$volume."','".$pubmed."','".$medline."','".$EC."')". "\n";
-	print FICHIER "INSERT INTO Names(accepted_name,synonym_name,o_name) VALUES('".$accepted_name."','".$synonym."','".$EC. "')". "\n";
+	print FICHIER "UPDATE Enzyme SET titre='".$title."',auteurs='".$authors."',first_page='".$first_page."',last_page='".$last_page."',volume='".$volume."',pubmed='".$pubmed."',medline='".$medline."',accepted_name='".$accepted_name."',synonym_name='".$synonym."' WHERE Enzyme.num_EC='".$EC."'\n";
 	
-	
-	#print FICHIER "INSERT INTO Ecrire(num_EC) VALUES('".$EC. "')". "\n"; on aura pas besoins non plus pour les requetes
+	#REPLACE INTO Enzyme(titre,auteurs,first_page,last_page,volume,pubmed,medline,num_EC,accepted_name,synonym_name) VALUES('".$title."','".$authors."','".$first_page."','".$last_page."','".$volume."','".$pubmed."','".$medline."','".$EC."','".$accepted_name."','".$synonym."')". "\n";
+	#print FICHIER "INSERT INTO Names(accepted_name,synonym_name,o_name) VALUES('".$accepted_name."','".$synonym."','".$EC. "')". "\n";
+	#print FICHIER "INSERT INTO Ecrire(num_EC) VALUES('".$EC."')". "\n"; 
 	#print FICHIER "INSERT INTO PossedeNom (num_EC,o_name)VALUES('".$EC."','".$EC. "')". "\n"; =>de toute maniere on aurra pas besoins de cette table
 	
 }
