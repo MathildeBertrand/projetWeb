@@ -6,3 +6,5 @@ README
 
 pour remplir la base : lancer le fichier bd.php
 pour afficher les informations sur lenzyme EC 1.1.1.1 : lancer le fichier requetes.php
+
+Pour afficher la liste de tous les enzymes de la bases -> lancer le fichier list.php.
