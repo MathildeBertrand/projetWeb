@@ -1,6 +1,8 @@
 <?php
 	/////////////////////////////////////////////////////
 	#author : Mathilde Bertrand
+	#Purpose : creation et remplissage de la bd
+	/////////////////////////////////////////////////////
 	
 	require("functions.php");
 	$AFF=TRUE; //Sert pour le debuggage
@@ -29,8 +31,7 @@ $requetes=array(
 	disease_name VARCHAR(20),
 	accepted_name VARCHAR(500),
 	o_name VARCHAR(500),
-	SP TEXT,
-	PROSITE TEXT,
+	
 	history TEXT,
 	PRIMARY KEY (num_EC)
 	)",
@@ -58,6 +59,25 @@ $requetes=array(
 	medline INT,
 	year INT,
 	PRIMARY KEY (id)
+	)",
+	"Family"=>"CREATE TABLE IF NOT EXISTS Family
+	(id INT AUTO_INCREMENT,
+	num_EC VARCHAR(20) NOT NULL,
+	PROSITE TEXT,
+	PRIMARY KEY (id)
+	)",
+	"ProtSeq"=>"CREATE TABLE IF NOT EXISTS ProtSeq
+	(id INT AUTO_INCREMENT,
+	num_EC VARCHAR(20) NOT NULL,
+	SP TEXT,
+	PRIMARY KEY (id)
+	)",
+	"Users"=>"CREATE TABLE IF NOT EXISTS Users
+	(mail VARCHAR(100) NOT NULL,
+	nom VARCHAR(100),
+	prenom VARCHAR(100), 
+	job VARCHAR(100), 
+	PRIMARY KEY (mail) 
 	)"
 );
 	

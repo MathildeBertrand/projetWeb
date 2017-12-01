@@ -11,3 +11,6 @@ Le dossier php contient :
 ->pour remplir la base : lancer le fichier bd.php
 ->pour afficher les informations sur lenzyme EC 1.1.1.1 : lancer le fichier requetes.php
 ->Pour afficher la liste de tous les enzymes de la bases -> lancer le fichier list.php.
+
+Le dossier vote contient :
+Un script qui permet de générer un système de vote par étoiles

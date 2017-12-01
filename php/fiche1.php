@@ -3,7 +3,7 @@ require("functions.php");
 $AFF=FALSE; 
 
 ///////////////////////////////////////////////////////////////////////////////
-//Construction des requetes en fonction des resultats
+//Construction des requetes en fonction des resultats//////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
 
@@ -27,6 +27,7 @@ try
 //Resume sur lenzyme ----------------------------------------------------------------------------------------------------------------------
 	$response=Excecuter($bd,"SELECT Enzyme.o_name,Enzyme.num_EC,Enzyme.accepted_name FROM Enzyme WHERE Enzyme.num_EC='".$_GET['num_EC']."'");	
  
+	
 	while($data =$response->fetch()){ //On boucle pour recuperer o_name,num_EC et accpeted_name
 				?>
 				<p style="text-align:center">
@@ -97,8 +98,9 @@ try
 		if ($data['first_page'] !=0){ ?> <br> <u>first_page</u> : <?php  echo $data['first_page'];} 
 		if ($data['last_page'] !=0){ ?> <br><u>last_page</u> : <?php echo $data['last_page']; }
 		if ($data['volume'] !=0){ ?> <br><u>volume</u> : <?php echo $data['volume'];} 
-		if($data['pubmed'] !=0){ ?> <br> <u>pubmed</u> : <?php echo $data['pubmed'];} 
-		if($data['year'] !=0){ ?> <br><u>year</u> : <?php echo $data['year'];} ?> <br><br>
+		if($data['pubmed'] !=0){ ?> <br> <u>pubmed</u> : <a href="https://www.ncbi.nlm.nih.gov/pubmed/?term=<?php echo $data['pubmed'];?>"><?php echo $data['pubmed']; ?></a>  <?php }
+
+		 if($data['year'] !=0){ ?> <br><u>year</u> : <?php echo $data['year'];} ?> <br><br>
 		
 		<?php
 	}
@@ -111,20 +113,35 @@ try
 	 <UL TYPE="sqare">
 	<LI><FONT color="#8B0000"><strong>History</UL></FONT></strong><br>
 	<?php echo $data['history']; 
-	
-	}
-	
-	//Les familles----------------------------------------------------------------------------------------------------------------------
-	$response=Excecuter($bd,"SELECT SP,PROSITE FROM Enzyme WHERE num_EC='".$_GET['num_EC']."'"); 
-	while($data =$response->fetch(PDO::FETCH_ASSOC)){
-		?>
-		
-		<UL TYPE="sqare">
-		<LI><FONT color="#8B0000"><strong>Family</UL></FONT></strong><br>
-		<u>SP</u> : <?php echo $data['SP']; ?> <br>
-		<u>PROSITE</u> : <?php echo $data['PROSITE']; ?> <br>
-	<?php
-	}
 
+	}
+	
+	//Les Sequences proteiques--------------------------------------------------------------------------------------------------------
+	
+	?><UL TYPE="sqare">
+	<LI><FONT color="#8B0000"><strong>Protein Sequence</UL></FONT></strong><br>
+	<u>SP</u> :
+	<?php
+	
+	$response=Excecuter($bd,"SELECT SP FROM ProtSeq WHERE num_EC='".$_GET['num_EC']."'"); 
+	while($data =$response->fetch(PDO::FETCH_ASSOC)){
+		
+		  echo $data['SP']; echo "; "; 
+	
+	}
+	
+	//Les Familles proteiques--------------------------------------------------------------------------------------------------------
+	
+	?><UL TYPE="sqare">
+		<LI><FONT color="#8B0000"><strong>Protein Family</UL></FONT></strong><br>`
+		<u>PROSITE</u> :
+	<?php
+	
+	$response=Excecuter($bd,"SELECT PROSITE FROM Family WHERE num_EC='".$_GET['num_EC']."'"); 
+	while($data =$response->fetch(PDO::FETCH_ASSOC)){
+	
+		 echo $data['PROSITE']; echo "; ";
+	
+	}
 
 ?>

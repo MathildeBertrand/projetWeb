@@ -122,10 +122,20 @@ while(<CODE>)
     $sp=reverse($sp);
     #print "$sp\n";
         
+    #On modifie sp et prosite pour recuprerer tous les elements
+    @SP = split(/;/,$sp);
+    @PROSITE = split(/;/,$prosite);
+    
     #Ecriture dans les fichiers de sortie
-    print FICHIER1 "INSERT INTO Enzyme(num_EC,reaction,cofactor,disease_name,SP,PROSITE,o_name) VALUES('EC".$EC."','".$reac."','".$cof."','".$disease."','".$sp."','".$prosite."','".$o_name."')"."\n";    
+    print FICHIER1 "INSERT INTO Enzyme(num_EC,reaction,cofactor,disease_name,o_name) VALUES('EC".$EC."','".$reac."','".$cof."','".$disease."','".$o_name."')"."\n";    
     
-    
+    foreach $val (@SP){
+		print FICHIER1 "INSERT INTO ProtSeq(num_EC,SP)VALUES('EC".$EC."','".$val."')"."\n";   
+	}
+	
+	 foreach $val (@PROSITE){
+		print FICHIER1 "INSERT INTO Family(num_EC,PROSITE)VALUES('EC".$EC."','".$val."')"."\n";   
+	}
 }
 close CODE;
 
