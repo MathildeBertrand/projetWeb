@@ -69,7 +69,8 @@ $requetes=array(
 	"ProtSeq"=>"CREATE TABLE IF NOT EXISTS ProtSeq
 	(id INT AUTO_INCREMENT,
 	num_EC VARCHAR(20) NOT NULL,
-	SP TEXT,
+	SP_id TEXT,
+	SP_name TEXT,
 	PRIMARY KEY (id)
 	)",
 	"Users"=>"CREATE TABLE IF NOT EXISTS Users

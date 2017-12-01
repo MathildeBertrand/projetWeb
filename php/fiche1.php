@@ -123,10 +123,10 @@ try
 	<u>SP</u> :
 	<?php
 	
-	$response=Excecuter($bd,"SELECT SP FROM ProtSeq WHERE num_EC='".$_GET['num_EC']."'"); 
+	$response=Excecuter($bd,"SELECT SP_name,SP_id FROM ProtSeq WHERE num_EC='".$_GET['num_EC']."'"); 
 	while($data =$response->fetch(PDO::FETCH_ASSOC)){
-		
-		  echo $data['SP']; echo "; "; 
+		?>
+		 <a href="http://www.uniprot.org/uniprot/<?php echo $data['SP_id'];?>">	<?php echo $data['SP_name']; echo " ; ";?></a>  <?php
 	
 	}
 	
@@ -139,8 +139,9 @@ try
 	
 	$response=Excecuter($bd,"SELECT PROSITE FROM Family WHERE num_EC='".$_GET['num_EC']."'"); 
 	while($data =$response->fetch(PDO::FETCH_ASSOC)){
-	
-		 echo $data['PROSITE']; echo "; ";
+		?>
+		<a href="https://prosite.expasy.org/<?php echo $data['PROSITE'];?>">	<?php echo $data['PROSITE']; echo " ; ";?></a>  <?php
+		 
 	
 	}
 

@@ -122,20 +122,42 @@ while(<CODE>)
     $sp=reverse($sp);
     #print "$sp\n";
         
-    #On modifie sp et prosite pour recuprerer tous les elements
-    @SP = split(/;/,$sp);
-    @PROSITE = split(/;/,$prosite);
     
-    #Ecriture dans les fichiers de sortie
+    
+    
+    #Ecriture dans les fichiers de sortie, remplissage de la table Enzyme
     print FICHIER1 "INSERT INTO Enzyme(num_EC,reaction,cofactor,disease_name,o_name) VALUES('EC".$EC."','".$reac."','".$cof."','".$disease."','".$o_name."')"."\n";    
     
+    #Modification des valeurs SP pour recuperer SP_id et SP_name
+    @SP = split(/;/,$sp);
+    @SP_identifiants=();
     foreach $val (@SP){
-		print FICHIER1 "INSERT INTO ProtSeq(num_EC,SP)VALUES('EC".$EC."','".$val."')"."\n";   
+		@val= split(/,/,$val);
+		push(@SP_identifiants,$val[0]);
+		push(@SP_identifiants,$val[1]);
 	}
 	
-	 foreach $val (@PROSITE){
+	$j=0;#On recupere la taille du tableau
+	foreach $val (@SP_identifiants){
+		$j++;
+	}
+	
+	$j=0;
+    foreach $i(0..$#SP_identifiants){
+		if($SP_identifiants[$j+1] ne ''){ #Remplissage de la table ProtSeq
+			print FICHIER1 "INSERT INTO ProtSeq(num_EC,SP_id,SP_name)VALUES('EC".$EC."','".$SP_identifiants[$j]."','".$SP_identifiants[$j+1]."')"."\n";  
+			 $j=$j+2;
+		}
+	}
+	
+	
+	#Remplissage de la table Family
+	@PROSITE = split(/;/,$prosite);
+	 foreach $val (@PROSITE){ 
 		print FICHIER1 "INSERT INTO Family(num_EC,PROSITE)VALUES('EC".$EC."','".$val."')"."\n";   
 	}
+	
+	
 }
 close CODE;
 
