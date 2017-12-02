@@ -1,0 +1,35 @@
+.navbar {
+  position: relative;
+  min-height: 50px;
+  margin-bottom: 0px;
+  border: 1px solid transparent;
+}
+.bg {
+	margin:0px;
+	padding:0px;
+    /* The image used */
+    background: url("../img/test.jpeg") no-repeat center fixed;
+
+    /* Full height */
+    height: 100%;
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    -webkit-background-size: cover; /* pour anciens Chrome et Safari */
+    background-size: cover;
+}
+
+
+.jumbotron1 {
+ padding-top: 50px;
+ padding-bottom: 50px;
+ margin-top:80px;
+ margin-bottom:0px;
+ height: 400px;
+ color: #cc0066; /* Le texte sera affiché en blanc */
+ text-shadow: black 0.3em 0.3em 0.3em;
+ background-color: rgba(255, 255, 255, 0.5);
+}
+
+
