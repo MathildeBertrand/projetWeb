@@ -31,7 +31,6 @@ $requetes=array(
 	disease_name VARCHAR(20),
 	accepted_name VARCHAR(500),
 	o_name VARCHAR(500),
-	
 	history TEXT,
 	PRIMARY KEY (num_EC)
 	)",
@@ -76,9 +75,15 @@ $requetes=array(
 	"Users"=>"CREATE TABLE IF NOT EXISTS Users
 	(mail VARCHAR(100) NOT NULL,
 	nom VARCHAR(100),
-	prenom VARCHAR(100), 
+	prenom VARCHAR(100),
+	password CHAR(128) NOT NULL, 
 	job VARCHAR(100), 
 	PRIMARY KEY (mail) 
+	)",
+	"Notes"=>"CREATE TABLE IF NOT EXISTS Notes
+	(id INT AUTO_INCREMENT,
+	note INT NOT NULL,
+	PRIMARY KEY (id) 
 	)"
 );
 	

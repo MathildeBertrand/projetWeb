@@ -5,8 +5,8 @@
 	<head>
 		<meta charset="utf-8">
 		<title> Home page </title>
-		<link rel="stylesheet" href="css/bootstrap.min.css" />
-		<link rel="stylesheet" href="css/MyStylesheet.css" />
+		<link rel="stylesheet" href="UI/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="UI/css/MyStylesheet.css" />
 	</head>
 	
 	<body class="bg">
@@ -15,7 +15,7 @@
 				
 					<!-- website name -->
 					<div class="navbar-header">
-						<a href="#" class="navbar-brand">ENZyclopédia</a>
+						<a href="" class="navbar-brand">ENZyclopédia</a>
 					</div>
 					
 					<!-- Menu items -->
@@ -28,12 +28,13 @@
 							<li><a href="#">Contact</a></li>
 						</ul>	
 						<ul class="nav navbar-nav navbar-right">
-							<li><a href="#"><span class="glyphicon glyphicon-user"></span> log in </a>
+							<img src="UI/img/user1.png"  width="35"/>
+							<li><a href="login.php"> log in </a><li>
 						</ul>
 					</div>
-
+			
 		</div>
-	
+		
 	</body>	
 <?php
 require("functions.php");
@@ -71,16 +72,18 @@ try
 		//Resume sur lenzyme ----------------------------------------------------------------------------------------------------------------------
 		while($data =$response->fetch()){ //On boucle pour recuperer o_name,num_EC et accpeted_name
 					?>
-					<p style="text-align:center">
-						<strong><FONT size="6">ENZYME</strong> : <?php echo $data['num_EC']; ?></FONT><br><br>
-					</p>
 					
-					<p
-						<UL TYPE="sqare">
-						<LI><FONT color="#8B0000"><strong>Abstract</UL></FONT></strong><br>
-						<u>accepted_name</u> : <?php echo $data['accepted_name']; ?> 
-						<u>o_name</u> : <?php echo $data['o_name']; ?>
-						<u>synonym</u> :
+					<div class="container-fluid">
+						<strong><FONT size="9">ENZYME</strong> : <?php echo $data['num_EC']; ?></FONT><br><br>							
+					</div>
+					
+					<UL TYPE="sqare">
+						
+						<strong><FONT size="6" color="#DB0073"><strong>Abstract</FONT></strong><br>
+						<hR  width="100%" >
+						<FONT color="#048B9A">accepted_name</FONT></strong> : <?php echo $data['accepted_name']; ?> <br>
+						<FONT color="#048B9A"><strong>o_name</FONT></strong>: <?php echo $data['o_name']; ?><br>
+						<FONT color="#048B9A"><strong>synonym</FONT></strong>:
 								
 				<?php 
 							
@@ -108,32 +111,37 @@ try
 		
 		while($data =$response->fetch(PDO::FETCH_ASSOC)){
 			?>
-			<br>
-				<u>Reaction</u> : <?php echo $data['reaction'];?>  <br>
+			<br><br>
+				<p style="text-align:center">
+					<FONT color="#048B9A"><strong>Reaction</FONT></strong> : <?php echo $data['reaction'];?>  <br>
 				
-				<?php //On regarde si la chaine de cofactor est vide et si non, on ecrit les cofactor associes a lenzyme
-				$str2='';
-				if (strcmp ($data['cofactor'], $str2 )!=0){ 
-				?><u>Cofactors</u> : <?php echo $data['cofactor'];?><br>
+					<?php //On regarde si la chaine de cofactor est vide et si non, on ecrit les cofactor associes a lenzyme
+					$str2='';
+					if (strcmp ($data['cofactor'], $str2 )!=0){ 
+					?><FONT color="#048B9A"><strong>Cofactors</FONT></strong> : <?php echo $data['cofactor'];?><br>
+					
+				</p>
 			<?php }
 			
 		}
 		
 		//Les commentaires	
 		if((stripos($_GET['val'], 'EC') !== FALSE) ){	
-			$response=Excecuter($bd,"SELECT comment FROM Comments WHERE num_EC='". $_GET['val']."'"); 
+			$response=Excecuter($bd,"SELECT DISTINCT comment FROM Comments WHERE num_EC='". $_GET['val']."'"); 
 		}else{
-			$response=Excecuter($bd,"SELECT comment FROM Comments WHERE num_EC='EC ". $_GET['val']."'");
+			$response=Excecuter($bd,"SELECT DISTINCT comment FROM Comments WHERE num_EC='EC ". $_GET['val']."'");
 		}
+		
+		?><br> <FONT color="#048B9A"><strong>Comments</FONT></strong> :<?php
 		
 		while($data =$response->fetch(PDO::FETCH_ASSOC)){
 			?>
 			
-			<br><?php //On regarde si la chaine de commentaire est vide et si non, on ecrit les comments associes a lenzyme
+			<?php //On regarde si la chaine de commentaire est vide et si non, on ecrit les comments associes a lenzyme
 			$str2='';
 			if (strcmp ($data['comment'], $str2 )!=0){ 
-				?><u>Comments</u> :<?php
-				echo $data['comment'];}?><br> 
+				
+				echo $data['comment'];}?>
 			<br>
 			
 			<?php
@@ -142,8 +150,10 @@ try
 			
 		//Lensemble des publications----------------------------------------------------------------------------------------------------------------------
 		
-		?><UL TYPE="sqare">
-		<LI><FONT color="#8B0000"><strong>Publication</UL></FONT></strong><br>
+						
+		?> <br>
+		<FONT size="6" color="#DB0073"><strong>Publication</FONT></strong>
+		<hr ><br>
 		<?php	
 		
 		if((stripos($_GET['val'], 'EC') !== FALSE) ){				
@@ -178,17 +188,20 @@ try
 		}
 		
 		while($data =$response->fetch(PDO::FETCH_ASSOC)){
-		?>
-		 <UL TYPE="sqare">
-		<LI><FONT color="#8B0000"><strong>History</UL></FONT></strong><br>
-		<?php echo $data['history']; 
+		
+			?>
+			<FONT size="6" color="#DB0073"><strong>History</FONT></strong>
+			<hr><br>
+			<?php echo $data['history']; 
 
 		}
 		
 		//Les Sequences proteiques--------------------------------------------------------------------------------------------------------
 		
-		?><UL TYPE="sqare">
-		<LI><FONT color="#8B0000"><strong>Protein Sequence</UL></FONT></strong><br>
+		
+		?><br><br>
+		<FONT size="6" color="#DB0073"><strong>Protein Sequence</UL></FONT></strong>
+		<hr  width="100%"><br>
 		<u>SP</u> :
 		<?php
 		
@@ -205,8 +218,10 @@ try
 		
 		//Les Familles proteiques--------------------------------------------------------------------------------------------------------
 		
-		?><UL TYPE="sqare">
-			<LI><FONT color="#8B0000"><strong>Protein Family</UL></FONT></strong><br>`
+		?>
+			<br><br>
+			<FONT size="6" color="#DB0073"><strong>Protein Family</FONT></strong>
+			<hr  width="100%"><br>
 			<u>PROSITE</u> :
 		<?php
 		
@@ -222,7 +237,7 @@ try
 		}
 	
 	
-//////////////////////////Si on demande un cofacteur////////////////////////////////////////////////////////////////
+//////////////////////////Si on rentre un cofacteur////////////////////////////////////////////////////////////////
 	
 	}else if ($_GET['type']=='Cofactor'){ 
 			$response=Excecuter($bd,"Select num_EC FROM Enzyme WHERE cofactor='".$_GET['val']."'");
@@ -233,6 +248,32 @@ try
 				?><strong><FONT size="6">ENZYME</strong> :<a href="fiche1.php?val=<?php echo $data['num_EC']; ?> &type=EC"> <?php echo $data['num_EC']; ?></a></FONT><br><?php 
 						
 			}
-	}
+//////////////////////////Si on rentre une maladie ////////////////////////////////////////////////////////////////
 
+	}else if ($_GET['type']=='Disease'){
+		
+		?><strong><FONT size="6">Sorry, we did not find enzymes associated to this disease</strong> <?php
+		
+			//////////////////////////Si on rentre un Names ////////////////////////////////////////////////////////////////
+	}else if ($_GET['type']=='Names'){
+			
+			?><strong><FONT size="6">Liste des enzymes qui ont le nom <?php echo $_GET['val']?></strong><br><br> <?php
+			
+			$response=Excecuter($bd,"Select num_EC FROM Names WHERE Names.synonym_name='".$_GET['val']."'");
+			while($data =$response->fetch(PDO::FETCH_ASSOC)){ //Si on clique sur une enzyme, on peut avoir sa fiche descriptive
+				?><strong><FONT size="6">ENZYME</strong> :<a href="fiche1.php?val=<?php echo $data['num_EC']; ?> &type=EC"> <?php echo $data['num_EC']; ?></a></FONT><br><?php 
+			}
+			
+			$response=Excecuter($bd,"Select num_EC FROM Enzyme WHERE accepted_name='".$_GET['val']."' OR o_name='".$_GET['val']."'");
+			while($data =$response->fetch(PDO::FETCH_ASSOC)){ //Si on clique sur une enzyme, on peut avoir sa fiche descriptive
+				?><strong><FONT size="6">ENZYME</strong> :<a href="fiche1.php?val=<?php echo $data['num_EC']; ?> &type=EC"> <?php echo $data['num_EC']; ?></a></FONT><br><?php 
+			}
+		}
+
+		
+	
+
+//////////////////////////Si on rentre un SP //////////////////////////////////////////////////////////////////
+
+//////////////////////////Si on rentre un proteine family //////////////////////////////////////////////////////
 ?>

@@ -12,8 +12,8 @@
 	<head>
 		<meta charset="utf-8">
 		<title> Home page </title>
-		<link rel="stylesheet" href="css/bootstrap.min.css" />
-		<link rel="stylesheet" href="css/MyStylesheet.css" />
+		<link rel="stylesheet" href="UI/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="UI/css/MyStylesheet.css" />
 	</head>
 	
 	<body class="bg">
@@ -30,24 +30,25 @@
 						<ul class="nav navbar-nav">
 							<li class="active"><a href="cover.php">Home</a></li>
 							<li><a href="#">About us</a></li>
-							<li><a href="#">Exploration BD</a></li>
+							<li><a href="ExplorationBD.php">Exploration BD</a></li>
 							<li><a href="#">FAQ</a></li>
 							<li><a href="#">Contact</a></li>
 						</ul>	
 						<ul class="nav navbar-nav navbar-right">
-							<li><a href="#"><span class="glyphicon glyphicon-user"></span> log in
+							<img src="UI/img/user1.png"  width="35"/>
+							<li><a href="login.php"> log in</a></li>
+							
 						</ul>
 					</div>
 					
 				</div>
 			</nav>
+		</body>
 		
 			<div class="container-fluid">
-				<div class="row">
-					
+				<div class="row">			
 					<div class="col-sm-3 col-md-8 col-lg-12"></div>
 						<div class="jumbotron1">
-							
 							<div class="row">
 								<div class="col-sm-3 col-md-8 col-lg-12">
 									<h1><center>ENZyclopédia</center></h1>
@@ -66,29 +67,23 @@
 									<OPTION>Disease
 									<OPTION>Protein family
 									<OPTION>Names
-								
 									</SELECT>	
 									
-									
 									<!-- Le champ de texte -->
-									<input type="text" name="enter" id="txt" size="60"/> 
+									<input type="text" name="enter" id="txt" size="60" placeholder="Ex: 1.1.1.1/Zinc/PDOC00060/ADH"/> 
 									
-								
 									
 									<!-- Gestion des requetes a la bd -->
-									
 									<a href="javascript:open('fiche1.php?val='+document.getElementById('txt').value +' &type=' +document.getElementById('liste').value,'_self')"><input type="BUTTON" value="Search"/></a>
 									</form?>
 									</center>
 									</FORM>
 								</div>
 							</div>
-						
 						</div>
 					</div>
-				
 				</div>
 			</div>
 	
-	</body>
+	
 </html>
