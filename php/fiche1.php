@@ -38,23 +38,39 @@ fond();
 			$response=Excecuter($bd,"SELECT Enzyme.o_name,Enzyme.num_EC,Enzyme.accepted_name FROM Enzyme WHERE Enzyme.num_EC='EC ".$_GET['val']."'");
 		}	
 		
-		//Haut de page : 
+		//Menu de navigation : 
 		?>
+		<link rel="stylesheet" href="UI/css/MyStylesheet.css" />
+			<div class="menu">
+				<u><strong><FONT size="6">Menu</FONT></u></strong> <br>
+				
+					<UL>
+						<LI><a href="#Abstract"><FONT size="6">Abstract</a></FONT><br>
+						<LI><a href="#History"><FONT size="6">History</a></FONT><br>
+						<LI><a href="#Publications"><FONT size="6">Publications</a></FONT><br>
+						<LI><a href="#PROSITE"><FONT size="6">PROSITE</a></FONT><br>
+						<LI><a href="#SP"><FONT size="6">SP</a></FONT><br>
+					</UL>
+					<br><br>
+				<u><strong><FONT size="6">Links</FONT></u></strong> <br>
+					<center>
+						<a href=https://www.ncbi.nlm.nih.gov/pubmed><img src="UI/img/pubmed.png"  width="100"/></a><br><br>
+						<a href=http://prosite.expasy.org/><img src="UI/img/prosite.gif" width="100"/></a><br><br>
+						<a href=http://www.uniprot.org><img src="UI/img/sp.png"  width="100"/></a><br><br>
+					</center>
+			</div>
 			
-			<a href="#Abstract">Abstract</a><br>
-			<a href="#History">History</a><br>
-			<a href="#Publications">Publications</a><br>
-			<a href="#PROSITE">PROSITE</a><br>
-			<a href="#SP">SP</a><br>
+			
+			
 		<?php
 		
 		//Resume sur lenzyme ----------------------------------------------------------------------------------------------------------------------
 		while($data =$response->fetch()){ //On boucle pour recuperer o_name,num_EC et accpeted_name
 					?>
-					
-					<div class="container-fluid">
+					<div class="contenu">
+					<div class="jumbotron_enzyme">
 						<strong><FONT size="9">ENZYME</strong> : <?php echo $data['num_EC']; ?></FONT><br><br>							
-					</div>
+					</div>	
 					
 					<UL TYPE="sqare">
 						
@@ -63,7 +79,7 @@ fond();
 						<FONT color="#048B9A">accepted_name</FONT></strong> : <?php echo $data['accepted_name']; ?> <br>
 						<FONT color="#048B9A"><strong>o_name</FONT></strong>: <?php echo $data['o_name']; ?><br>
 						<FONT color="#048B9A"><strong>synonym</FONT></strong>:
-								
+						
 				<?php 
 							
 				}
@@ -120,7 +136,7 @@ fond();
 			if (strcmp ($data['comment'], $str2 )!=0){ 
 				
 				echo $data['comment'];}?>
-			<br>
+			<br><br>
 			
 			<?php
 		}	
@@ -149,21 +165,21 @@ fond();
 		<hr ><br>
 		<center><table border="1" width="1000" >
 			<tr>
-				<td>Title</td>
-				<td>Authors</td>
-				<td>First_page</td>
-				<td>Last_page</td>
-				<td>volume</td>
-				<td>year</td>
-				<td>pubmed</td>
+				<td><strong>Title</strong></td>
+				<td><strong>Authors</strong></td>
+				<td><strong>First_page</strong></td>
+				<td><strong>Last_page</strong></td>
+				<td><strong>volume</strong></td>
+				<td><strong>year</strong></td>
+				<td><strong>pubmed</strong></td>
 			</tr>
 			
 			<?php	
 			
 			if((stripos($_GET['val'], 'EC') !== FALSE) ){				
-				$response=Excecuter($bd,"SELECT * FROM Publication WHERE num_EC='".$_GET['val']."'"); 
+				$response=Excecuter($bd,"SELECT * FROM Publication WHERE num_EC='".$_GET['val']."'ORDER BY titre"); 
 			}else{
-				$response=Excecuter($bd,"SELECT * FROM Publication WHERE num_EC='EC ".$_GET['val']."'");
+				$response=Excecuter($bd,"SELECT * FROM Publication WHERE num_EC='EC ".$_GET['val']."'ORDER BY titre");
 			}	
 			
 			while($data =$response->fetch(PDO::FETCH_ASSOC)){
@@ -200,13 +216,19 @@ fond();
 			$response=Excecuter($bd,"SELECT PROSITE FROM Family WHERE num_EC='EC ".$_GET['val']."'");
 		}	
 		
+		$cpt=0;
 		while($data =$response->fetch(PDO::FETCH_ASSOC)){
+			$cpt++;
 			?>
 			<a href="https://prosite.expasy.org/<?php echo $data['PROSITE'];?>">	<?php echo $data['PROSITE']; echo " ; ";?></a>  <?php
 		}
+		if($data['PROSITE'] ==FALSE && $cpt==0){ //Si les numeros ne sont pas dans la base
+				echo 'Nothing in the Database';
+		}
+			
+		
 	
 		//Les Sequences proteiques--------------------------------------------------------------------------------------------------------
-		
 		
 		?><br><br>
 		<FONT size="6" color="#DB0073" id="SP"><strong>Protein Sequence (SP)</UL></FONT></strong>
@@ -215,37 +237,32 @@ fond();
 		<?php
 		//Test de la syntaxe de EC
 		if((stripos($_GET['val'], 'EC') !== FALSE) ){	
-			$response=Excecuter($bd,"SELECT SP_name,SP_id FROM ProtSeq WHERE num_EC='".$_GET['val']."'"); 
+			$response=Excecuter($bd,"SELECT * FROM ProtSeq WHERE num_EC='".$_GET['val']."' ORDER BY organisme"); 
 		}else{
-			$response=Excecuter($bd,"SELECT SP_name,SP_id FROM ProtSeq WHERE num_EC='EC ".$_GET['val']."'");
+			$response=Excecuter($bd,"SELECT * FROM ProtSeq WHERE num_EC='EC ".$_GET['val']."'ORDER BY organisme");
 		}
 		
 		//Affichage des resultats sous forme dun tableau
+		
 		?>
 		<center><table border="1" width="1000" >
 			<tr>
-				<td>Organism</td>
-				<td>chaine</td>
-				<td>Name</td>
-				<td>Key</td>
+				
+				<td><strong>Organism</strong></td>
+				<td><strong>Chain</strong></td>
+				<td><strong>Name</strong></td>
+				<td><strong>Key</strong></td>
+				
 			</tr>
 		
 		<?php	
-		$i=0;	
+		
+		
 		while($data =$response->fetch(PDO::FETCH_ASSOC)){
-			//On modifie $name pour ne recuperer que le nom de lorganisme : 
-			$name=$data['SP_name'];
-			$name_split=explode("_",$name);
-			
-			//On remplit le tableau tel que lon souhaite lafficher
-		//	$table=array();
-		//	$table[$i]=array($name[1],$name[0],$data['SP_name'],$data['SP_id']);
-			$i++;
-			?>
-						
+			?>		
 				<tr>
-					 <td><?php echo $name_split[1];?></td>
-					  <td><?php echo $name_split[0];?> </td>
+					 <td><?php echo $data['organisme'];?></td>
+					  <td><?php echo $data['chain']; ?> </td>
 					  <td><?php echo $data['SP_name']; ?></a>  </td>
 					 <td><a href="http://www.uniprot.org/uniprot/<?php echo $data['SP_id'];?>">	<?php echo $data['SP_id']; ?></a>  </td>
 				</tr>
@@ -253,6 +270,7 @@ fond();
 		}
 		
 		?></table></center>	
+		</div>
 			
 		<?php
 		
@@ -263,12 +281,24 @@ fond();
 	}else if ($_GET['type']=='Cofactor'){ 
 			$response=Excecuter($bd,"Select num_EC FROM Enzyme WHERE cofactor='".$_GET['val']."'");
 			
-			?><strong><FONT size="6">Liste des enzymes qui utilisent le cofacteur <?php echo $_GET['val']?></strong><br><br> <?php
-			
-			while($data =$response->fetch(PDO::FETCH_ASSOC)){ //Si on clique sur une enzyme, on peut avoir sa fiche descriptive
-				?><strong><FONT size="6">ENZYME</strong> :<a href="fiche1.php?val=<?php echo $data['num_EC']; ?> &type=EC"> <?php echo $data['num_EC']; ?></a></FONT><br><?php 
-						
-			}
+			?>
+			<div class="menu">
+				
+				<u><strong><FONT size="6">Links</FONT></u></strong> <br>
+					<center>
+						<a href=https://www.ncbi.nlm.nih.gov/pubmed><img src="UI/img/pubmed.png"  width="100"/></a><br><br>
+						<a href=http://prosite.expasy.org/><img src="UI/img/prosite.gif" width="100"/></a><br><br>
+						<a href=http://www.uniprot.org><img src="UI/img/sp.png"  width="100"/></a><br><br>
+					</center>
+			</div>
+			<div class="contenu">
+					<div class="jumbotron_enzyme">
+						<strong><FONT size="6">Enzymes that use the cofactor <?php echo $_GET['val']?></strong><br><br> 
+					</div><?php
+						while($data =$response->fetch(PDO::FETCH_ASSOC)){ //Si on clique sur une enzyme, on peut avoir sa fiche descriptive
+							?><strong><FONT size="6">ENZYME</strong> :<a href="fiche1.php?val=<?php echo $data['num_EC']; ?> &type=EC"> <?php echo $data['num_EC']; ?></a></FONT><br>		
+			<?php } ?>
+			</div> <?php
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////Si on rentre une maladie ///////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -282,7 +312,20 @@ fond();
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	}else if ($_GET['type']=='Names'){
 			
-			?><strong><FONT size="6">Liste des enzymes qui ont le nom <?php echo $_GET['val']?></strong><br><br> <?php
+			?>
+			<div class="menu">
+				<u><strong><FONT size="6">Links</FONT></u></strong> <br>
+					<center>
+						<a href=https://www.ncbi.nlm.nih.gov/pubmed><img src="UI/img/pubmed.png"  width="100"/></a><br><br>
+						<a href=http://prosite.expasy.org/><img src="UI/img/prosite.gif" width="100"/></a><br><br>
+						<a href=http://www.uniprot.org><img src="UI/img/sp.png"  width="100"/></a><br><br>
+					</center>
+			</div>
+			
+			<div class="contenu">
+					<div class="jumbotron_enzyme">
+						<strong><FONT size="6">Enzyme that have the name <?php echo $_GET['val']?></strong><br><br> 
+					</div><?php
 			
 			$response=Excecuter($bd,"Select num_EC FROM Names WHERE Names.synonym_name='".$_GET['val']."'");
 			while($data =$response->fetch(PDO::FETCH_ASSOC)){ //Si on clique sur une enzyme, on peut avoir sa fiche descriptive
@@ -293,7 +336,8 @@ fond();
 			while($data =$response->fetch(PDO::FETCH_ASSOC)){ //Si on clique sur une enzyme, on peut avoir sa fiche descriptive
 				?><strong><FONT size="6">ENZYME</strong> :<a href="fiche1.php?val=<?php echo $data['num_EC']; ?> &type=EC"> <?php echo $data['num_EC']; ?></a></FONT><br><?php 
 			}
-		}
+		}?>
+			</div> <?php
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////Si on rentre un SP /////////////////////////////////////////////////////////////////

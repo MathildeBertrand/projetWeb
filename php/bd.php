@@ -70,6 +70,8 @@ $requetes=array(
 	num_EC VARCHAR(20) NOT NULL,
 	SP_id TEXT,
 	SP_name TEXT,
+	organisme TEXT,
+	chain VARCHAR(20),
 	PRIMARY KEY (id)
 	)",
 	"Users"=>"CREATE TABLE IF NOT EXISTS Users

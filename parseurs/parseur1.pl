@@ -144,8 +144,13 @@ while(<CODE>)
 	
 	$j=0;
     foreach $i(0..$#SP_identifiants){
-		if($SP_identifiants[$j+1] ne ''){ #Remplissage de la table ProtSeq
-			print FICHIER1 "INSERT INTO ProtSeq(num_EC,SP_id,SP_name)VALUES('EC".$EC."','".$SP_identifiants[$j]."','".$SP_identifiants[$j+1]."')"."\n";  
+		if($SP_identifiants[$j+1] ne ''){ 
+			
+			#On decoupe SP pour recuperer le nom de la chaine et le nom de lorganisme : 
+			@sp_decoup = split(/_/,$SP_identifiants[$j+1]);
+			
+			#Remplissage de la table ProtSeq
+			print FICHIER1 "INSERT INTO ProtSeq(num_EC,SP_id,SP_name,organisme,chain)VALUES('EC".$EC."','".$SP_identifiants[$j]."','".$SP_identifiants[$j+1]."','".$sp_decoup[1]."','".$sp_decoup[0]."')"."\n";  
 			 $j=$j+2;
 		}
 	}

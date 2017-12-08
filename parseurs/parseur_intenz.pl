@@ -17,24 +17,28 @@ while(<CODE2>)
 {
     chomp;
     @tmp=split(/\t/,$_);#Tableau qui contient les differents champs de la ligne
-    
+   
     @synonym=();
 	@comment=();
 	$title='';
 	$authors='';
-	$volume='';
-	$first_page='';
-	$last_page='';
+	$volume=0;
+	$first_page=0;
+	$last_page=0;
 	$pubmed='';
-	$medline='';
+	$medline=0;
 	
+	$t=; #compteur des titres
+	$p=0; #compteur des numeros pubmed
 
     #Pour chaque champs, on va recuperer la balise et son contenu
     foreach $valeur(@tmp){
+			
+			
             @res2 = split(/</,$valeur);
             @rescontenu=split(/>/,$res2[1]);
             $contenu=$rescontenu[1]; #Contenu de la balise
-            $balise=$rescontenu[0];
+            $balise=$rescontenu[0]; #nom de la balise
             
             #On stocke les differents champs dans les variables
             if($balise=~/ec/){
@@ -49,6 +53,7 @@ while(<CODE2>)
                 push(@comment,$contenu);
             }elsif($balise=~/title/){
                 $title=$title.'<'.$contenu; #On fait une concatenation de lensemble des titres, separes par >
+                $t++;
             }elsif($balise=~/authors/){
                 $authors=$authors.'<'.$contenu;
             }elsif($balise=~/year/){
@@ -61,16 +66,17 @@ while(<CODE2>)
                 $last_page=$last_page.'<'.$contenu;
             }elsif($balise=~/pubmed/){
                 $pubmed=$pubmed.'<'.$contenu;
+                $p++;
             }elsif($balise=~/medline/){
                 $medline=$medline.'<'.$contenu;
             }elsif($balise=~/history/){
                 $history=$contenu;
             }
-           
+          
             
     }
-
-    
+	
+  
     
     #Parcours des tableaux et ecriture dans le fichier de sortie
 	print FICHIER "UPDATE Enzyme SET accepted_name='".$accepted_name."',history='".$history."' WHERE Enzyme.num_EC='".$EC."'\n";
@@ -100,19 +106,7 @@ while(<CODE2>)
 		 if ($pub[$i] eq ''){
 			 $pub[$i]=0;
 		 }
-		 if ($first[$i] eq ''){
-			 $first[$i]=0;
-		 }
-		 if ($last[$i] eq ''){
-			 $last[$i]=0;
-		 }
-		  if ($an[$i] eq ''){
-			 $an[$i]=0;
-		 }
-		  if ($med[$i] eq ''){
-			 $med[$i]=0;
-		 }
-		 
+		
 		 print FICHIER "INSERT INTO Publication(num_EC,titre,auteurs,first_page,last_page,volume,pubmed,year) VALUES ('".$EC."','".$val."','".$auteur[$i]."','".$first[$i]."','".$last[$i]."','".$vol[$i]."','".$pub[$i]."','".$an[$i]."')"."\n";  
 		 $i=$i +1;
 	 }
