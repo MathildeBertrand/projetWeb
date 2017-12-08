@@ -90,4 +90,44 @@ function decrypt($encrypted_string, $encryption_key) {
 
 }
 
-
+//Fonction qui definit un fond decran neutre
+function fond (){
+	?>
+	<html>
+	<head>
+		<meta charset="utf-8">
+		<title> Home page </title>
+		<link rel="stylesheet" href="UI/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="UI/css/MyStylesheet.css" />
+	</head>
+	
+	<body class="bg">
+			<nav class="navbar navbar-default">
+				<div class="container-fluid">
+				
+					<!-- website name -->
+					<div class="navbar-header">
+						<a href="" class="navbar-brand">ENZyclopédia</a>
+					</div>
+					
+					<!-- Menu items -->
+					<div>
+						<ul class="nav navbar-nav">
+							<li class="active"><a href="cover.php">Home</a></li>
+							<li><a href="#">About us</a></li>
+							<li><a href="ExplorationBD.php">Exploration BD</a></li>
+							<li><a href="#">FAQ</a></li>
+							<li><a href="#">Contact</a></li>
+						</ul>	
+						<ul class="nav navbar-nav navbar-right">
+							<img src="UI/img/user1.png"  width="35"/>
+							<li><a href="login.php"> log in </a><li>
+						</ul>
+					</div>
+			
+			</div>
+		
+	</body>	
+	</html>
+	<?php
+}

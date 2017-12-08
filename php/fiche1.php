@@ -1,47 +1,13 @@
 <!DOCTYPE html>
 
 <!-- Mise en page -->
-<html>
-	<head>
-		<meta charset="utf-8">
-		<title> Home page </title>
-		<link rel="stylesheet" href="UI/css/bootstrap.min.css" />
-		<link rel="stylesheet" href="UI/css/MyStylesheet.css" />
-	</head>
-	
-	<body class="bg">
-			<nav class="navbar navbar-default">
-				<div class="container-fluid">
-				
-					<!-- website name -->
-					<div class="navbar-header">
-						<a href="" class="navbar-brand">ENZyclopédia</a>
-					</div>
-					
-					<!-- Menu items -->
-					<div>
-						<ul class="nav navbar-nav">
-							<li class="active"><a href="cover.php">Home</a></li>
-							<li><a href="#">About us</a></li>
-							<li><a href="ExplorationBD.php">Exploration BD</a></li>
-							<li><a href="#">FAQ</a></li>
-							<li><a href="#">Contact</a></li>
-						</ul>	
-						<ul class="nav navbar-nav navbar-right">
-							<img src="UI/img/user1.png"  width="35"/>
-							<li><a href="login.php"> log in </a><li>
-						</ul>
-					</div>
-			
-		</div>
-		
-	</body>	
+
 <?php
 require("functions.php");
 $AFF=FALSE; 
 
 ///////////////////////////////////////////////////////////////////////////////
-//Construction des requetes qui interrogent la bdC/////////////////////////////
+//Construction des requetes qui interrogent la bd//////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
 //Connection a la base : 
@@ -56,9 +22,13 @@ try
 		die('Erreur: '.$e->getMessage());
 	}
 
+//On met le fond decran :
+fond();
 
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////Si on demande un enzyme////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	
 	if($_GET['type']=='EC'){ 
 		
@@ -67,8 +37,17 @@ try
 		}else{
 			$response=Excecuter($bd,"SELECT Enzyme.o_name,Enzyme.num_EC,Enzyme.accepted_name FROM Enzyme WHERE Enzyme.num_EC='EC ".$_GET['val']."'");
 		}	
-	
-
+		
+		//Haut de page : 
+		?>
+			
+			<a href="#Abstract">Abstract</a><br>
+			<a href="#History">History</a><br>
+			<a href="#Publications">Publications</a><br>
+			<a href="#PROSITE">PROSITE</a><br>
+			<a href="#SP">SP</a><br>
+		<?php
+		
 		//Resume sur lenzyme ----------------------------------------------------------------------------------------------------------------------
 		while($data =$response->fetch()){ //On boucle pour recuperer o_name,num_EC et accpeted_name
 					?>
@@ -79,7 +58,7 @@ try
 					
 					<UL TYPE="sqare">
 						
-						<strong><FONT size="6" color="#DB0073"><strong>Abstract</FONT></strong><br>
+						<strong><FONT size="6" color="#DB0073" id="Abstract"><strong>Abstract</FONT></strong><br>
 						<hR  width="100%" >
 						<FONT color="#048B9A">accepted_name</FONT></strong> : <?php echo $data['accepted_name']; ?> <br>
 						<FONT color="#048B9A"><strong>o_name</FONT></strong>: <?php echo $data['o_name']; ?><br>
@@ -89,7 +68,7 @@ try
 							
 				}
 		
-		//Les synonyms
+			//Les synonyms
 		if((stripos($_GET['val'], 'EC') !== FALSE) ){	
 			$response=Excecuter($bd,"SELECT synonym_name FROM Names WHERE num_EC='". $_GET['val']."'"); 
 		}else{
@@ -102,7 +81,7 @@ try
 			 echo ", "; 
 		}	
 		
-		//Les reactions et les cofacteurs
+			//Les reactions et les cofacteurs
 		if((stripos($_GET['val'], 'EC') !== FALSE) ){	
 			$response=Excecuter($bd,"SELECT reaction,cofactor FROM Enzyme WHERE num_EC='". $_GET['val']."'"); 
 		}else{
@@ -112,20 +91,19 @@ try
 		while($data =$response->fetch(PDO::FETCH_ASSOC)){
 			?>
 			<br><br>
-				<p style="text-align:center">
-					<FONT color="#048B9A"><strong>Reaction</FONT></strong> : <?php echo $data['reaction'];?>  <br>
 				
+					<center><FONT color="#048B9A"><strong>Reaction</FONT></strong> : <?php echo $data['reaction'];?> </center> <br>
 					<?php //On regarde si la chaine de cofactor est vide et si non, on ecrit les cofactor associes a lenzyme
 					$str2='';
 					if (strcmp ($data['cofactor'], $str2 )!=0){ 
 					?><FONT color="#048B9A"><strong>Cofactors</FONT></strong> : <?php echo $data['cofactor'];?><br>
 					
-				</p>
+				
 			<?php }
 			
 		}
 		
-		//Les commentaires	
+			//Les commentaires	
 		if((stripos($_GET['val'], 'EC') !== FALSE) ){	
 			$response=Excecuter($bd,"SELECT DISTINCT comment FROM Comments WHERE num_EC='". $_GET['val']."'"); 
 		}else{
@@ -147,38 +125,6 @@ try
 			<?php
 		}	
 			
-			
-		//Lensemble des publications----------------------------------------------------------------------------------------------------------------------
-		
-						
-		?> <br>
-		<FONT size="6" color="#DB0073"><strong>Publication</FONT></strong>
-		<hr ><br>
-		<?php	
-		
-		if((stripos($_GET['val'], 'EC') !== FALSE) ){				
-			$response=Excecuter($bd,"SELECT * FROM Publication WHERE num_EC='".$_GET['val']."'"); 
-		}else{
-			$response=Excecuter($bd,"SELECT * FROM Publication WHERE num_EC='EC ".$_GET['val']."'");
-		}	
-		
-		while($data =$response->fetch(PDO::FETCH_ASSOC)){
-			?>
-			
-			<u>Title</u> : <?php echo $data['titre']; ?> <br>
-			<u>authors</u> : <?php echo $data['auteurs']; 
-			
-			//On test : si on a des valeurs =0, cest que lon a pas dinformation dessus
-			if ($data['first_page'] !=0){ ?> <br> <u>first_page</u> : <?php  echo $data['first_page'];} 
-			if ($data['last_page'] !=0){ ?> <br><u>last_page</u> : <?php echo $data['last_page']; }
-			if ($data['volume'] !=0){ ?> <br><u>volume</u> : <?php echo $data['volume'];} 
-			if($data['pubmed'] !=0){ ?> <br> <u>pubmed</u> : <a href="https://www.ncbi.nlm.nih.gov/pubmed/?term=<?php echo $data['pubmed'];?>"><?php echo $data['pubmed']; ?></a>  <?php }
-
-			 if($data['year'] !=0){ ?> <br><u>year</u> : <?php echo $data['year'];} ?> <br><br>
-			
-			<?php
-		}
-		
 		//History----------------------------------------------------------------------------------------------------------------------
 		
 		if((stripos($_GET['val'], 'EC') !== FALSE) ){	
@@ -190,39 +136,62 @@ try
 		while($data =$response->fetch(PDO::FETCH_ASSOC)){
 		
 			?>
-			<FONT size="6" color="#DB0073"><strong>History</FONT></strong>
-			<hr><br>
+			<FONT size="6" color="#DB0073" id="History"><strong>History</FONT></strong>
+			<hr>
 			<?php echo $data['history']; 
 
-		}
+		}	
+		//Lensemble des publications----------------------------------------------------------------------------------------------------------------------
 		
-		//Les Sequences proteiques--------------------------------------------------------------------------------------------------------
-		
-		
-		?><br><br>
-		<FONT size="6" color="#DB0073"><strong>Protein Sequence</UL></FONT></strong>
-		<hr  width="100%"><br>
-		<u>SP</u> :
-		<?php
-		
-		if((stripos($_GET['val'], 'EC') !== FALSE) ){	
-			$response=Excecuter($bd,"SELECT SP_name,SP_id FROM ProtSeq WHERE num_EC='".$_GET['val']."'"); 
-		}else{
-			$response=Excecuter($bd,"SELECT SP_name,SP_id FROM ProtSeq WHERE num_EC='EC ".$_GET['val']."'");
-		}
-		while($data =$response->fetch(PDO::FETCH_ASSOC)){
-			?>
-			 <a href="http://www.uniprot.org/uniprot/<?php echo $data['SP_id'];?>">	<?php echo $data['SP_name']; echo " ; ";?></a>  <?php
-		
-		}
+					//On les range dans des tableaux
+		?> <br><br>
+		<FONT size="6" color="#DB0073" id="Publications"><strong>Publications</FONT></strong>
+		<hr ><br>
+		<center><table border="1" width="1000" >
+			<tr>
+				<td>Title</td>
+				<td>Authors</td>
+				<td>First_page</td>
+				<td>Last_page</td>
+				<td>volume</td>
+				<td>year</td>
+				<td>pubmed</td>
+			</tr>
+			
+			<?php	
+			
+			if((stripos($_GET['val'], 'EC') !== FALSE) ){				
+				$response=Excecuter($bd,"SELECT * FROM Publication WHERE num_EC='".$_GET['val']."'"); 
+			}else{
+				$response=Excecuter($bd,"SELECT * FROM Publication WHERE num_EC='EC ".$_GET['val']."'");
+			}	
+			
+			while($data =$response->fetch(PDO::FETCH_ASSOC)){
+				?>
+				<tr>
+					<td> <?php echo $data['titre']; ?></td>
+					<td> <?php echo $data['auteurs']; ?></td>
+				
+				<?php
+				//On test : si on a des valeurs =0, cest que lon a pas dinformation dessus
+				if ($data['first_page'] !=0){ ?> <td> <?php echo $data['first_page'];?> </td> <?php }
+				if ($data['last_page'] !=0){ ?> <td> <?php echo $data['last_page']; ?></td> <?php } 
+				if ($data['volume'] !=0){ ?> <td> <?php echo $data['volume'];?> </td> <?php }
+				if($data['year'] !=0){ ?> <td> <?php echo $data['year'];?> </td> <?php }
+				if($data['pubmed'] !=0){ ?> <td><a href="https://www.ncbi.nlm.nih.gov/pubmed/?term=<?php echo $data['pubmed'];?>"> <?php echo $data['pubmed'];?> </td></a>  <?php 
+				}
+	
+				
+			} ?></table></center><?php
+			
 		
 		//Les Familles proteiques--------------------------------------------------------------------------------------------------------
 		
 		?>
 			<br><br>
-			<FONT size="6" color="#DB0073"><strong>Protein Family</FONT></strong>
+			<FONT size="6" color="#DB0073" id="PROSITE"><strong>Protein Family (PROSITE)</FONT></strong>
 			<hr  width="100%"><br>
-			<u>PROSITE</u> :
+		
 		<?php
 		
 		if((stripos($_GET['val'], 'EC') !== FALSE) ){	
@@ -236,8 +205,60 @@ try
 			<a href="https://prosite.expasy.org/<?php echo $data['PROSITE'];?>">	<?php echo $data['PROSITE']; echo " ; ";?></a>  <?php
 		}
 	
-	
-//////////////////////////Si on rentre un cofacteur////////////////////////////////////////////////////////////////
+		//Les Sequences proteiques--------------------------------------------------------------------------------------------------------
+		
+		
+		?><br><br>
+		<FONT size="6" color="#DB0073" id="SP"><strong>Protein Sequence (SP)</UL></FONT></strong>
+		<hr  width="100%"><br>
+		
+		<?php
+		//Test de la syntaxe de EC
+		if((stripos($_GET['val'], 'EC') !== FALSE) ){	
+			$response=Excecuter($bd,"SELECT SP_name,SP_id FROM ProtSeq WHERE num_EC='".$_GET['val']."'"); 
+		}else{
+			$response=Excecuter($bd,"SELECT SP_name,SP_id FROM ProtSeq WHERE num_EC='EC ".$_GET['val']."'");
+		}
+		
+		//Affichage des resultats sous forme dun tableau
+		?>
+		<center><table border="1" width="1000" >
+			<tr>
+				<td>Organism</td>
+				<td>chaine</td>
+				<td>Name</td>
+				<td>Key</td>
+			</tr>
+		
+		<?php	
+		$i=0;	
+		while($data =$response->fetch(PDO::FETCH_ASSOC)){
+			//On modifie $name pour ne recuperer que le nom de lorganisme : 
+			$name=$data['SP_name'];
+			$name_split=explode("_",$name);
+			
+			//On remplit le tableau tel que lon souhaite lafficher
+		//	$table=array();
+		//	$table[$i]=array($name[1],$name[0],$data['SP_name'],$data['SP_id']);
+			$i++;
+			?>
+						
+				<tr>
+					 <td><?php echo $name_split[1];?></td>
+					  <td><?php echo $name_split[0];?> </td>
+					  <td><?php echo $data['SP_name']; ?></a>  </td>
+					 <td><a href="http://www.uniprot.org/uniprot/<?php echo $data['SP_id'];?>">	<?php echo $data['SP_id']; ?></a>  </td>
+				</tr>
+		<?php
+		}
+		
+		?></table></center>	
+			
+		<?php
+		
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////	
+//////////////////////////Si on rentre un cofacteur///////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	}else if ($_GET['type']=='Cofactor'){ 
 			$response=Excecuter($bd,"Select num_EC FROM Enzyme WHERE cofactor='".$_GET['val']."'");
@@ -248,13 +269,17 @@ try
 				?><strong><FONT size="6">ENZYME</strong> :<a href="fiche1.php?val=<?php echo $data['num_EC']; ?> &type=EC"> <?php echo $data['num_EC']; ?></a></FONT><br><?php 
 						
 			}
-//////////////////////////Si on rentre une maladie ////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////Si on rentre une maladie ///////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	}else if ($_GET['type']=='Disease'){
 		
 		?><strong><FONT size="6">Sorry, we did not find enzymes associated to this disease</strong> <?php
 		
-			//////////////////////////Si on rentre un Names ////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////			
+//////////////////////////Si on rentre un Names //////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	}else if ($_GET['type']=='Names'){
 			
 			?><strong><FONT size="6">Liste des enzymes qui ont le nom <?php echo $_GET['val']?></strong><br><br> <?php
@@ -270,10 +295,11 @@ try
 			}
 		}
 
-		
-	
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////Si on rentre un SP /////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//////////////////////////Si on rentre un SP //////////////////////////////////////////////////////////////////
-
-//////////////////////////Si on rentre un proteine family //////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////Si on rentre un proteine family ////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ?>

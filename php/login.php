@@ -1,3 +1,20 @@
+<SCRIPT type='text/javascript'>
+										
+/*Fonction verifier formulaire*/
+/*Si le champ text nest pas remplis alors on ne pourra pas cliquer sur le bouton search */
+function verifForm()
+{
+if(document.getElementById('username').value =='')
+{
+	document.getElementById('bouton').disabled=false;
+	}else{
+	document.getElementById('bouton').disabled=true;
+	open('EspaceClient.php?id='+document.getElementById('username').value+' &ps='+ document.getElementById('password').value,'_self');
+	}
+}
+															
+</script>
+
 <?php
 require("functions.php");
 $AFF=FALSE; 
@@ -17,40 +34,11 @@ try
 		echo "Connexion non reussie a Mysql";
 		die('Erreur: '.$e->getMessage());
 	}
+	
+	fond();
 ?>
 
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="utf-8">
-		<title> Login Page </title>
-		<link rel="stylesheet" href="UI/css/bootstrap.min.css" />
-		<link rel="stylesheet" href="UI/css/MyStylesheet.css" />
-		<body class="bg">
-			<nav class="navbar navbar-default">
-				<div class="container-fluid">
-				
-					<!-- website name -->
-					<div class="navbar-header">
-						<a href="" class="navbar-brand">ENZyclopédia</a>
-					</div>
-				
-					<!-- Menu items -->
-					<div>
-						<ul class="nav navbar-nav">
-							<li class="active"><a href="cover.php">Home</a></li>
-							<li><a href="#">About us</a></li>
-							<li><a href="ExplorationBD.php">Exploration BD</a></li>
-							<li><a href="#">FAQ</a></li>
-							<li><a href="#">Contact</a></li>
-						</ul>	
-					</div>
-				</div>
 			</nav>
-
-		</body>
-		</head>
-	
 					<div class="container">
 								<div class="jumbotron1">
 									<h1><center><img src="UI/img/atomix_user31.png"  width="150"/></center></h1>
@@ -64,7 +52,7 @@ try
 											<FONT color="#00000"><p><center><input type="text" name="password"  id="password" placeholder="Enter your Password" style="background-image:url(UI/img/user1.png);background-position:left;background-repeat:no-repeat;padding-left:18px;width:185px;"/></center></p></FONT>
 										</div>
 										
-											<a href="javascript:open('EspaceClient.php?id='+document.getElementById('username').value+' &ps='+ document.getElementById('password').value,'_self')" ><FONT color="#00000"><p><center><input type="BUTTON" name="BUTTON"  value="LOGIN" class="btn-login"/></FONT></a>
+											<FONT color="#00000"><p><center><input type="BUTTON" id="bouton" name="BUTTON"  value="LOGIN" class="btn-login" onchange="verifForm();" OnClick="verifForm();"/></FONT>
 											<a href="fichenew.php"><FONT color="#00000"><input type="BUTTON" name="submit"  value="New User ?"/></center></p></FONT></a>
 									</form>
 								</div>

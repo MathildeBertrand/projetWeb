@@ -74,8 +74,30 @@
 									
 									
 									<!-- Gestion des requetes a la bd -->
-									<a href="javascript:open('fiche1.php?val='+document.getElementById('txt').value +' &type=' +document.getElementById('liste').value,'_self')"><input type="BUTTON" value="Search"/></a>
-									</form?>
+									
+									<SCRIPT type='text/javascript'>
+										
+									/*Fonction verifier formulaire*/
+									/*Si le champ text nest pas remplis alors on ne pourra pas cliquer sur le bouton search */
+									function verifForm()
+									{
+										if(document.getElementById('txt').value =='')
+										{
+											document.getElementById('bouton').disabled=false;
+									 
+										}else{
+											document.getElementById('bouton').disabled=true;
+											open('fiche1.php?val='+document.getElementById('txt').value +' &type=' +document.getElementById('liste').value,'_self');
+										}
+									}
+									
+								
+									</script>
+									
+									<!-- Le bouton de validation de la requete -->
+									<input type="BUTTON" id="bouton" value="Search" onchange="verifForm();" OnClick="verifForm();"/>
+								
+									</form
 									</center>
 									</FORM>
 								</div>
