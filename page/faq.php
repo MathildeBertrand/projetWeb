@@ -47,9 +47,9 @@
 			<div class="row">
 				<nav class="col-sm-1 col-md-2 col-lg-3" id="myScrollspy">
 					<ul class="nav nav-pills nav-stacked" data-spy="affix" data-offset-top="205">
-						<li><a href="#section1"><h2>Section1</h2></a></li><br>
+						<li><a href="#section1"><h2>Section1 : ENZyclopedia</h2></a></li><br>
 						<li><a href="#section2"><h2>Section2</h2></a></li><br>
-						<li><a href="#section3"><h2>Section3</h2></a></li><br>
+						<li><a href="#section3"><h2>Section3 : Login/Logout</h2></a></li><br>
 					</ul>
 				</nav>
 				
@@ -57,9 +57,9 @@
 					<div id="section1">
 						<h1>Section1</h1>
 						<ul style="list-style-type:none;">
-							<li class="faq-question"> Question 1</li>
+							<li class="faq-question" > Question 1 : What is ENZyclopedia ?</li>
 							<li class="faq-answer">Curabitur blandit tempus porttitor.</li>
-							<li class="faq-question"> Question 2</li>
+							<li class="faq-question"> Question 2 : How do you collect the information for your database ?</li>
 							<li class="faq-answer">Maecenas faucibus mollis interdum. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</li>
 							<li class="faq-question"> Question 3</li>
 							<li class="faq-answer">Aenean lacinia bibendum nulla sed consectetur. Donec id elit non mi porta gravida at eget metus. Nullam quis risus eget urna mollis ornare vel eu leo.</li>
@@ -85,11 +85,11 @@
 						</ul>
 					</div>
 					<div id="section3">
-						<h1>Section3</h1>
+						<h1>Section3 : Login/Logout</h1>
 						<ul style="list-style-type:none;">
-							<li class="faq-question"> Question 1</li>
+							<li class="faq-question"> Question 1 : Password forgotten</li>
 							<li class="faq-answer">Curabitur blandit tempus porttitor.</li>
-							<li class="faq-question"> Question 2</li>
+							<li class="faq-question"> Question 2 : Why should I create an account ?</li>
 							<li class="faq-answer">Maecenas faucibus mollis interdum. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</li>
 							<li class="faq-question"> Question 3</li>
 							<li class="faq-answer">Aenean lacinia bibendum nulla sed consectetur. Donec id elit non mi porta gravida at eget metus. Nullam quis risus eget urna mollis ornare vel eu leo.</li>

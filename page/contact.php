@@ -49,7 +49,7 @@
 					<div class="col-sm-3 col-md-8 col-lg-12">
 						<div class="card contact">
 							<div class="card-body">
-								<h4 class="card-title">Nom Prenom</h4>
+								<h4 class="card-title">BEI Wanying</h4>
 								<p class="card-text"><br/> <i class="glyphicon glyphicon-envelope"></i> Mail:
 								<br/> <i class="glyphicon glyphicon-earphone"></i> Tel: 
 								<br/> <i class="glyphicon glyphicon-home"></i> Adresse: Université Paris-Sud<p style="margin-top:-10px; padding-top: 0px; padding-left:77px">15 Rue Georges Clemenceau<br>91400 Orsay</p>
@@ -60,9 +60,9 @@
 					<div class="col-sm-3 col-md-8 col-lg-12">
 						<div class="card contact">
 							<div class="card-body">
-								<h4 class="card-title">Nom Prenom</h4>
-								<p class="card-text"><br/> <i class="glyphicon glyphicon-envelope"></i> Mail:
-								<br/> <i class="glyphicon glyphicon-earphone"></i> Tel: 
+								<h4 class="card-title">BERTRAND Mathilde</h4>
+								<p class="card-text"><br/> <i class="glyphicon glyphicon-envelope"></i> Mail: mathilde.bertrand@u-psud.fr
+								<br/> <i class="glyphicon glyphicon-earphone"></i> Tel: 0145983088
 								<br/> <i class="glyphicon glyphicon-home"></i> Adresse: Université Paris-Sud<p style="margin-top:-10px; padding-top: 0px; padding-left:77px">15 Rue Georges Clemenceau<br>91400 Orsay</p>
 							</div>
 						</div>

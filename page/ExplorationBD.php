@@ -1,7 +1,6 @@
 
 <?php
-session_start();
-//////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 //Exploration de la base de donnees///////////////////////////////////
 //3 boutons : exploration des publis,des enzymes ou des maladies//////
 //////////////////////////////////////////////////////////////////////		
@@ -55,12 +54,16 @@ session_start();
 				<div class="row">
 					<div class="col-sm-3 col-md-8 col-lg-12"></div>
 						<div class="jumbotron1">
+							<center><strong><FONT size="8">Exploration of the database</strong></FONT></center><br>
 							<div class="col">
 								<div class="col-sm-3 col-md-8 col-lg-12">
 									<FORM>	
-										<a href="bargraphMain.php"><input type="text" value="Statistics" size=90/></a><br><br>
-										<a href="allEnzyme.php"><input type="text" value="All enzymes" size=90/></a> <br><br>
-										<a href="ExplorationBD.php"><input type="text" value="" size=90/></a>
+										<center><strong>
+										<a href="bargraphMain.php"><input type="BUTTON" value="Statistics" style="width:300px; height:200px;background-color: #E0FFFF; color: #000000;font-size : 30px;border-radius: 10%;" /></a>
+										<a href="allEnzyme.php"><input type="BUTTON" value="All enzymes" style="width:300px; height:200px;background-color: #F5FFFA; color: #000000;font-size : 30px;border-radius: 10%;"/></a> 
+										<a href="allPubli.php"><input type="BUTTON" value="All publications" style="width:300px; height:200px;background-color: #E0FFFF; color: #000000;font-size : 30px;border-radius: 10%;"/></a> 
+										<a href="classi.php"><input type="BUTTON" value="Classification" style="width:300px; height:200px;background-color: #F5FFFA; color: #000000;font-size : 30px;border-radius: 10%;"/></a> <br><br>
+										</center></strong>
 									
 									</FORM>
 									
@@ -68,6 +71,7 @@ session_start();
 	</div>	
 
 	</body>			
+	
 	
 									
 

@@ -28,6 +28,17 @@ fond();
 $requete=Excecuter($bd,"SELECT Comments.num_EC,Enzyme.accepted_name,group_concat(distinct Comments.comment) AS commenta FROM Enzyme,Comments WHERE Enzyme.num_EC=Comments.num_EC GROUP BY Comments.num_EC  ");
 
 ?>
+<link rel="stylesheet" href="UI/css/MyStylesheet.css" />
+			<div class="menu">
+				<u><strong><FONT size="6">Links</FONT></u></strong><br> <br>
+					<center>
+						<a href=https://www.ncbi.nlm.nih.gov/pubmed><img src="../img/pubmed.png"  width="100"/></a><br><br>
+						<a href=http://prosite.expasy.org/><img src="../img/prosite.gif" width="100"/></a><br><br>
+						<a href=http://www.uniprot.org><img src="../img/sp.png"  width="100"/></a><br><br>
+						<a href=http://www.kegg.jp/><img src="../img/kegg.jpg"  width="100"/></a><br><br>
+					</center>
+			</div>
+</nav>
 <div class="contenu">
 	<div class="jumbotron_enzyme">
 						<strong><FONT size="9">All enzymes of the database</strong>							
@@ -35,9 +46,9 @@ $requete=Excecuter($bd,"SELECT Comments.num_EC,Enzyme.accepted_name,group_concat
 		<center><table border="1" width="1000" id="ma_table">
 			<tr>
 				
-				<td width="150"><strong>EC number</strong></td>
-				<td><strong>Accepted Name</strong></td>
-				<td><strong>Comments</strong></td>
+				<td width="150" style="background-color:#F0F8FF;"><strong>EC number</strong></td>
+				<td style="background-color:#F0F8FF;"><strong>Accepted Name</strong></td>
+				<td style="background-color:#F0F8FF;"><strong>Comments</strong></td>
 				
 			</tr>
 		

@@ -23,7 +23,7 @@ $AFF=FALSE;
 mysql_close;
 $dsn = 'mysql:host=127.0.0.1; dbname=ProjetWeb2017';
 $username = 'root';
-//$password = 'Pachadu92'
+//$password = 'Pachadu92';
 $password = 'mysql2017';
 	
 try

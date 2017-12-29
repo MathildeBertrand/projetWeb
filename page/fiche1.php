@@ -3,7 +3,7 @@
 <!-- Mise en page -->
 
 <?php
-session_start();
+//session_start();
 require("functions.php");
 $AFF=FALSE; 
 
@@ -114,6 +114,14 @@ if(isset ($_SESSION['mail'])){
 		
 		//Menu de navigation : 
 		?>
+		<script type="text/javascript">
+			function imprimer_page(){
+			  window.print();
+		}
+		</script>
+		<form>
+		  <input id="impression" name="impression" type="button" onclick="imprimer_page()" value="Print this page" />
+		</form>
 
 		<link rel="stylesheet" href="../css/MyStylesheet.css" />
 			<div class="menu">
@@ -135,6 +143,7 @@ if(isset ($_SESSION['mail'])){
 						<a href=https://www.ncbi.nlm.nih.gov/pubmed><img src="../img/pubmed.png"  width="100"/></a><br><br>
 						<a href=http://prosite.expasy.org/><img src="../img/prosite.gif" width="100"/></a><br><br>
 						<a href=http://www.uniprot.org><img src="../img/sp.png"  width="100"/></a><br><br>
+						<a href=http://www.kegg.jp/><img src="../img/kegg.jpg"  width="100"/></a><br><br>
 					</center>
 
 			</div>

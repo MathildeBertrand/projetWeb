@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 
 <?php
-session_start();
-include_once 'dbh.inc.php';
+//session_start();
+include_once 'includes/dbh.inc.php';
 ///////////////////////////////////////////////////////////////////////////////
 //Fichier qui permet de realiser linterface (page dacceuil)////////////////////
 ///////////////////////////////////////////////////////////////////////////////
@@ -39,7 +39,7 @@ fclose($file);
 					<!-- Menu items -->
 					<div>
 						<ul class="nav navbar-nav">
-							<li class="active"><a href="#">Home</a></li>
+							<li class="active"><a href="../index.php">Home</a></li>
 							<li><a href="page/aboutUs.php">About us</a></li>
 							<li><a href="page/ExplorationBD.php">Exploration BD</a></li>
 							<li><a href="page/faq.php">FAQ</a></li>
@@ -70,7 +70,7 @@ fclose($file);
 							<div class="row">
 								<div class="col-sm-3 col-md-8 col-lg-12">
 									<h1><center>ENZyclopédia</center></h1>
-									<p><center>Voici une petite intro</center></p>
+									<p><center>An enzyme database</center></p>
 								</div>
 							</div>
 							

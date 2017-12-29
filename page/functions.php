@@ -113,11 +113,11 @@ function fond (){
 					<!-- Menu items -->
 					<div>
 						<ul class="nav navbar-nav">
-							<li class="active"><a href="cover.php">Home</a></li>
-							<li><a href="#">About us</a></li>
+							<li class="active"><a href="../index.php">Home</a></li>
+							<li><a href="aboutUs.php">About us</a></li>
 							<li><a href="ExplorationBD.php">Exploration BD</a></li>
-							<li><a href="#">FAQ</a></li>
-							<li><a href="#">Contact</a></li>
+							<li><a href="faq.php">FAQ</a></li>
+							<li><a href="contact.php">Contact</a></li>
 						</ul>	
 						<ul class="nav navbar-nav navbar-right">
 							<img src="../img/user1.png"  width="35"/>
