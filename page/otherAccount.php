@@ -87,19 +87,12 @@ include_once '../includes/dbh.inc.php';
 						<div class="row" style="padding-top:25px;">
 								 <blockquote>
 									<p>
-										<?php echo $_SESSION['prenom']." ".$_SESSION['nom']?>
+										<?php echo $_SESSION['nom']." ".$_SESSION['prenom']?>
 									</p>
 								</blockquote>
 								
 								<i class="glyphicon glyphicon-envelope"></i> Mail: <?php echo $_SESSION['mail']?>
 								<br><i class="glyphicon glyphicon-briefcase"></i> Job: <?php echo $_SESSION['job']?>
-								
-								<div class="text-left" style="padding-top:30px;">	
-									<a href="./visit.php"><button type="button" class="btn btn-warning" style="margin-right: 10px; margin-left: 10px;">Visit</button></a>
-									<a href="./history.php"><button type="button" class="btn btn-warning" style="margin-right: 10px; margin-left: 10px;">History</button></a>
-									<a href="./editProfil.php"><button type="button" class="btn btn-warning" style="margin-right: 10px; margin-left: 10px;">Edit Profil</button></a>
-									<a href="./editContent.php"><button type="button" class="btn btn-warning" style="margin-right: 10px; margin-left: 10px;">Edit Text</button></a>
-								</div>
 						
 						</div>
 					</div>
@@ -239,3 +232,4 @@ include_once '../includes/dbh.inc.php';
 	</body>
 </html>
 	
+

@@ -127,7 +127,59 @@ li.faq-question{
 }
 
 .icon-logout{
-height:20px;
-width:20px;
-margin:15px;
+	height:20px;
+	width:20px;
+	margin:15px;
+}
+
+.recentRes{
+	height:100px;
+	width:500px;
+	background-color: rgba(255,0,255,0.3);
+	border-radius: 25px;
+	padding:10px;
+	text-align: left;
+	float:right;
+	position: sticky;
+}
+
+.favori{
+	margin-top:10px;
+	height:100px;
+	width:500px;
+	background-color: rgba(215,215,215,0.8);
+	border-radius: 25px;
+	padding:10px;
+	text-align: left;
+	float:right;
+	position: sticky;
+}
+
+.trendingRes{
+	margin-top:10px;
+	height:100px;
+	width:500px;
+	background-color: rgba(255,255,0,0.3);
+	border-radius: 25px;
+	padding:10px;
+	text-align: left;
+	float:right;
+	position: sticky;
+}
+
+.comments{
+	margin-left:0px;
+	margin-bottom:10px;
+	border-width:2px;
+	border-color:#cccccc;
+	border-style: ridge;
+	border-radius:25px;
+	padding:10px;
+	height:100px;
+	width:600px;
+	float:left;
+}
+	
+.name{
+	font-weight: bold;
 }

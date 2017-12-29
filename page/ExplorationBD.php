@@ -1,5 +1,6 @@
 
 <?php
+session_start();
 ////////////////////////////////////////////////////////////////////////
 //Exploration de la base de donnees///////////////////////////////////
 //3 boutons : exploration des publis,des enzymes ou des maladies//////
@@ -70,7 +71,8 @@
 			</ul>	
 	</div>	
 
-	</body>			
+	</body>	
+</html>		
 	
 	
 									

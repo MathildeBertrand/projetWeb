@@ -1,4 +1,8 @@
-<?phpinclude_once 'dbn.inc.php';?>
+<?php
+session_start();
+include_once 'dbn.inc.php';
+?>
+
 <!DOCTYPE html>
 <html>
 	<head>
