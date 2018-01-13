@@ -177,13 +177,25 @@ try
 		<!--Nombre de publications par enzyme -->
 		<center>
 		<img src="data_publi.php" alt="Graphique JPGraph">
-		
-		<!--Nombre de synonymes par enzyme -->
 		<div id="chart-container" style="float:right;" margin-left="50;" >
-		<img src="testgraph.php" alt="Graphique JPGraph">
+		<strong><FONT id='orgaa'>The 10 firsts enzymes with the most number of publications : </strong></FONT><br><br><br><br><br><br><br>
+				<canvas id="mycanvaspub" width="700" height="300"></canvas>
+			
+				<script type="text/javascript" src="../js/data_publi_top.js"></script>
+		</div>
+
+		<br>
+
+		<!--Nombre de synonymes par enzyme -->
+		<img src="testgraph.php" alt="Graphique JPGraph" width="250" height="550">
+		<div id="chart-container" style="float:right;" margin-left="50;" >
+				<strong><FONT id='orgaa'>The 10 firsts enzymes with the most number of synonyms : </strong></FONT><br><br><br><br><br><br><br>
+				<canvas id="mycanvassyn" width="700" height="300"></canvas>
+			
+				<script type="text/javascript" src="../js/data_syn_top.js"></script>
 		</div>
 	
-		</center>
+		
 	
 		
 		<!--Nombre de denzymes par organisme -->
