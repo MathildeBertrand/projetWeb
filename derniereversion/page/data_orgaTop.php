@@ -1,5 +1,3 @@
-
-
 <?php
 
 
@@ -7,7 +5,7 @@ require("functions.php");
 $AFF=FALSE; 
 
 ///////////////////////////////////////////////////////////////////////////////
-//Le nombre d'utilisateurs de la bd par job////////////////////////////////////
+//Les 10 organismes qui ont le plus dentrees denzymes dans la bd//////////////
 ///////////////////////////////////////////////////////////////////////////////
 
 //Connection a la base : 
@@ -28,7 +26,7 @@ try
 	}
 		
 	//Excecute the query
-	$response=Excecuter($bd,"SELECT num_EC AS playerid,COUNT(num_EC) AS score  FROM TopEnzyme GROUP BY num_EC ORDER BY score DESC LIMIT 10");
+	$response=Excecuter($bd,"SELECT organisme AS playerid,COUNT(num_EC) AS score  FROM ProtSeq GROUP BY organisme ORDER BY score DESC LIMIT 10");
 	
 	//loop through the returned data
 	$data = array();

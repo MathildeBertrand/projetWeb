@@ -38,6 +38,8 @@ try
 		<title> Statistics </title>
 		<link rel="stylesheet" href="../css/bootstrap.min.css" />
 		<link rel="stylesheet" href="../css/MyStylesheet.css" />
+		<script type="text/javascript" src="../js/jquery-2.1.4.min.js"></script>
+		<script type="text/javascript" src="../js/Chart.js"></script>
 		<script src="../js/Chart.min.js"></script>
 	</head>
 	
@@ -165,8 +167,8 @@ try
 			<strong><FONT id='Top'>The 10 most Popular enzymes</FONT></strong><br>
 			<div id="chart-container">
 			
-			<canvas id="mycanvas0" width="300" height="200"></canvas>
-		</div>
+			<canvas id="mycanvas0" width="800" height="300"></canvas>
+		</div></center>
 		
 		<script type="text/javascript" src="../js/graph_top.js"></script>
 		
@@ -177,16 +179,24 @@ try
 		<img src="data_publi.php" alt="Graphique JPGraph">
 		
 		<!--Nombre de synonymes par enzyme -->
+		<div id="chart-container" style="float:right;" margin-left="50;" >
 		<img src="testgraph.php" alt="Graphique JPGraph">
+		</div>
 	
-		
+		</center>
+	
 		
 		<!--Nombre de denzymes par organisme -->
+		<img src="data_orga.php" alt="Graphique JPGraph" width="250" height="550">
+		<div id="chart-container" style="float:right;" margin-left="50;" >
+				<strong><FONT id='orgaa'>The 10 first organisms that have the most number of enzymes : </strong></FONT><br><br><br><br><br><br><br>
+				<canvas id="mycanvasLast" width="700" height="300"></canvas>
+			
+			<script type="text/javascript" src="../js/graph_top_orga.js"></script>
+		</div>
 		
-		<img src="data_orga.php" alt="Graphique JPGraph">
-	
-		
-		</center>
+		<br><br>
+
 		<!--Nombre de maladies par enzyme -->
 		
 		<center>
@@ -195,7 +205,7 @@ try
 
 			<canvas id="mycanvas2" width="1000" height="400"></canvas>
 		</div>	
-		<script type="text/javascript" src="../js/disease.js"></script>
+			<script type="text/javascript" src="../js/disease.js"></script>
 		
 		<br><br>
 		

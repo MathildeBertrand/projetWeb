@@ -51,7 +51,7 @@ try
 	$graph->SetMarginColor('lightblue');
 	$graph->xaxis->Hide();
 
-	$graph->xaxis->SetLabelMargin(60);
+	$graph->xaxis->SetLabelMargin(10);
 
 	//$graph->yaxis->SetTickLabels($datay);
 	$graph->yaxis->scale->SetGrace(15);
