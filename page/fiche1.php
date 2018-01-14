@@ -75,26 +75,66 @@ try
 <?php
 if(isset ($_SESSION['mail'])){
 	$mail=$_SESSION['mail'];
+	echo "<a href='../includes/logout.inc.php'><img class='icon-logout' src='../img/logout.png'/></a>
+									<li><a href='./myAccount.php'>Customer Area</a></li>";
+						 
 	if ($_GET['type']=="EC"){
 		$num_EC=$_GET['type']." ".$_GET['val'];
-		$bd->query("INSERT INTO History(mail,num_EC) VALUES ('".$mail."','".$num_EC."')");
+
+		//On test si cest bien un enzyme ; 
+		if((stripos($_GET['val'], 'EC') !== FALSE) ){ //On test le nom de lenzyme (si contient EC ou pas)
+			$response=Excecuter($bd,"SELECT * FROM Enzyme WHERE Enzyme.num_EC='".$_GET['val']."'");
+			
+		}else{
+			$response=Excecuter($bd,"SELECT * FROM Enzyme WHERE Enzyme.num_EC='EC ".$_GET['val']."'");
+		}	
+
+		if($data =$response->fetch(PDO::FETCH_ASSOC)){ //Si on a rentre le bon truc alors on remplit la table History
+			$bd->query("INSERT INTO History(mail,num_EC) VALUES ('".$mail."','".$num_EC."')");
+		}else{}//Sinon on ne fait rien
+
 	}elseif ($_GET['type']=="Cofactor"){
 		$cofactor=$_GET['val'];
-		$bd->query("INSERT INTO History(mail,cofactor) VALUES ('".$mail."','".$cofactor."')");
-	}elseif ($_GET['type']=="Disease"){
-		$disease=$_GET['val'];
-		$bd->query("INSERT INTO History(mail,disease_name) VALUES ('".$mail."','".$disease."')");
+
+		//On test si le cofacteur est bien un cofacteur : 
+
+		$response=Excecuter($bd,"Select num_EC FROM Enzyme WHERE cofactor like '%".$_GET['val']."%' OR cofactor like '".$_GET['val']."%' OR cofactor like '%".$_GET['val']."' OR  cofactor='".$_GET['val']."' ORDER BY num_EC");
+
+		if($data =$response->fetch(PDO::FETCH_ASSOC)){ //Si on a rentre le bon truc alors on remplit la table History
+			$bd->query("INSERT INTO History(mail,cofactor) VALUES ('".$mail."','".$cofactor."')");
+		}else{}//Sinon on ne fait rien
+
+	//}elseif ($_GET['type']=="Disease"){
+	//	$disease=$_GET['val'];
+	//	$bd->query("INSERT INTO History(mail,disease_name) VALUES ('".$mail."','".$disease."')");
 	}elseif ($_GET['type']=="Protein family"){
 		$protF=$_GET['val'];
-		$bd->query("INSERT INTO History(mail,family) VALUES ('".$mail."','".$protF."')");
+
+		//Verification : 
+		$response=Excecuter($bd,"Select num_EC FROM Family WHERE PROSITE='".$_GET['val']."'");
+			if($data =$response->fetch(PDO::FETCH_ASSOC)){ 
+				$bd->query("INSERT INTO History(mail,family) VALUES ('".$mail."','".$protF."')");
+			}
+
 	}elseif ($_GET['type']=="Name"){
 		$name=$_GET['val'];
-		$bd->query("INSERT INTO History(mail,Name) VALUES ('".$mail."','".$name."')");
+
+		//Verfication : 
+		$response=Excecuter($bd,"Select num_EC FROM Family WHERE PROSITE='".$_GET['val']."'");
+		if($data =$response->fetch(PDO::FETCH_ASSOC)){ 
+			$bd->query("INSERT INTO History(mail,Name) VALUES ('".$mail."','".$name."')");
+		}
+
 	}elseif($_GET['type']=="Protein sequence"){
 		$protSeq=$_GET['val'];
-		$bd->query("INSERT INTO History(mail,ProtSeq) VALUES ('".$mail."','".$protSeq."')");
+
+		//Verification : 
+		$response=Excecuter($bd,"Select num_EC FROM ProtSeq WHERE SP_id='".$_GET['val']."' OR SP_name='".$_GET['val']."'"); 
+		if($data =$response->fetch(PDO::FETCH_ASSOC)){
+			$bd->query("INSERT INTO History(mail,ProtSeq) VALUES ('".$mail."','".$protSeq."')");
+		}
 	}
-}
+} 
 	
 											
 	Excecuter2($bd,"INSERT INTO History(mail,num_EC, cofactor, disease_name, family, ProtSeq, Name)  VALUES ('".$mail."','".$history."')");

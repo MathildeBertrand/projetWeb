@@ -58,15 +58,22 @@ try
 				<div>
 					<ul class="nav navbar-nav">
 						<li><a href="../index.php">Home</a></li>
-						<li ><a href="#">About us</a></li>
+						<li ><a href="./aboutUs.php">About us</a></li>
 						<li class="active"><a href="./ExplorationBD.php">Exploration BD</a></li>
-						<li><a href="./faq.html">FAQ</a></li>
-						<li><a href="./contact.html">Contact</a></li>
+						<li><a href="./faq.php">FAQ</a></li>
+						<li><a href="./contact.php">Contact</a></li>
 					</ul>	
 					<ul class="nav navbar-nav navbar-right">
-						<img src="../img/user1.png"  width="35"/>
-						<li><a href="./login.php"> log in</a></li>
-					</ul>
+						<?php
+						if (isset($_SESSION['mail'])){
+							echo "<a href='../includes/logout.inc.php'><img class='icon-logout' src='../img/logout.png'/></a>
+									<li><a href='./myAccount.php'>Customer Area</a></li>";
+						  }else{
+							  echo "<img src='../img/user1.png'  width='35'/>
+									<li><a href='./login.php'> Log in</a></li>";
+						  }
+						?>
+						</ul>
 				</div>
 					
 			</div>
@@ -211,16 +218,17 @@ try
 
 		<!--Nombre de maladies par enzyme -->
 		
-		<center>
-			<strong><FONT id='Diseases'>Number of disease per Enzyme </strong></FONT>
-			<div id="chart-container">
+		</center>
+		<strong><FONT id='Diseases'>Number of disease per Enzyme  : </strong>0</FONT>
+			
+			<!--<div id="chart-container">
 
 			<canvas id="mycanvas2" width="1000" height="400"></canvas>
 		</div>	
 			<script type="text/javascript" src="../js/disease.js"></script>
-		
+		-->
 		<br><br>
-		
+		<center>
 		<!--Data coverage -->
 
 		<strong><FONT id='Top'> Data covergae  </FONT></strong><br>
