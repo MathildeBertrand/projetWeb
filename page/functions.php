@@ -132,3 +132,6 @@ function fond (){
 	<?php
 }
 
+	
+
+

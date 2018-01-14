@@ -2,7 +2,7 @@
 
 <?php
 session_start();
-//~ include_once 'includes/dbh.inc.php';
+include_once 'includes/dbh.inc.php';
 ///////////////////////////////////////////////////////////////////////////////
 //Fichier qui permet de realiser linterface (page dacceuil)////////////////////
 ///////////////////////////////////////////////////////////////////////////////
@@ -106,7 +106,7 @@ fclose($file);
 											document.getElementById('bouton').disabled=false;
 									 
 										}else{
-											document.getElementById('bouton').disabled=true;
+											document.getElementById('bouton').disabled=false;
 											open('page/fiche1.php?val='+document.getElementById('txt').value +' &type=' +document.getElementById('liste').value,'_self');
 										}
 									}

@@ -18,12 +18,10 @@ include_once '../includes/dbh.inc.php';
 		$sql="SELECT * FROM Users WHERE mail!='$mail';";
 		$result=$bd->query($sql);
 		while ($row=$result->fetch()){
-			$mailname=explode('.',$row['mail']);
-			$mailname=explode('@',$mailname)[0].explode('@',$mailname)[1];
+			$id=$row['id'];
 			$name=$row['nom']." ".$row['prenom'];
-			echo "<div class='name'><a href=./otherAccount.php?user=$mailname>$name</a></div>";
-		}
-		
+			echo "<div class='name'><a href=./otherAccount.php?user=$id>$name</a></div>";
+		}	
 		?>
 	</body>
 </html>

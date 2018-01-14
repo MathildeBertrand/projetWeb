@@ -49,9 +49,9 @@ try
 					<!-- Menu items -->
 					<div>
 						<ul class="nav navbar-nav">
-							<li><a href="../index.php">Home</a></li>
+							<li class="active"><a href="../index.php">Home</a></li>
 							<li><a href="./aboutUs.php">About us</a></li>
-							<li class="active"><a href="ExplorationBD.php">Exploration BD</a></li>
+							<li ><a href="ExplorationBD.php">Exploration BD</a></li>
 							<li><a href="./faq.php">FAQ</a></li>
 							<li><a href="./contact.php">Contact</a></li>
 						</ul>	
@@ -108,6 +108,7 @@ if(isset ($_SESSION['mail'])){
 		
 		if((stripos($_GET['val'], 'EC') !== FALSE) ){ //On test le nom de lenzyme (si contient EC ou pas)
 			$response=Excecuter($bd,"SELECT Enzyme.o_name,Enzyme.num_EC,Enzyme.accepted_name FROM Enzyme WHERE Enzyme.num_EC='".$_GET['val']."'");
+			
 		}else{
 			$response=Excecuter($bd,"SELECT Enzyme.o_name,Enzyme.num_EC,Enzyme.accepted_name FROM Enzyme WHERE Enzyme.num_EC='EC ".$_GET['val']."'");
 		}	
@@ -155,7 +156,7 @@ if(isset ($_SESSION['mail'])){
 		<?php
 		
 		//Resume sur lenzyme ----------------------------------------------------------------------------------------------------------------------
-		while($data =$response->fetch()){ //On boucle pour recuperer o_name,num_EC et accpeted_name
+		if($data =$response->fetch()){ //On boucle pour recuperer o_name,num_EC et accpeted_name
 					
 					//On remplit la table TopEnzyme
 					Excecuter2($bd,"INSERT INTO TopEnzyme(num_EC) VALUES ('".$data['num_EC']."')");
@@ -171,14 +172,22 @@ if(isset ($_SESSION['mail'])){
 						
 						<strong><FONT size="6" color="#DB0073" id="Abstract"><strong>Abstract</FONT></strong><br>
 						<hR  width="100%" >
-						<FONT color="#048B9A">accepted_name</FONT></strong> : <?php echo $data['accepted_name']; ?> <br>
-						<FONT color="#048B9A"><strong>o_name</FONT></strong>: <?php echo $data['o_name']; ?><br>
-						<FONT color="#048B9A"><strong>synonym</FONT></strong>:
+						<FONT color="#048B9A" size="3">Accepted_name</FONT></strong> : <?php echo $data['accepted_name']; ?> <br>
+						<FONT color="#048B9A" size="3"><strong>O_name</FONT></strong>: <?php echo $data['o_name']; ?><br>
+						<FONT color="#048B9A" size="3"><strong>Synonyms</FONT></strong>:
 						
 				<?php 
 						$EC=$data['num_EC'];
 						$a_name=$data['accepted_name'];
 						$o_name=$data['o_name'];
+
+				}else{
+					?>
+					<div class="contenu">
+					<div class="jumbotron_enzyme">
+						<strong><FONT size="9">Sorry, not in the database</strong>  <?php echo $data['num_EC']; ?></FONT><br><br>							
+					</div>
+					<?php
 				}
 		
 			//Les synonyms
@@ -206,11 +215,11 @@ if(isset ($_SESSION['mail'])){
 			?>
 			<br><br>
 				
-					<center><FONT color="#048B9A"><strong>Reaction</FONT></strong> : <?php echo $data['reaction'];?> </center> <br>
+					<FONT color="#048B9A" size="3"><strong>Reaction</FONT></strong> : <?php echo $data['reaction'];?> <br><br>
 					<?php //On regarde si la chaine de cofactor est vide et si non, on ecrit les cofactor associes a lenzyme
 					$str2='';
 					if (strcmp ($data['cofactor'], $str2 )!=0){ 
-					?><FONT color="#048B9A"><strong>Cofactors</FONT></strong> : <?php echo $data['cofactor'];?><br>
+					?><FONT color="#048B9A" size="3"><strong>Cofactors</FONT></strong> : <?php echo $data['cofactor'];?><br>
 					
 				
 			<?php }
@@ -224,21 +233,33 @@ if(isset ($_SESSION['mail'])){
 			$response=Excecuter($bd,"SELECT DISTINCT comment FROM Comments WHERE num_EC='EC ". $_GET['val']."'");
 		}
 		
-		?><br> <FONT color="#048B9A"><strong>Comments</FONT></strong> :<?php
 		
-		while($data =$response->fetch(PDO::FETCH_ASSOC)){
-			?>
+		if($data =$response->fetch(PDO::FETCH_ASSOC)){ // Si on a rentre le bon truc
+			?><br> <FONT color="#048B9A" size="3"><strong>Comments</FONT></strong> :<?php
+			if((stripos($_GET['val'], 'EC') !== FALSE) ){	
+			$response=Excecuter($bd,"SELECT DISTINCT comment FROM Comments WHERE num_EC='". $_GET['val']."'"); 
+			}else{
+				$response=Excecuter($bd,"SELECT DISTINCT comment FROM Comments WHERE num_EC='EC ". $_GET['val']."'");
+			}
 			
-			<?php //On regarde si la chaine de commentaire est vide et si non, on ecrit les comments associes a lenzyme
-			$str2='';
-			if (strcmp ($data['comment'], $str2 )!=0){ 
+			while($data =$response->fetch(PDO::FETCH_ASSOC)){
+				?>
 				
-				echo $data['comment'];}?>
-			<br><br>
-			
-			<?php
-		}	
-			
+				<?php //On regarde si la chaine de commentaire est vide et si non, on ecrit les comments associes a lenzyme
+				$str2='';
+				if (strcmp ($data['comment'], $str2 )!=0){ 
+					
+					echo $data['comment'];}?>
+				<br>
+				
+				<?php	
+			}
+
+		}else{ //Si on rentre nimporte quoi, on affiche rien
+		}
+		?>
+		<br> 
+		<?php 
 		//History----------------------------------------------------------------------------------------------------------------------
 		
 		if((stripos($_GET['val'], 'EC') !== FALSE) ){	
@@ -255,141 +276,150 @@ if(isset ($_SESSION['mail'])){
 			<?php echo $data['history']; 
 
 		}	
+
 		//Lensemble des publications----------------------------------------------------------------------------------------------------------------------
 		
-					//On les range dans des tableaux
-		?> <br><br>
-		<FONT size="6" color="#DB0073" id="Publications"><strong>Publications</FONT></strong>
-		<hr ><br>
-		<center><table border="1" width="1000" >
-			<tr>
-				<td><strong>Title</strong></td>
-				<td><strong>Authors</strong></td>
-				<td><strong>First_page</strong></td>
-				<td><strong>Last_page</strong></td>
-				<td><strong>volume</strong></td>
-				<td><strong>year</strong></td>
-				<td><strong>pubmed</strong></td>
-			</tr>
-			
-			<?php	
-			
-			if((stripos($_GET['val'], 'EC') !== FALSE) ){				
+		if((stripos($_GET['val'], 'EC') !== FALSE) ){				
 				$response=Excecuter($bd,"SELECT * FROM Publication WHERE num_EC='".$_GET['val']."'ORDER BY titre"); 
-			}else{
+		}else{
 				$response=Excecuter($bd,"SELECT * FROM Publication WHERE num_EC='EC ".$_GET['val']."'ORDER BY titre");
-			}	
-			
-			while($data =$response->fetch(PDO::FETCH_ASSOC)){
-				?>
+		}	
+				
+		if($data =$response->fetch(PDO::FETCH_ASSOC)){ //Si on a rentre le bon truc
+			//On les range dans des tableaux
+			?> <br><br>
+			<FONT size="6" color="#DB0073" id="Publications"><strong>Publications</FONT></strong>
+			<hr ><br>
+			<center><table border="1" width="1000" >
 				<tr>
-					<td> <?php echo $data['titre']; ?></td>
-					<td> <?php echo $data['auteurs']; ?></td>
+					<td><strong>Title</strong></td>
+					<td><strong>Authors</strong></td>
+					<td><strong>First_page</strong></td>
+					<td><strong>Last_page</strong></td>
+					<td><strong>volume</strong></td>
+					<td><strong>year</strong></td>
+					<td><strong>pubmed</strong></td>
+				</tr>
+			
+				<?php	
+				if((stripos($_GET['val'], 'EC') !== FALSE) ){				
+					$response=Excecuter($bd,"SELECT * FROM Publication WHERE num_EC='".$_GET['val']."'ORDER BY titre"); 
+				}else{
+					$response=Excecuter($bd,"SELECT * FROM Publication WHERE num_EC='EC ".$_GET['val']."'ORDER BY titre");
+				}	
 				
-				<?php
-				//On test : si on a des valeurs =0, cest que lon a pas dinformation dessus
-				if ($data['first_page'] !=0){ ?> <td> <?php echo $data['first_page'];?> </td> <?php }
-				if ($data['last_page'] !=0){ ?> <td> <?php echo $data['last_page']; ?></td> <?php } 
-				if ($data['volume'] !=0){ ?> <td> <?php echo $data['volume'];?> </td> <?php }
-				if($data['year'] !=0){ ?> <td> <?php echo $data['year'];?> </td> <?php }
-				if($data['pubmed'] !=0){ ?> <td><a href="https://www.ncbi.nlm.nih.gov/pubmed/?term=<?php echo $data['pubmed'];?>"> <?php echo $data['pubmed'];?> </td></a>  <?php 
-				}
-	
-				
-			} ?></table></center><?php
+				while($data =$response->fetch(PDO::FETCH_ASSOC)){
+					?>
+					<tr>
+						<td> <?php echo $data['titre']; ?></td>
+						<td> <?php echo $data['auteurs']; ?></td>
+					
+					<?php //On test : si on a des valeurs =0, cest que lon a pas dinformation dessus
+					if ($data['first_page'] !=0){ ?> <td> <?php echo $data['first_page'];?> </td> <?php }
+					if ($data['last_page'] !=0){ ?> <td> <?php echo $data['last_page']; ?></td> <?php } 
+					if ($data['volume'] !=0){ ?> <td> <?php echo $data['volume'];?> </td> <?php }
+					if($data['year'] !=0){ ?> <td> <?php echo $data['year'];?> </td> <?php }
+					if($data['pubmed'] !=0){ ?> <td><a href="https://www.ncbi.nlm.nih.gov/pubmed/?term=<?php echo $data['pubmed'];?>"> <?php echo $data['pubmed'];?> </td></a>  <?php 
+					}
+			} ?></table></center><?php 
+
+		}else{ //Si on a rentre nimporte quoi 
+
+		}
 			
 		
 		//Les Familles proteiques--------------------------------------------------------------------------------------------------------
-		
-		?>
-			<br><br>
-			<FONT size="6" color="#DB0073" id="PROSITE"><strong>Protein Family (PROSITE)</FONT></strong>
-			<hr  width="100%"><br>
-		
-		<?php
 		
 		if((stripos($_GET['val'], 'EC') !== FALSE) ){	
 			$response=Excecuter($bd,"SELECT PROSITE FROM Family WHERE num_EC='".$_GET['val']."'"); 
 		}else{
 			$response=Excecuter($bd,"SELECT PROSITE FROM Family WHERE num_EC='EC ".$_GET['val']."'");
 		}	
-		
-		$cpt=0;
-		while($data =$response->fetch(PDO::FETCH_ASSOC)){
-			$cpt++;
-			?>
-			<a href="https://prosite.expasy.org/<?php echo $data['PROSITE'];?>">	<?php echo $data['PROSITE']; echo " ; ";?></a>  <?php
-		}
-		if($data['PROSITE'] ==FALSE && $cpt==0){ //Si les numeros ne sont pas dans la base
-				echo 'Nothing in the Database';
-		}
+
+		if($data =$response->fetch(PDO::FETCH_ASSOC)){
+				?>
+				<br><br>
+				<FONT size="6" color="#DB0073" id="PROSITE"><strong>Protein Family (PROSITE)</FONT></strong>
+				<hr  width="100%"><br>
 			
+			<?php
+			if((stripos($_GET['val'], 'EC') !== FALSE) ){	
+				$response=Excecuter($bd,"SELECT PROSITE FROM Family WHERE num_EC='".$_GET['val']."'"); 
+			}else{
+				$response=Excecuter($bd,"SELECT PROSITE FROM Family WHERE num_EC='EC ".$_GET['val']."'");
+			}	
+			
+			$cpt=0;
+			while($data =$response->fetch(PDO::FETCH_ASSOC)){
+				$cpt++;
+				?>
+				<a href="https://prosite.expasy.org/<?php echo $data['PROSITE'];?>">	<?php echo $data['PROSITE']; echo " ; ";?></a>  <?php
+			}
+			if($data['PROSITE'] ==FALSE && $cpt==0){ //Si les numeros ne sont pas dans la base
+					echo 'Nothing in the Database';
+			}
+				
+			}else{
+			}
 		
-	
 		//Les Sequences proteiques--------------------------------------------------------------------------------------------------------
 		
-		?><br><br>
-		<FONT size="6" color="#DB0073" id="SP"><strong>Protein Sequence (SP)</UL></FONT></strong>
-		<hr  width="100%"><br>
-		
-		<?php
 		//Test de la syntaxe de EC
 		if((stripos($_GET['val'], 'EC') !== FALSE) ){	
 			$response=Excecuter($bd,"SELECT * FROM ProtSeq WHERE num_EC='".$_GET['val']."' ORDER BY organisme"); 
 		}else{
 			$response=Excecuter($bd,"SELECT * FROM ProtSeq WHERE num_EC='EC ".$_GET['val']."'ORDER BY organisme");
 		}
-		
-		//Affichage des resultats sous forme dun tableau
-		
-		?>
-		<center><table border="1" width="1000" id="ma_table">
-			<tr>
-				
-				<td><strong>Organism</strong></td>
-				<td><strong>Chain</strong></td>
-				<td><strong>Name</strong></td>
-				<td><strong>Key</strong></td>
-				
-			</tr>
-		
-		<?php	
-		
-		$cpt=0;
-		while($data =$response->fetch(PDO::FETCH_ASSOC)){
-			$cpt++;
-			?>		
+
+		if($data =$response->fetch(PDO::FETCH_ASSOC)){
+			?><br><br>
+			<FONT size="6" color="#DB0073" id="SP"><strong>Protein Sequence (SP)</UL></FONT></strong>
+			<hr  width="100%"><br>
+			
+			<?php
+			if((stripos($_GET['val'], 'EC') !== FALSE) ){	
+				$response=Excecuter($bd,"SELECT * FROM ProtSeq WHERE num_EC='".$_GET['val']."' ORDER BY organisme"); 
+			}else{
+				$response=Excecuter($bd,"SELECT * FROM ProtSeq WHERE num_EC='EC ".$_GET['val']."'ORDER BY organisme");
+			}
+			
+			//Affichage des resultats sous forme dun tableau
+			?><center><table border="1" width="1000" id="ma_table">
 				<tr>
-					 <td><?php echo $data['organisme'];?></td>
-					  <td><?php echo $data['chain']; ?> </td>
-					  <td><?php echo $data['SP_name']; ?></a>  </td>
-					 <td><a href="http://www.uniprot.org/uniprot/<?php echo $data['SP_id'];?>">	<?php echo $data['SP_id']; ?></a>  </td>
+					<td><strong>Organism</strong></td>
+					<td><strong>Chain</strong></td>
+					<td><strong>Name</strong></td>
+					<td><strong>Key</strong></td>
 				</tr>
+			<?php	
+			
+			$cpt=0;
+			while($data =$response->fetch(PDO::FETCH_ASSOC)){
+				$cpt++;
+				?>		
+					<tr>
+						 <td><?php echo $data['organisme'];?></td>
+						  <td><?php echo $data['chain']; ?> </td>
+						  <td><?php echo $data['SP_name']; ?></a>  </td>
+						 <td><a href="http://www.uniprot.org/uniprot/<?php echo $data['SP_id'];?>">	<?php echo $data['SP_id']; ?></a>  </td>
+					</tr>
+			<?php } ?></table></center>	
 		<?php
-		}
-		
-		?></table></center>	
-		
-		
-		
-		<?php
+
 		if($data['SP_name'] ==FALSE && $cpt==0){ //Si pas dinfos concernant le SP, alors on supprime le tableau
 				
 				echo 'Nothing in the Database';
-		}
-		?>	
-		</div>
-		<?php
+		} ?>	</div>
+		<?php }else{ }
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 //////////////////////////Si on rentre un cofacteur///////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	}else if ($_GET['type']=='Cofactor'){ 
-			$response=Excecuter($bd,"Select num_EC FROM Enzyme WHERE cofactor='".$_GET['val']."'");
-			
+			$response=Excecuter($bd,"Select num_EC FROM Enzyme WHERE cofactor like '%".$_GET['val']."%' OR cofactor like '".$_GET['val']."%' OR cofactor like '%".$_GET['val']."' OR  cofactor='".$_GET['val']."' ORDER BY num_EC");
 			?>
 			<div class="menu">
-				
 				<u><strong><FONT size="6">Links</FONT></u></strong> <br>
 					<center>
 						<a href=https://www.ncbi.nlm.nih.gov/pubmed><img src="../img/pubmed.png"  width="100"/></a><br><br>
@@ -399,12 +429,19 @@ if(isset ($_SESSION['mail'])){
 			</div>
 			<div class="contenu">
 					<div class="jumbotron_enzyme">
-						<strong><FONT size="6">Enzymes that use the cofactor <?php echo $_GET['val']?></strong><br><br> 
-					</div><?php
-						while($data =$response->fetch(PDO::FETCH_ASSOC)){ //Si on clique sur une enzyme, on peut avoir sa fiche descriptive
-							?><strong><FONT size="6">ENZYME</strong> :<a href="fiche1.php?val=<?php echo $data['num_EC']; ?> &type=EC"> <?php echo $data['num_EC']; ?></a></FONT><br>		
-			<?php } ?>
-			</div> <?php
+					<?php	$response=Excecuter($bd,"Select num_EC FROM Enzyme WHERE cofactor like '%".$_GET['val']."%' OR cofactor like '".$_GET['val']."%' OR cofactor like '%".$_GET['val']."' OR  cofactor='".$_GET['val']."' ORDER BY num_EC");
+					if($data =$response->fetch(PDO::FETCH_ASSOC)){ 
+							?>
+								<strong><FONT size="6">Enzymes that use the cofactor <?php echo $_GET['val']?></strong><br><br> 
+							</div><?php
+								while($data =$response->fetch(PDO::FETCH_ASSOC)){ //Si on clique sur une enzyme, on peut avoir sa fiche descriptive
+									?><strong><FONT size="6">ENZYME</strong> :<a href="fiche1.php?val=<?php echo $data['num_EC']; ?> &type=EC"> <?php echo $data['num_EC']; ?></a></FONT><br>		
+					<?php } ?>
+					</div> <?php
+				}else{?>
+						<strong><FONT size="6">Sorry, <?php echo $_GET['val']?> is not in the database</strong><br><br>
+					<?php }
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////Si on rentre une maladie ///////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -416,8 +453,8 @@ if(isset ($_SESSION['mail'])){
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////			
 //////////////////////////Si on rentre un Names //////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	}else if ($_GET['type']=='Names'){
-			
 			?>
 			<div class="menu">
 				<u><strong><FONT size="6">Links</FONT></u></strong> <br>
@@ -428,26 +465,40 @@ if(isset ($_SESSION['mail'])){
 					</center>
 			</div>
 			
-			<div class="contenu">
+			<?php
+			
+			$response=Excecuter($bd,"Select Names.num_EC FROM Names WHERE  Names.synonym_name='".$_GET['val']."' ORDER BY num_EC");
+			if($data =$response->fetch(PDO::FETCH_ASSOC)){ 
+				?>
+				<div class="contenu">
 					<div class="jumbotron_enzyme">
 						<strong><FONT size="6">Enzyme that have the name <?php echo $_GET['val']?></strong><br><br> 
-					</div><?php
+					</div>
+
+
+				<?php
+				$response=Excecuter($bd,"Select Names.num_EC FROM Names WHERE  Names.synonym_name='".$_GET['val']."' ORDER BY num_EC");
+				while($data =$response->fetch(PDO::FETCH_ASSOC)){ //Si on clique sur une enzyme, on peut avoir sa fiche descriptive
+					?><strong><FONT size="6">ENZYME</strong> :<a href="fiche1.php?val=<?php echo $data['num_EC']; ?> &type=EC"> <?php echo $data['num_EC']; ?></a></FONT><br><?php 
+				}
+				
+				$response=Excecuter($bd,"Select num_EC FROM Enzyme WHERE accepted_name='".$_GET['val']."' OR o_name='".$_GET['val']."'");
+				while($data =$response->fetch(PDO::FETCH_ASSOC)){ //Si on clique sur une enzyme, on peut avoir sa fiche descriptive
+					?><strong><FONT size="6">ENZYME</strong> :<a href="fiche1.php?val=<?php echo $data['num_EC']; ?> &type=EC"> <?php echo $data['num_EC']; ?></a></FONT><br><?php }?>
+				</div>
 			
-			$response=Excecuter($bd,"Select num_EC FROM Names WHERE Names.synonym_name='".$_GET['val']."'");
-			while($data =$response->fetch(PDO::FETCH_ASSOC)){ //Si on clique sur une enzyme, on peut avoir sa fiche descriptive
-				?><strong><FONT size="6">ENZYME</strong> :<a href="fiche1.php?val=<?php echo $data['num_EC']; ?> &type=EC"> <?php echo $data['num_EC']; ?></a></FONT><br><?php 
-			}
-			
-			$response=Excecuter($bd,"Select num_EC FROM Enzyme WHERE accepted_name='".$_GET['val']."' OR o_name='".$_GET['val']."'");
-			while($data =$response->fetch(PDO::FETCH_ASSOC)){ //Si on clique sur une enzyme, on peut avoir sa fiche descriptive
-				?><strong><FONT size="6">ENZYME</strong> :<a href="fiche1.php?val=<?php echo $data['num_EC']; ?> &type=EC"> <?php echo $data['num_EC']; ?></a></FONT><br><?php 
-			}
-		?></div> <?php
+			 <?php }else{ ?>
+			 <div class="contenu">
+					<div class="jumbotron_enzyme">
+						<strong><FONT size="6">Sorry <?php echo $_GET['val']?> is not a Name</strong><br><br> 
+					</div>
+				<?php }
 			
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////Si on rentre un Protein Family /////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	}else if ($_GET['type']=='Protein family'){
 		?>
 			<div class="menu">
@@ -459,18 +510,31 @@ if(isset ($_SESSION['mail'])){
 					</center>
 			</div>
 			
-			<div class="contenu">
-					<div class="jumbotron_enzyme">
-						<strong><FONT size="6">Enzyme in the same protein Family <?php echo $_GET['val']?></strong><br><br> 
-					</div><?php
-					$response=Excecuter($bd,"Select num_EC FROM Family WHERE PROSITE='".$_GET['val']."'");
-					while($data =$response->fetch(PDO::FETCH_ASSOC)){ //Si on clique sur une enzyme, on peut avoir sa fiche descriptive
-						?><strong><FONT size="6">ENZYME</strong> :<a href="fiche1.php?val=<?php echo $data['num_EC']; ?> &type=EC"> <?php echo $data['num_EC']; ?></a></FONT><br><?php 
+			<?php
+			$response=Excecuter($bd,"Select num_EC FROM Family WHERE PROSITE='".$_GET['val']."'");
+
+			if($data =$response->fetch(PDO::FETCH_ASSOC)){ 
+				?>
+				<div class="contenu">
+						<div class="jumbotron_enzyme">
+							<strong><FONT size="6">Enzyme in the same protein Family <?php echo $_GET['val']?></strong><br><br> 
+						</div><?php
+						$response=Excecuter($bd,"Select num_EC FROM Family WHERE PROSITE='".$_GET['val']."'");
+						while($data =$response->fetch(PDO::FETCH_ASSOC)){ //Si on clique sur une enzyme, on peut avoir sa fiche descriptive
+							?><strong><FONT size="6">ENZYME</strong> :<a href="fiche1.php?val=<?php echo $data['num_EC']; ?> &type=EC"> <?php echo $data['num_EC']; ?></a></FONT><br><?php 
+				}
+				?></div> <?php
+			}else{
+				?>
+				<div class="contenu">
+						<div class="jumbotron_enzyme">
+							<strong><FONT size="6">Sorry <?php echo $_GET['val']?> is not in the database</strong><br><br> 
+						</div><?php
 			}
-			?></div> <?php
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////Si on rentre un SP//////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	}else if ($_GET['type']=='Protein sequence'){
 		?>
 			<div class="menu">
@@ -482,16 +546,26 @@ if(isset ($_SESSION['mail'])){
 					</center>
 			</div>
 			
-			<div class="contenu">
-					<div class="jumbotron_enzyme">
-						<strong><FONT size="6">Enzyme in the same protein Family <?php echo $_GET['val']?></strong><br><br> 
-					</div><?php
-					$response=Excecuter($bd,"Select num_EC FROM ProtSeq WHERE SP_id='".$_GET['val']."' OR SP_name='".$_GET['val']."'");
-					while($data =$response->fetch(PDO::FETCH_ASSOC)){ //Si on clique sur une enzyme, on peut avoir sa fiche descriptive
-						?><strong><FONT size="6">ENZYME</strong> :<a href="fiche1.php?val=<?php echo $data['num_EC']; ?> &type=EC"> <?php echo $data['num_EC']; ?></a></FONT><br><?php 
-					}
-			?></div> <?php
-					
+
+			<?php $response=Excecuter($bd,"Select num_EC FROM ProtSeq WHERE SP_id='".$_GET['val']."' OR SP_name='".$_GET['val']."'"); 
+
+			if($data =$response->fetch(PDO::FETCH_ASSOC)){ ?>
+				<div class="contenu">
+						<div class="jumbotron_enzyme">
+							<strong><FONT size="6">Enzyme in the same protein Family <?php echo $_GET['val']?></strong><br><br> 
+						</div><?php
+						$response=Excecuter($bd,"Select num_EC FROM ProtSeq WHERE SP_id='".$_GET['val']."' OR SP_name='".$_GET['val']."'");
+						while($data =$response->fetch(PDO::FETCH_ASSOC)){ //Si on clique sur une enzyme, on peut avoir sa fiche descriptive
+							?><strong><FONT size="6">ENZYME</strong> :<a href="fiche1.php?val=<?php echo $data['num_EC']; ?> &type=EC"> <?php echo $data['num_EC']; ?></a></FONT><br><?php 
+						}
+				?></div> <?php
+				}else{
+					?>
+					<div class="contenu">
+							<div class="jumbotron_enzyme">
+								<strong><FONT size="6">Sorry <?php echo $_GET['val']?> is not in the database</strong><br><br> 
+							</div><?php
+				}
 	}
 
 ?>

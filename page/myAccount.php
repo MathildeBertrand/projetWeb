@@ -14,9 +14,11 @@ include_once '../includes/dbh.inc.php';
 			var numCom=3;
 			$(document).ready(function(){	
 				$('#show').click(function(){
+					var user = location.search.split('user=')[1];
 					numCom=numCom+2;
 					$('#comments').load('./showCom.php',{
-						postnumCom:numCom
+						postnumCom:numCom,
+						postuser:user
 					});
 				});
 
@@ -35,10 +37,11 @@ include_once '../includes/dbh.inc.php';
 						success: function(data){
 							$("#inputcomment").val('');
 							$("#comments").prepend(data);
-							numCom=numCom+1;
+							//~ numCom=numCom+1;
 						}
 					});
 				});
+				
 			});
 		</script>
 	</head>
@@ -64,11 +67,17 @@ include_once '../includes/dbh.inc.php';
 						<ul class="nav navbar-nav navbar-right">
 							<?php
 						if (isset($_SESSION['mail'])){
+							$mail=$_SESSION['mail'];
+							$sql="SELECT id FROM Users WHERE mail='$mail';";
+							$result = $bd->prepare($sql); 
+							$result->execute();
+							while ($row = $result->fetch(PDO::FETCH_ASSOC)){
+								$id=$row['id'];
+							}
 							echo "<a href='../includes/logout.inc.php'><img class='icon-logout' src='../img/logout.png'/></a>
-									<li><a href='./myAccount.php'>Customer Area</a></li>";
+									<li><a href=./myAccount.php?user=$id>Customer Area</a></li>";
 						  }else{
-							  echo "<img src='../img/user1.png'  width='35'/>
-									<li><a href='../page/login.php'> Log in</a></li>";
+							  header('location: ./login.php?=expiration');
 						  }
 						?>
 							
@@ -81,7 +90,19 @@ include_once '../includes/dbh.inc.php';
 			<div class="jumbotron jumbotron-fluid" style="padding-bottom: 10px; padding-top: 10px; background: url('../img/adn.jpg') no-repeat center fixed; background-size:cover;">
 				<div class="container">
 					<div class="col-sm-1 col-md-2 col-lg-4" >
-						<img class="portrait" src="../img/smiley.jpeg" height="200" width="150"/>
+						<?php
+						if (isset($_SESSION['img'])){
+							$mail=$_SESSION['mail'];
+							$sql="SELECT * FROM Users WHERE mail='$mail';";
+							$result=$bd->query($sql);
+							while ($row=$result->fetch()){
+								$img=$_SESSION['img'];
+							}
+							echo '<img class="portrait" src="'.$img.'" />';
+						}else{
+							echo "<img class='portrait' src='../img/index.png'/>";
+						}
+						?>
 					</div>
 					<div class="col-sm-2 col-md-6 col-lg-8"> 
 						<div class="row" style="padding-top:25px;">
@@ -97,8 +118,8 @@ include_once '../includes/dbh.inc.php';
 								<div class="text-left" style="padding-top:30px;">	
 									<a href="./visit.php"><button type="button" class="btn btn-warning" style="margin-right: 10px; margin-left: 10px;">Visit</button></a>
 									<a href="./history.php"><button type="button" class="btn btn-warning" style="margin-right: 10px; margin-left: 10px;">History</button></a>
-									<a href="./editProfil.php"><button type="button" class="btn btn-warning" style="margin-right: 10px; margin-left: 10px;">Edit Profil</button></a>
-									<a href="./editContent.php"><button type="button" class="btn btn-warning" style="margin-right: 10px; margin-left: 10px;">Edit Text</button></a>
+									<a href="./share.php"><button type="button" class="btn btn-warning" style="margin-right: 10px; margin-left: 10px;">Share knowledge</button></a>
+									<a href="./editProfil.php"><button type="button" class="btn btn-warning" style="margin-right: 10px; margin-left: 10px;">Edit Profil</button></a>		
 								</div>
 						
 						</div>
@@ -110,14 +131,13 @@ include_once '../includes/dbh.inc.php';
 			<div class="container">
 				<div class="row">
 					
+
 					<div class="col-sm-1 col-md-2 col-lg-4" >
 
 						<div id="comments" style="overflow: auto; width:600px; height:200px;">
 							<?php
-								$mail=$_SESSION['mail'];
-								$mailName=explode('.',$mail)[0];
-								$mailName=explode('@',$mailName)[0].explode('@',$mailName)[1];
-								$sql="SELECT nom,prenom,comments FROM Users,ClientComments WHERE Users.mail=ClientComments.mail AND forwho='$mailName' ORDER BY ClientComments.id DESC LIMIT 3;";
+								$forwho=$_SESSION['mail'];
+								$sql="SELECT nom,prenom,comments FROM Users,ClientComments WHERE Users.mail=ClientComments.mail AND forwho='$forwho' ORDER BY ClientComments.id DESC LIMIT 3;";
 								$result = $bd->prepare($sql); 
 								$result->execute();
 								$row_count =$result->rowCount();
@@ -140,7 +160,7 @@ include_once '../includes/dbh.inc.php';
 						<button type="submit" id="submit" name="submit">Submit</button>
 
 					</div>
-					
+
 					<div class="recentRes">
 						Here are your recent searches on our website:<br>
 						<?php

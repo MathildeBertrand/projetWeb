@@ -50,8 +50,8 @@
 						<div class="card contact">
 							<div class="card-body">
 								<h4 class="card-title">BEI Wanying</h4>
-								<p class="card-text"><br/> <i class="glyphicon glyphicon-envelope"></i> Mail:
-								<br/> <i class="glyphicon glyphicon-earphone"></i> Tel: 
+								<p class="card-text"><br/> <i class="glyphicon glyphicon-envelope"></i> Mail: wanying.bei@u-psud.fr
+								<br/> <i class="glyphicon glyphicon-earphone"></i> Tel: 0145986089 
 								<br/> <i class="glyphicon glyphicon-home"></i> Adresse: Université Paris-Sud<p style="margin-top:-10px; padding-top: 0px; padding-left:77px">15 Rue Georges Clemenceau<br>91400 Orsay</p>
 							</div>
 						</div>

@@ -1,11 +1,13 @@
 
+<?php session_start();?>
+
 <?php
-session_start();
 ////////////////////////////////////////////////////////////////////////
 //Exploration de la base de donnees///////////////////////////////////
 //3 boutons : exploration des publis,des enzymes ou des maladies//////
 //////////////////////////////////////////////////////////////////////		
 ?>
+<!DOCTYPE html>
 <!-- Mise en page -->
 <html>
 	<head>
@@ -71,8 +73,7 @@ session_start();
 			</ul>	
 	</div>	
 
-	</body>	
-</html>		
+	</body>			
 	
 	
 									

@@ -1,10 +1,20 @@
 <?php
 session_start();
 
-if (isset($_POST['submit'])){
+if (isset($_FILES['file'])){
 	include_once 'dbh.inc.php';
 
 	if (isset($_SESSION['mail'])){ //user has logged in
+		$mail=$_SESSION['mail'];
+		
+			$job=$_POST['Job'];
+	$institute=$_POST['Institute'];
+	$tel=$_POST['Tel'];
+	$birthday=$_POST['Birthday'];
+	
+	$sql="UPDATE Users SET job=$job,institute='$institute',tel='$tel',birthday='$birthday';";
+	$bd->query($sql); 
+			
 		$f=$_FILES['file'];
 		$fName=$f['name'];
 		$fTmpName=$f['tmp_name'];
@@ -16,30 +26,32 @@ if (isset($_POST['submit'])){
 		$mailName=explode('@',$_SESSION['mail']);
 		$mailName=$mailName[0];
 		
-		$img=$_SESSION['img'];
+		//~ $img=$_SESSION['img'];
 		
-		$mail=$_SESSION['mail'];
+		
 		$sql="SELECT * FROM Users WHERE mail='$mail';";
-		$result=mysqli_query($conn, $sql);
+		$result=$bd->query($sql);
 		
 		$allowed=array('jpg','jpeg','png','gif');
 		
-		while($row=mysqli_fetch_assoc($result)){
+		while($row=$result->fetch()){
 			if(in_array($fActualExt,$allowed)){
 				if ($fError === 0){ //pas d'erreur
 					$newFileName="profil".$mailName.".".$fActualExt;
-					$fDest='http://localhost/projetWeb/img/users_uploads/'.$newFileName;
-					//~ echo $fDest;
-					//~ echo "\n".$fTmpName;
-					move_uploaded_file($fTmpName,$fDest);
-					$sql="UPDATE Users SET img='$img' WHERE mail='$mail';";
-					mysqli_query($conn,$sql);
-					header('location: ../page/editProfil.php');
+					$fDest='../img/users_uploads/'.$newFileName;
+					
+					if(move_uploaded_file($fTmpName,$fDest)){
+						echo '<div><img id="profil_image" src="'.$fDest.'"/></div>';
+						$sql="UPDATE Users SET img='$fDest' WHERE mail='$mail';";
+						$bd->query($sql);
+						$_SESSION['img']=$fDest;
+					}
+
 				}else{
-					echo "error occurred when uploading";
+					echo "<script>alert(error occurred when uploading)</script>";
 				}
 			}else{
-				echo "cannot upload this type of file";
+				echo "<script>alert(cannot upload this type of file)</script>";
 			}
 		}
 		

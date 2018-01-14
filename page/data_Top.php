@@ -28,7 +28,7 @@ try
 	}
 		
 	//Excecute the query
-	$response=Excecuter($bd,"SELECT num_EC AS playerid,COUNT(num_EC) AS score  FROM TopEnzyme GROUP BY num_EC LIMIT 10");
+	$response=Excecuter($bd,"SELECT num_EC AS playerid,COUNT(num_EC) AS score  FROM TopEnzyme GROUP BY num_EC ORDER BY score DESC LIMIT 10");
 	
 	//loop through the returned data
 	$data = array();

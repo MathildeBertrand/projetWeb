@@ -5,6 +5,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 require("functions.php");
+
 $AFF=FALSE; 
 //Connection a la base : 
 mysql_close;
@@ -22,7 +23,11 @@ try
 		echo "Connexion non reussie a Mysql";
 		die('Erreur: '.$e->getMessage());
 	}
+	
+	
+	
 	$response=Excecuter($bd,"SELECT COUNT(num_EC) FROM Enzyme");
+	
 ?>
 
 
@@ -30,9 +35,11 @@ try
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title> About Us Statistics </title>
+		<title> Statistics </title>
 		<link rel="stylesheet" href="../css/bootstrap.min.css" />
 		<link rel="stylesheet" href="../css/MyStylesheet.css" />
+		<script type="text/javascript" src="../js/jquery-2.1.4.min.js"></script>
+		<script type="text/javascript" src="../js/Chart.js"></script>
 		<script src="../js/Chart.min.js"></script>
 	</head>
 	
@@ -46,12 +53,13 @@ try
 					<a href="#" class="navbar-brand">ENZyclopédia</a>
 				</div>
 				
+				
 				<!-- Menu items -->
 				<div>
 					<ul class="nav navbar-nav">
 						<li><a href="../index.php">Home</a></li>
-						<li class="active"><a href="#">About us</a></li>
-						<li><a href="./ExplorationBD.php">Exploration BD</a></li>
+						<li ><a href="#">About us</a></li>
+						<li class="active"><a href="./ExplorationBD.php">Exploration BD</a></li>
 						<li><a href="./faq.html">FAQ</a></li>
 						<li><a href="./contact.html">Contact</a></li>
 					</ul>	
@@ -63,7 +71,16 @@ try
 					
 			</div>
 		</nav>
-			
+		
+		<script type="text/javascript">
+					function imprimer_page(){
+					  window.print();
+				}
+				</script>
+				<form>
+				  <input id="impression" name="impression" type="button" onclick="imprimer_page()" value="Print this page" />
+				</form>
+				
 		<div class="menu">
 				<u><strong><FONT size="6">Menu</FONT></u></strong> <br>
 				
@@ -75,11 +92,12 @@ try
 					</UL>
 					<br><br>
 				</div>
+
 	<!-- Mise en page -->
 		<div class="contenu">
 				<div class="jumbotron_enzyme">
 				
-			<strong><FONT size="9">Statistics </FONT></strong>
+			<strong><FONT size="9">  Statistics </FONT></strong>
 			<title>ChartJS - BarGraph</title>
 				<style type="text/css">
 					#chart-container {
@@ -107,8 +125,8 @@ try
 
 			?><br>
 		
-		<!--Qui est connecte ?-->
-		<strong><FONT id='TopEnzyme'> Number of people connected  :  </FONT></strong>
+		<!--Qui est connecte ?
+		<strong><FONT id='TopEnzyme'> Number of people connected  :  </FONT></strong>-->
 		<?php
 	
 			$nb_connected=fopen('Connected.txt','r');
@@ -140,39 +158,81 @@ try
 			 <?php echo $data['COUNT(num_EC)'];
 			
 		}	
+		
 		?><br><br>
 		
 		<!--Les enzymes a la mode :-->
-		<strong><FONT id='Top'> Popular enzymes :  </FONT></strong><br>
-		<center><div id="chart-container">
+		
+		<center>
+			<strong><FONT id='Top'>The 10 most Popular enzymes</FONT></strong><br>
+			<div id="chart-container">
 			
-			<canvas id="mycanvas0" width="1000" height="400"></canvas>
-		</div>
+			<canvas id="mycanvas0" width="800" height="300"></canvas>
+		</div></center>
 		
 		<script type="text/javascript" src="../js/graph_top.js"></script>
 		
-		</center>
-		
-			
-			
+	
+		<br><br>
 		<!--Nombre de publications par enzyme -->
-		<strong><FONT id='Publications'>Number of publications per enzymes </strong></FONT>
-		<center><div id="chart-container">
-			<canvas id="mycanvas" width="1000" height="400"></canvas>
-		</div></center>
-		
+		<center>
+		<img src="data_publi.php" alt="Graphique JPGraph">
+		<div id="chart-container" style="float:right;" margin-left="50;" >
+		<strong><FONT id='orgaa'>The 10 firsts enzymes with the most number of publications : </strong></FONT><br><br><br><br><br><br><br>
+				<canvas id="mycanvaspub" width="700" height="300"></canvas>
+			
+				<script type="text/javascript" src="../js/data_publi_top.js"></script>
+		</div>
+
+		<br>
+
+		<!--Nombre de synonymes par enzyme -->
+		<img src="testgraph.php" alt="Graphique JPGraph" width="250" height="550">
+		<div id="chart-container" style="float:right;" margin-left="50;" >
+				<strong><FONT id='orgaa'>The 10 firsts enzymes with the most number of synonyms : </strong></FONT><br><br><br><br><br><br><br>
+				<canvas id="mycanvassyn" width="700" height="300"></canvas>
+			
+				<script type="text/javascript" src="../js/data_syn_top.js"></script>
+		</div>
+	
 		
 	
-		<script type="text/javascript" src="../js/graph_publi.js"></script>
 		
+		<!--Nombre de denzymes par organisme -->
+		<img src="data_orga.php" alt="Graphique JPGraph" width="250" height="550">
+		<div id="chart-container" style="float:right;" margin-left="50;" >
+				<strong><FONT id='orgaa'>The 10 first organisms that have the most number of enzymes : </strong></FONT><br><br><br><br><br><br><br>
+				<canvas id="mycanvasLast" width="700" height="300"></canvas>
+			
+			<script type="text/javascript" src="../js/graph_top_orga.js"></script>
+		</div>
 		
-		
+		<br><br>
+
 		<!--Nombre de maladies par enzyme -->
-		<strong><FONT id='Diseases'>Number of disease per Enzyme </strong></FONT>
-		<center><div id="chart-container">
+		
+		<center>
+			<strong><FONT id='Diseases'>Number of disease per Enzyme </strong></FONT>
+			<div id="chart-container">
+
 			<canvas id="mycanvas2" width="1000" height="400"></canvas>
 		</div>	
-		<script type="text/javascript" src="../js/disease.js"></script>
-		</div></center>
+			<script type="text/javascript" src="../js/disease.js"></script>
+		
+		<br><br>
+		
+		<!--Data coverage -->
+
+		<strong><FONT id='Top'> Data covergae  </FONT></strong><br>
+		<strong><FONT id='buble'></strong></FONT>
+		<center><div id="chart-container">
+		</center>
+			<canvas id="popChart" width="50" height="20"></canvas>
+
+		</div>
+		
+		<script type="text/javascript" src="../js/sp_prosite.js"></script>
+		</div>
 	</body>	
+	<br><br>
 </html>

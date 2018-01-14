@@ -15,8 +15,10 @@ include_once '../includes/dbh.inc.php';
 			$(document).ready(function(){	
 				$('#show').click(function(){
 					numCom=numCom+2;
+					var user = location.search.split('user=')[1];
 					$('#comments').load('./showCom.php',{
-						postnumCom:numCom
+						postnumCom:numCom,
+						postuser:user
 					});
 				});
 
@@ -35,7 +37,7 @@ include_once '../includes/dbh.inc.php';
 						success: function(data){
 							$("#inputcomment").val('');
 							$("#comments").prepend(data);
-							numCom=numCom+1;
+							//~ numCom=numCom+1;
 						}
 					});
 				});
@@ -44,6 +46,19 @@ include_once '../includes/dbh.inc.php';
 	</head>
 	
 	<body>
+		<?php
+			$user_id = explode("=", $_SERVER['QUERY_STRING'])[1];
+			$sql="SELECT * FROM Users WHERE id=$user_id;";
+			$result = $bd->prepare($sql); 
+			$result->execute();
+			while ($row = $result->fetch(PDO::FETCH_ASSOC)){
+				$forwho=$row['mail'];
+				$his_img=$row['img'];
+				$his_nom=$row['nom'];
+				$his_prenom=$row['prenom'];
+				$his_job=$row['job'];
+			}
+		?>
 		<nav class="navbar navbar-default">
 				<div class="container-fluid">
 
@@ -64,11 +79,17 @@ include_once '../includes/dbh.inc.php';
 						<ul class="nav navbar-nav navbar-right">
 							<?php
 						if (isset($_SESSION['mail'])){
+							$mail=$_SESSION['mail'];
+							$sql="SELECT id FROM Users WHERE mail='$mail';";
+							$result = $bd->prepare($sql); 
+							$result->execute();
+							while ($row = $result->fetch(PDO::FETCH_ASSOC)){
+								$id=$row['id'];
+							}
 							echo "<a href='../includes/logout.inc.php'><img class='icon-logout' src='../img/logout.png'/></a>
-									<li><a href='./myAccount.php'>Customer Area</a></li>";
+									<li><a href=./myAccount.php?user=$id>Customer Area</a></li>";
 						  }else{
-							  echo "<img src='../img/user1.png'  width='35'/>
-									<li><a href='../page/login.php'> Log in</a></li>";
+							  header('location: ./login.php?=expiration');
 						  }
 						?>
 							
@@ -81,18 +102,33 @@ include_once '../includes/dbh.inc.php';
 			<div class="jumbotron jumbotron-fluid" style="padding-bottom: 10px; padding-top: 10px; background: url('../img/adn.jpg') no-repeat center fixed; background-size:cover;">
 				<div class="container">
 					<div class="col-sm-1 col-md-2 col-lg-4" >
-						<img class="portrait" src="../img/smiley.jpeg" height="200" width="150"/>
+						<?php
+							$sql="SELECT * FROM Users WHERE mail='$forwho';";
+							$result=$bd->query($sql);
+							while ($row=$result->fetch()){
+								$img=$row['img'];
+							}
+						if(isset($img)){
+							echo '<img class="portrait" src="'.$img.'" />';
+						}else{
+							echo "<img class='portrait' src='../img/index.png'/>";
+						}
+						?>
 					</div>
 					<div class="col-sm-2 col-md-6 col-lg-8"> 
 						<div class="row" style="padding-top:25px;">
 								 <blockquote>
 									<p>
-										<?php echo $_SESSION['nom']." ".$_SESSION['prenom']?>
+										<?php
+											//~ $sql="SELECT * FROM Users WHERE mail!='$mail';";
+											//~ $result=$bd->query($sql);
+										 echo $his_nom." ".$his_prenom;
+										 ?>
 									</p>
 								</blockquote>
 								
-								<i class="glyphicon glyphicon-envelope"></i> Mail: <?php echo $_SESSION['mail']?>
-								<br><i class="glyphicon glyphicon-briefcase"></i> Job: <?php echo $_SESSION['job']?>
+								<i class="glyphicon glyphicon-envelope"></i> Mail: <?php echo $forwho?>
+								<br><i class="glyphicon glyphicon-briefcase"></i> Job: <?php echo $his_job?>
 						
 						</div>
 					</div>
@@ -108,9 +144,7 @@ include_once '../includes/dbh.inc.php';
 						<div id="comments" style="overflow: auto; width:600px; height:200px;">
 							<?php
 								$mail=$_SESSION['mail'];
-								$mailName=explode('.',$mail)[0];
-								$mailName=explode('@',$mailName)[0].explode('@',$mailName)[1];
-								$sql="SELECT nom,prenom,comments FROM Users,ClientComments WHERE Users.mail=ClientComments.mail AND forwho='$mailName' ORDER BY ClientComments.id DESC LIMIT 3;";
+								$sql="SELECT nom,prenom,comments FROM Users,ClientComments WHERE Users.mail=ClientComments.mail AND forwho='$forwho' ORDER BY ClientComments.id DESC LIMIT 3;";
 								$result = $bd->prepare($sql); 
 								$result->execute();
 								$row_count =$result->rowCount();
@@ -140,7 +174,7 @@ include_once '../includes/dbh.inc.php';
 							$recentRes=array();
 							$type=array();
 							$mail=$_SESSION['mail'];
-							$response=$bd->query("SELECT * FROM History WHERE mail='$mail'");
+							$response=$bd->query("SELECT * FROM History WHERE mail='$forwho'");
 							while($data =$response->fetch()){
 								for ($i=3;$i<count($data);$i++){
 									$element=trim($data[$i]);

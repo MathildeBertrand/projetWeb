@@ -23,11 +23,55 @@ try
 	}
 
 //On met le fond decran :
-fond();
+
 
 $requete=Excecuter($bd,"SELECT Comments.num_EC,Enzyme.accepted_name,group_concat(distinct Comments.comment) AS commenta FROM Enzyme,Comments WHERE Enzyme.num_EC=Comments.num_EC GROUP BY Comments.num_EC  ");
 
 ?>
+
+
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title> All Enzyme </title>
+		<link rel="stylesheet" href="../css/bootstrap.min.css" />
+		<link rel="stylesheet" href="../css/MyStylesheet.css" />
+	</head>
+	
+	<body class="bg">
+			<nav class="navbar navbar-default">
+				<div class="container-fluid">
+				
+					<!-- website name -->
+					<div class="navbar-header">
+						<a href="" class="navbar-brand">ENZyclopédia</a>
+					</div>
+					
+					<!-- Menu items -->
+					<div>
+						<ul class="nav navbar-nav">
+							<li ><a href="../index.php">Home</a></li>
+							<li><a href="./aboutUs.php">About us</a></li>
+							<li class="active"><a href="ExplorationBD.php">Exploration BD</a></li>
+							<li><a href="./faq.php">FAQ</a></li>
+							<li><a href="./contact.php">Contact</a></li>
+						</ul>	
+						<ul class="nav navbar-nav navbar-right">
+						<?php
+						if (isset($_SESSION['mail'])){
+							echo "<a href='../includes/logout.inc.php'><img class='icon-logout' src='../img/logout.png'/></a>
+									<li><a href='./myAccount.php'>Customer Area</a></li>";
+						  }else{
+							  echo "<img src='../img/user1.png'  width='35'/>
+									<li><a href='./login.php'> Log in</a></li>";
+						  }
+						?>
+							
+						</ul>
+					</div>
+					
+			</nav>
+
 <link rel="stylesheet" href="UI/css/MyStylesheet.css" />
 			<div class="menu">
 				<u><strong><FONT size="6">Links</FONT></u></strong><br> <br>

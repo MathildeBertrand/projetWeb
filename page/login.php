@@ -45,12 +45,13 @@ session_start();
 						
 						<form action="../includes/login.inc.php" method="POST">
 							<div class="form_input">
-								<FONT color="#00000"><p><center><input type="text" name="username" id="username" placeholder="Enter your User Name/ your Email" style="background-image:url(../img/user1.png);background-position:left;background-repeat:no-repeat;padding-left:18px;width:185px;"/></center></p></FONT>
-								<FONT color="#00000"><p><center><input type="text" name="password"  id="password" placeholder="Enter your Password" style="background-image:url(../img/user1.png);background-position:left;background-repeat:no-repeat;padding-left:18px;width:185px;"/></center></p></FONT>
+								<FONT color="#00000"><p><center><input type="text" name="username" id="username" placeholder="Username/Email" style="background-image:url(../img/user1.png);background-position:left;background-repeat:no-repeat;padding-left:18px;width:185px;"/></center></p></FONT>
+								<FONT color="#00000"><p><center><input type="password" name="password"  id="password" placeholder="Password" style="background-image:url(../img/user1.png);background-position:left;background-repeat:no-repeat;padding-left:18px;width:185px;"/></center></p></FONT>
 							</div>
 										
 							<FONT color="#00000"><p><center><button type="submit" name="submit" class="btn-login">LOGIN</button></FONT>
 							<a href="./signup.php"><FONT color="#00000"><input type="BUTTON" name="submit"  value="New User ?"/></center></p></FONT></a>
+							<div class="ps_forgotten"><a href="../includes/changePS.inc.php"><FONT color="black"><small>password forgotten?</small></FONT></a></div>
 						</form>
 						
 				</div>

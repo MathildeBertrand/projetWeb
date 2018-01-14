@@ -37,9 +37,8 @@ if (isset($_POST['submit'])){
 					$_SESSION['password']=$row['password'];
 					$_SESSION['job']=$row['job'];
 					$_SESSION['img']=$row['img'];
-					$mailName=explode('.',$_SESSION['mail'])[0];
-					$mailName=explode('@',$mailName)[0].explode('@',$mailName)[1];
-					header("location: ../page/myAccount.php?user=$mailName");
+					$id=$row['id'];
+					header("location: ../page/myAccount.php?user=$id");
 					exit();
 				}
 			}

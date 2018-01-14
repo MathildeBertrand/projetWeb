@@ -36,7 +36,7 @@
  padding-top: 50px;
  padding-bottom: 50px;
  margin-top:50px;
- margin-bottom:0px;
+ margin-bottom:50px;
  height: 400px;
  width:400px;
  color: #cc0066; /* Le texte sera affiché en blanc */
@@ -49,10 +49,9 @@
 .jumbotron_enzyme{
  margin-top:20px;
  margin-right:20px;
- margin-left:320px;
+ margin-left:220px;
  height: 100px;
- color: #cc0066; /* Le texte sera affiché en blanc */
- 
+ color: #cc0066;  
 }
 
 .menu{
@@ -68,12 +67,15 @@
 	margin-left:260px;
 	margin-right:100px;
 	margin-bottom: 100px;
+	padding-bottom: 50px;
 	background-color: rgba(255, 255, 255, 1);
 }
 
 li.faq-answer{
 	margin:0;
 	padding:1em 0;
+	background-color: rgba(255, 255, 255);
+	margin-top: -10px;
 }
 	
 li.faq-question{
@@ -119,6 +121,8 @@ li.faq-question{
 .portrait{
 	position: right;
 	margin-left: 100px;
+	height: 200px;
+	width: 150px;
 }
 
 .ck-editor__editable {
@@ -127,9 +131,9 @@ li.faq-question{
 }
 
 .icon-logout{
-	height:20px;
-	width:20px;
-	margin:15px;
+height:20px;
+width:20px;
+margin:15px;
 }
 
 .recentRes{
@@ -182,4 +186,38 @@ li.faq-question{
 	
 .name{
 	font-weight: bold;
+}
+
+#profil_image{
+	height:200px;
+	width:200px;
+	margin-bottom:50px;
+}
+
+.ps_forgotten{
+	position:relative;
+	padding-left:550px;
+	text-decoration: underline;
+	color:black;
+}
+
+.text_area{
+	margin-left:0px;
+	margin-top: 0px;
+	margin-bottom:10px;
+	border-width:2px;
+	border-color:#cccccc;
+	border-style: ridge;
+	border-radius:25px;
+	padding:10px;
+	height:100px;
+	width:1150px;
+	float:left;
+}
+
+.knowledge{
+	border-width:2px; 
+	border-color:black; 
+	border-style:ridge;
+	
 }

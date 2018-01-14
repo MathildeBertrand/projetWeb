@@ -1,7 +1,7 @@
-
-
 <?php
 
+include ("jpgraph-4.1.1/src/jpgraph.php");
+include ("jpgraph-4.1.1/src/jpgraph_stock.php");
 
 require("functions.php");
 $AFF=FALSE; 
@@ -27,18 +27,38 @@ try
 		die('Erreur: '.$e->getMessage());
 	}
 		
-	//Excecute the query
-	$response=Excecuter($bd,"SELECT num_EC AS playerid,COUNT(num_EC) AS score  FROM Publication GROUP BY num_EC");
+
+	#$response=Excecuter($bd,"SELECT num_EC AS playerid,COUNT(titre) AS score  FROM Publication GROUP BY num_EC");
+	$response=Excecuter($bd,"select avg(test) AS moyenne,std(test) AS score,MIN(test) AS min, MAX(test) AS max from ( select count(*) AS test from Publication group by num_EC)AS T");
 	
-	//loop through the returned data
-	$data = array();
-	while($row =$response->fetch(PDO::FETCH_ASSOC)){
-		$data[] = $row;
-		
+	
+	while($data =$response->fetch(PDO::FETCH_ASSOC)){
+		$min=$data['min'];
+		$max=$data['max'];
+		$mean=$data['moyenne'];
+		$std=$data['score'];
 	}
 	
-	//now print the data
-	print json_encode($data);
+
+	$datay = array($mean,$std,$min,$max,$mean);	
+
+	$graph = new Graph(300,500);
+	$graph->SetScale("textlin");
+	
+	$graph->xaxis->Hide();
+	$graph->yaxis->scale->SetGrace(10);
+	$graph->ygrid->SetFill(true,'#FFFFFF','#FFFFFF'); 
+	$graph->ygrid->SetLineStyle('dashed'); 
+	
+	$graph->title-> SetFont( FF_FONT2, FS_BOLD);  
+	$graph->title->Set('Number of publications per enzyme');
+	 
+	// Create a new stock plot
+	$p1 = new boxplot($datay);
+	$p1->SetWidth(60);
+	$p1->SetCenter();
+	$graph->Add($p1);
+	$graph->Stroke();
 	
 	
 	

@@ -27,10 +27,11 @@ $(document).ready(function(){
 					{
 						label: 'Number of search',
 						position: 'right',
-						backgroundColor: 'rgba(0, 0, 255, 0.2)',
-						borderColor: 'rgba(200, 200, 200, 0.75)',
+						backgroundColor: 'rgba(54, 162, 235, 0.2)',
+						borderColor: 'rgba(54, 162, 235, 1)',
 						hoverBackgroundColor: 'rgba(200, 200, 200, 1)',
 						hoverBorderColor: 'rgba(200, 200, 200, 1)',
+						borderWidth: 1,
 						data: score
 					}
 				]
@@ -41,13 +42,19 @@ $(document).ready(function(){
 			var ctx = $("#mycanvas0");
 
 			var barGraph = new Chart(ctx, {
-				type: 'bar',
+				type: 'horizontalBar',
 				data: chartdata,
-				options: {scales: { yAxes: [{ ticks: { beginAtZero:true } }] },
+				options: {scales: { yAxes: [{ ticks: { beginAtZero:true } }],
+									
+								 yAxes: [{ gridLines: {display: false} }],
+
+								 xAxes: [{ scaleLabel: {display: true,labelString: "Number of search" } }],
+				 },
 				legend: {
-					display:true,
+					display:false,
 					position:'right'}
 				},
+
 				
 		});
 			

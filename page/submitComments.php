@@ -14,8 +14,14 @@ if (isset($_POST['done'])){
 			$name=$row['nom']." ".$row['prenom'];
 			echo "<div class='name'>$name<br></div>";
 		}
-		$sql = "INSERT INTO ClientComments(mail, comments, forwho) VALUES('".$mail."','".$msg."','".$user."');";
-		$bd->query($sql);
+		$sqlSelect = "SELECT mail FROM Users WHERE id='$user';";
+		$result=$bd->query($sqlSelect);
+		while($row=$result->fetch()){
+			$forwho=$row['mail'];
+		}
+		$sql = "INSERT INTO ClientComments(mail, comments, forwho) VALUES('".$mail."','".$msg."','".$forwho."');";
+		$result = $bd->prepare($sql); 
+		$result->execute();
 		echo $msg;
 		echo "<br>";
 	}
