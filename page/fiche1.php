@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <?php
-//session_start();
+session_start();
 require("functions.php");
 $AFF=FALSE; 
 
@@ -9,20 +9,7 @@ $AFF=FALSE;
 ///////////////////////////////////////////////////////////////////////////////
 
 //Connection a la base : 
-mysql_close;
-$dsn = 'mysql:host=127.0.0.1; dbname=ProjetWeb2017';
-$username = 'root';
-$password = 'mysql2017';
-	
-try
-	{
-	$bd=new PDO($dsn, $username, $password);
-	
-	}
-	catch(Exception $e){
-		echo "Connexion non reussie a Mysql";
-		die('Erreur: '.$e->getMessage());
-	}
+include('../includes/dbh.inc.php');
 ?>
 
 <html>
@@ -73,11 +60,9 @@ try
 
 if(isset ($_SESSION['mail'])){ //Si la personne est connectee
 	$mail=$_SESSION['mail'];
-	
-	//Gestion de laffichage
-	echo "<a href='../includes/logout.inc.php'><img class='icon-logout' src='../img/logout.png'/></a>
-									<li><a href='./myAccount.php'>Customer Area</a></li>";
-	
+}else{
+	$mail="Anonyme";	
+}
 	//Si la personne interroge la base de donnee : 				 
 	
 	if ($_GET['type']=="EC"){ 
@@ -91,7 +76,7 @@ if(isset ($_SESSION['mail'])){ //Si la personne est connectee
 		}	
 
 		if($data =$response->fetch(PDO::FETCH_ASSOC)){ //Si on a rentre le bon truc alors on remplit la table History
-			$bd->query("INSERT INTO History(mail,num_EC) VALUES ('".$mail."','".$num_EC."')");
+			$bd->query("INSERT INTO History(mail,type,name) VALUES ('".$mail."','".$_GET['type']."','".$num_EC."');");
 		}//Sinon on ne fait rien
 
 	}elseif ($_GET['type']=="Cofactor"){
@@ -101,7 +86,7 @@ if(isset ($_SESSION['mail'])){ //Si la personne est connectee
 		$response=Excecuter($bd,"Select num_EC FROM Enzyme WHERE cofactor like '%".$_GET['val']."%' OR cofactor like '".$_GET['val']."%' OR cofactor like '%".$_GET['val']."' OR  cofactor='".$_GET['val']."' ORDER BY num_EC");
 
 		if($data =$response->fetch(PDO::FETCH_ASSOC)){ //Si on a rentre le bon truc alors on remplit la table History
-			$bd->query("INSERT INTO History(mail,cofactor) VALUES ('".$mail."','".$cofactor."')");
+			$bd->query("INSERT INTO History(mail,type,name) VALUES ('".$mail."','".$_GET['type']."','".$cofactor."')");
 		}else{}//Sinon on ne fait rien
 
 	//}elseif ($_GET['type']=="Disease"){
@@ -114,7 +99,7 @@ if(isset ($_SESSION['mail'])){ //Si la personne est connectee
 		//Verification : 
 		$response=Excecuter($bd,"Select num_EC FROM Family WHERE PROSITE='".$_GET['val']."'");
 		if($data =$response->fetch(PDO::FETCH_ASSOC)){ 
-			$bd->query("INSERT INTO History(mail,family) VALUES ('".$mail."','".$protF."')");
+			$bd->query("INSERT INTO History(mail,type,name) VALUES ('".$mail."','".$_GET['type']."','".$protF."')");
 		}
 
 	}elseif ($_GET['type']=="Name"){
@@ -123,7 +108,7 @@ if(isset ($_SESSION['mail'])){ //Si la personne est connectee
 		//Verfication : 
 		$response=Excecuter($bd,"Select num_EC FROM Family WHERE PROSITE='".$_GET['val']."'");
 		if($data =$response->fetch(PDO::FETCH_ASSOC)){ 
-			$bd->query("INSERT INTO History(mail,Name) VALUES ('".$mail."','".$name."')");
+			$bd->query("INSERT INTO History(mail,type,name) VALUES ('".$mail."','".$_GET['type']."','".$name."')");
 		}
 
 	}elseif($_GET['type']=="Protein sequence"){
@@ -132,14 +117,10 @@ if(isset ($_SESSION['mail'])){ //Si la personne est connectee
 		//Verification : 
 		$response=Excecuter($bd,"Select num_EC FROM ProtSeq WHERE SP_id='".$_GET['val']."' OR SP_name='".$_GET['val']."'"); 
 		if($data =$response->fetch(PDO::FETCH_ASSOC)){
-			$bd->query("INSERT INTO History(mail,ProtSeq) VALUES ('".$mail."','".$protSeq."')");
+			$bd->query("INSERT INTO History(mail,type,name) VALUES ('".$mail."','".$_GET['type']."','".$protSeq."')");
 		}
 	}
-} 
-	//Pourquoi passer par des query et non pas par la fonction Excecuter2 ?
-	// A quoi sert cette ligne ?									
-	Excecuter2($bd,"INSERT INTO History(mail,num_EC, cofactor, disease_name, family, ProtSeq, Name)  VALUES ('".$mail."','".$history."')");
-
+ 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////Si on demande un enzyme////////////////////////////////////////////////////////////////

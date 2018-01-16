@@ -10,6 +10,9 @@ include_once '../includes/dbh.inc.php';
 		<link rel="stylesheet" href="../css/bootstrap.min.css" />
 		<link rel="stylesheet" href="../css/MyStylesheet.css" />
 		<script src="../js/jquery-2.1.4.min.js" type="text/javascript"></script>
+		
+		<script src="../js/Chart.min.js" type="text/javascript"></script>
+		
 		<script>
 			var numCom=3;
 			$(document).ready(function(){	
@@ -40,13 +43,14 @@ include_once '../includes/dbh.inc.php';
 							//~ numCom=numCom+1;
 						}
 					});
-				});
-				
+				});		
 			});
+			
 		</script>
 	</head>
 	
 	<body>
+		
 		<nav class="navbar navbar-default">
 				<div class="container-fluid">
 
@@ -109,6 +113,7 @@ include_once '../includes/dbh.inc.php';
 								 <blockquote>
 									<p>
 										<?php echo $_SESSION['prenom']." ".$_SESSION['nom']?>
+										<small><?php if (isset($_SESSION['description'])){echo $_SESSION['description'];}else{echo "No self description";}?></small>
 									</p>
 								</blockquote>
 								
@@ -118,7 +123,7 @@ include_once '../includes/dbh.inc.php';
 								<div class="text-left" style="padding-top:30px;">	
 									<a href="./visit.php"><button type="button" class="btn btn-warning" style="margin-right: 10px; margin-left: 10px;">Visit</button></a>
 									<a href="./history.php"><button type="button" class="btn btn-warning" style="margin-right: 10px; margin-left: 10px;">History</button></a>
-									<a href="./share.php"><button type="button" class="btn btn-warning" style="margin-right: 10px; margin-left: 10px;">Share knowledge</button></a>
+									<a href="./share.php"><button type="button" class="btn btn-warning" style="margin-right: 10px; margin-left: 10px;">Share</button></a>
 									<a href="./editProfil.php"><button type="button" class="btn btn-warning" style="margin-right: 10px; margin-left: 10px;">Edit Profil</button></a>		
 								</div>
 						
@@ -146,6 +151,7 @@ include_once '../includes/dbh.inc.php';
 										$name=$row['nom']." ".$row['prenom'];
 										echo "<p><div class='name'>$name<br></div>";
 										echo $row['comments'];
+										echo "<button type='button' id='delete' name='delete' style='float: right;'>delete</button>";
 										echo "</p>";
 									}
 								}else{
@@ -160,34 +166,43 @@ include_once '../includes/dbh.inc.php';
 						<button type="submit" id="submit" name="submit">Submit</button>
 
 					</div>
-
+					
+					<div style="margin-left: 225px; float:right;">
+						<div id="chart-container">
+							<FONT size="3"><strong><center>Top 5 searched key words</center></strong></FONT>
+							<canvas id="mycanvasAccount" style="height:300px; width:400px; padding:10px;"></canvas>
+						</div>
+						<script type="text/javascript" src="../js/graph_topSearch.js"></script>
+					</div>
+		
+<!--
 					<div class="recentRes">
 						Here are your recent searches on our website:<br>
 						<?php
-							$recentRes=array();
-							$type=array();
-							$mail=$_SESSION['mail'];
-							$response=$bd->query("SELECT * FROM History WHERE mail='$mail'");
-							while($data =$response->fetch()){
-								for ($i=3;$i<count($data);$i++){
-									$element=trim($data[$i]);
-									if($element != ''){
-										if (! in_array($element,$recentRes)){;
-											array_push($recentRes,$element);
-											array_push($type,$data[2]);
-										}
-									}
-								}
-							}
+							//~ $recentRes=array();
+							//~ $type=array();
+							//~ $mail=$_SESSION['mail'];
+							//~ $response=$bd->query("SELECT * FROM History WHERE mail='$mail'");
+							//~ while($data =$response->fetch()){
+								//~ for ($i=3;$i<count($data);$i++){
+									//~ $element=trim($data[$i]);
+									//~ if($element != ''){
+										//~ if (! in_array($element,$recentRes)){;
+											//~ array_push($recentRes,$element);
+											//~ array_push($type,$data[2]);
+										//~ }
+									//~ }
+								//~ }
+							//~ }
 
-							for ($i=0;$i<count($recentRes);$i++){
-								if (trim($type[$i])=="EC"){
-									$substr=substr($recentRes[$i],3);
-								}else{
-									$substr=$recentRes[$i];
-								}
-								echo "<a href='./fiche1.php?val=$substr&type=$type[$i]'>$recentRes[$i]</a>; ";
-							}
+							//~ for ($i=0;$i<count($recentRes);$i++){
+								//~ if (trim($type[$i])=="EC"){
+									//~ $substr=substr($recentRes[$i],3);
+								//~ }else{
+									//~ $substr=$recentRes[$i];
+								//~ }
+								//~ echo "<a href='./fiche1.php?val=$substr&type=$type[$i]'>$recentRes[$i]</a>; ";
+							//~ }
 						?>
 					</div>
 				
@@ -195,36 +210,37 @@ include_once '../includes/dbh.inc.php';
 					<div class="trendingRes">
 						Here are the most popular searches on our website:<br>
 						<?php
-							$recentRes=array();
-							$type=array();
-							$mail=$_SESSION['mail'];
-							$response=$bd->query("SELECT * FROM History;");
-							while($data =$response->fetch()){
-								for ($i=3;$i<count($data);$i++){
-									$element=trim($data[$i]);
-									if($element != ''){
-										if (! in_array($element,$recentRes)){;
-											array_push($recentRes,$element);
-											array_push($type,$data[2]);
-										}
-									}
-								}
-							}
+							//~ $recentRes=array();
+							//~ $type=array();
+							//~ $mail=$_SESSION['mail'];
+							//~ $response=$bd->query("SELECT * FROM History;");
+							//~ while($data =$response->fetch()){
+								//~ for ($i=3;$i<count($data);$i++){
+									//~ $element=trim($data[$i]);
+									//~ if($element != ''){
+										//~ if (! in_array($element,$recentRes)){;
+											//~ array_push($recentRes,$element);
+											//~ array_push($type,$data[2]);
+										//~ }
+									//~ }
+								//~ }
+							//~ }
 
-							for ($i=0;$i<count($recentRes);$i++){
-								if (trim($type[$i])=="EC"){
-									$substr=substr($recentRes[$i],3);
-								}else{
-									$substr=$recentRes[$i];
-								}
-								echo "<a href='./fiche1.php?val=$substr&type=$type[$i]'>$recentRes[$i]</a>; ";
-							}
+							//~ for ($i=0;$i<count($recentRes);$i++){
+								//~ if (trim($type[$i])=="EC"){
+									//~ $substr=substr($recentRes[$i],3);
+								//~ }else{
+									//~ $substr=$recentRes[$i];
+								//~ }
+								//~ echo "<a href='./fiche1.php?val=$substr&type=$type[$i]'>$recentRes[$i]</a>; ";
+							//~ }
 						?>
 					
 					</div>
 					
 					<div class="favori">
 						Here are your favorites:<br>
+-->
 						<?php
 				
 							

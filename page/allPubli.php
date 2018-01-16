@@ -6,18 +6,7 @@ require("functions.php");
 $AFF=FALSE; 
 
 //Connection a la base : 
-mysql_close;
-try
-	{
-	$bd=new PDO('mysql:host=127.0.0.1; dbname=ProjetWeb2017','root','Pachadu92');
-	
-	}
-	catch(Exception $e){
-		echo "Connexion non reussie a Mysql";
-		die('Erreur: '.$e->getMessage());
-	}
-
-//On met le fond decran :
+include('../includes/dbh.inc.php');
 
 
 $requete=Excecuter($bd,"SELECT DISTINCT titre,auteurs,year,pubmed FROM Publication ORDER BY titre  ");

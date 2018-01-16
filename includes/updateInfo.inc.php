@@ -8,23 +8,33 @@ if (isset($_SESSION['mail'])){
 	$institute=$_POST['institute'];
 	$tel=$_POST['tel'];
 	$birthday=$_POST['birthday'];
+	$description=$_POST['description'];
 	$mail=$_SESSION['mail'];
 	
-	if (isset($institute)){
+	if ($institute!=NULL){
 		$sql="UPDATE Users SET institute='$institute' WHERE mail='$mail';";
 		$bd->query($sql); 
+		$_SESSION['institute']=$institute;
 	}
-	if (isset($tel)){
+	if ($tel!=NULL){
 		$sql="UPDATE Users SET tel='$tel' WHERE mail='$mail';";
 		$bd->query($sql);
+		$_SESSION['tel']=$tel;
 	}
-	if(isset($birthday)){
+	if($birthday!=NULL){
 		$sql="UPDATE Users SET birthday='$birthday' WHERE mail='$mail';";
 		$bd->query($sql);
+		$_SESSION['birthday']=$birthday;
 	}
-	if(isset($job)){
+	if($job!=NULL){
 		$sql="UPDATE Users SET job='$job' WHERE mail='$mail';";
 		$bd->query($sql);
+		$_SESSION['job']=$job;
+	}
+	if($description!=NULL){
+		$sql="UPDATE Users SET description='$description' WHERE mail='$mail';";
+		$bd->query($sql);
+		$_SESSION['description']=$description;
 	}
 	
 	$sql="SELECT id FROM Users WHERE mail='$mail';";

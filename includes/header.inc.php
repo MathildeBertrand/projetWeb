@@ -12,7 +12,7 @@ include_once 'dbn.inc.php';
 		<script src="../js/jquery-2.1.4.min.js" type="text/javascript"></script>
 	</head>
 	
-	<body>
+	<body class="account_bg">
 			<nav class="navbar navbar-default" style="margin-bottom:30px;">
 				<div class="container-fluid">
 				

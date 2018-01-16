@@ -60,7 +60,7 @@ include_once '../includes/dbh.inc.php';
 		</script>
 	</head>
 	
-	<body>
+	<body class="share_bg">
 		<nav class="navbar navbar-default" style="margin-bottom:10px;">
 				<div class="container-fluid">
 

@@ -1,17 +1,4 @@
-<!-- connection BD -->
-
 <?php
-//~ $server="localhost";
-//~ $user="root";
-//~ $password="mysql2017";
-//~ $dbname="ProjetWeb2017";
-
-//~ $conn=mysqli_connect($server,$user,$password,$dbname);
-
-//~ if (mysqli_connect_errno()) {
-    //~ printf("Échec de la connexion : %s\n", mysqli_connect_error());
-    //~ exit();
-//~ }
 
 $AFF=FALSE; 
 

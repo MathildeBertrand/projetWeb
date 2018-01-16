@@ -13,15 +13,26 @@ include_once '../includes/dbh.inc.php';
 	</head>
 
 	<body>
+		
 		<?php 
+		include ('../includes/header.inc.php');
 		$mail=$_SESSION['mail'];
+		
 		$sql="SELECT * FROM Users WHERE mail!='$mail';";
 		$result=$bd->query($sql);
+		
 		while ($row=$result->fetch()){
 			$id=$row['id'];
 			$name=$row['nom']." ".$row['prenom'];
-			echo "<div class='name'><a href=./otherAccount.php?user=$id>$name</a></div>";
+			$description=$row['description'];
+			echo "<div class='panel panel-primary' style='margin-left: 20px; margin-top: 10px; height:100px; width:300px'>
+					  <div class='panel-heading'>
+						<h3 class='panel-title'><a href=./otherAccount.php?user=$id>$name</a></h3>
+					  </div>
+					  <div class='panel-body'>$description</div>
+					</div>";
 		}	
 		?>
+
 	</body>
 </html>

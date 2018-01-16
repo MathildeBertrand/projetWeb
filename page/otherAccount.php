@@ -10,6 +10,7 @@ include_once '../includes/dbh.inc.php';
 		<link rel="stylesheet" href="../css/bootstrap.min.css" />
 		<link rel="stylesheet" href="../css/MyStylesheet.css" />
 		<script src="../js/jquery-2.1.4.min.js" type="text/javascript"></script>
+		<script src="../js/Chart.min.js" type="text/javascript"></script>
 		<script>
 			var numCom=3;
 			$(document).ready(function(){	
@@ -168,33 +169,42 @@ include_once '../includes/dbh.inc.php';
 
 					</div>
 					
+					<div style="margin-left: 225px; float:right;">
+						<div id="chart-container">
+							<FONT size="3"><strong><center>Top 5 searched key words</center></strong></FONT>
+							<canvas id="othersCanvas" style="height:300px; width:400px; padding:10px;"></canvas>
+						</div>
+						<script type="text/javascript" src="../js/graph_othersTopSearch.js"></script>
+					</div>
+					
+<!--
 					<div class="recentRes">
 						Here are your recent searches on our website:<br>
 						<?php
-							$recentRes=array();
-							$type=array();
-							$mail=$_SESSION['mail'];
-							$response=$bd->query("SELECT * FROM History WHERE mail='$forwho'");
-							while($data =$response->fetch()){
-								for ($i=3;$i<count($data);$i++){
-									$element=trim($data[$i]);
-									if($element != ''){
-										if (! in_array($element,$recentRes)){;
-											array_push($recentRes,$element);
-											array_push($type,$data[2]);
-										}
-									}
-								}
-							}
+							//~ $recentRes=array();
+							//~ $type=array();
+							//~ $mail=$_SESSION['mail'];
+							//~ $response=$bd->query("SELECT * FROM History WHERE mail='$forwho'");
+							//~ while($data =$response->fetch()){
+								//~ for ($i=3;$i<count($data);$i++){
+									//~ $element=trim($data[$i]);
+									//~ if($element != ''){
+										//~ if (! in_array($element,$recentRes)){;
+											//~ array_push($recentRes,$element);
+											//~ array_push($type,$data[2]);
+										//~ }
+									//~ }
+								//~ }
+							//~ }
 
-							for ($i=0;$i<count($recentRes);$i++){
-								if (trim($type[$i])=="EC"){
-									$substr=substr($recentRes[$i],3);
-								}else{
-									$substr=$recentRes[$i];
-								}
-								echo "<a href='./fiche1.php?val=$substr&type=$type[$i]'>$recentRes[$i]</a>; ";
-							}
+							//~ for ($i=0;$i<count($recentRes);$i++){
+								//~ if (trim($type[$i])=="EC"){
+									//~ $substr=substr($recentRes[$i],3);
+								//~ }else{
+									//~ $substr=$recentRes[$i];
+								//~ }
+								//~ echo "<a href='./fiche1.php?val=$substr&type=$type[$i]'>$recentRes[$i]</a>; ";
+							//~ }
 						?>
 					</div>
 				
@@ -202,36 +212,37 @@ include_once '../includes/dbh.inc.php';
 					<div class="trendingRes">
 						Here are the most popular searches on our website:<br>
 						<?php
-							$recentRes=array();
-							$type=array();
-							$mail=$_SESSION['mail'];
-							$response=$bd->query("SELECT * FROM History;");
-							while($data =$response->fetch()){
-								for ($i=3;$i<count($data);$i++){
-									$element=trim($data[$i]);
-									if($element != ''){
-										if (! in_array($element,$recentRes)){;
-											array_push($recentRes,$element);
-											array_push($type,$data[2]);
-										}
-									}
-								}
-							}
+							//~ $recentRes=array();
+							//~ $type=array();
+							//~ $mail=$_SESSION['mail'];
+							//~ $response=$bd->query("SELECT * FROM History;");
+							//~ while($data =$response->fetch()){
+								//~ for ($i=3;$i<count($data);$i++){
+									//~ $element=trim($data[$i]);
+									//~ if($element != ''){
+										//~ if (! in_array($element,$recentRes)){;
+											//~ array_push($recentRes,$element);
+											//~ array_push($type,$data[2]);
+										//~ }
+									//~ }
+								//~ }
+							//~ }
 
-							for ($i=0;$i<count($recentRes);$i++){
-								if (trim($type[$i])=="EC"){
-									$substr=substr($recentRes[$i],3);
-								}else{
-									$substr=$recentRes[$i];
-								}
-								echo "<a href='./fiche1.php?val=$substr&type=$type[$i]'>$recentRes[$i]</a>; ";
-							}
+							//~ for ($i=0;$i<count($recentRes);$i++){
+								//~ if (trim($type[$i])=="EC"){
+									//~ $substr=substr($recentRes[$i],3);
+								//~ }else{
+									//~ $substr=$recentRes[$i];
+								//~ }
+								//~ echo "<a href='./fiche1.php?val=$substr&type=$type[$i]'>$recentRes[$i]</a>; ";
+							//~ }
 						?>
 					
 					</div>
 					
 					<div class="favori">
 						Here are your favorites:<br>
+-->
 						<?php
 				
 							

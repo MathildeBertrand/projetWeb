@@ -20,6 +20,37 @@
     background-size: cover;
 }
 
+.account_bg {
+	margin:0px;
+	padding:0px;
+    /* The image used */
+    background: url("../img/4.jpg") no-repeat center fixed;
+
+    /* Full height */
+    height: 100%;
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    -webkit-background-size: cover; /* pour anciens Chrome et Safari */
+    background-size: cover;
+}
+
+.share_bg {
+	margin:0px;
+	padding:0px;
+    /* The image used */
+    background: url("../img/12.jpg") no-repeat center fixed;
+
+    /* Full height */
+    height: 100%;
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    -webkit-background-size: cover; /* pour anciens Chrome et Safari */
+    background-size: cover;
+}
 
 .jumbotron1 {
  padding-top: 50px;
@@ -123,6 +154,7 @@ li.faq-question{
 .portrait{
 	position: right;
 	margin-left: 100px;
+	margin-top: 15px;
 	height: 200px;
 	width: 150px;
 }
@@ -133,9 +165,9 @@ li.faq-question{
 }
 
 .icon-logout{
-height:20px;
-width:20px;
-margin:15px;
+	height:20px;
+	width:20px;
+	margin:15px;
 }
 
 .recentRes{
@@ -223,3 +255,4 @@ margin:15px;
 	border-style:ridge;
 	
 }
+

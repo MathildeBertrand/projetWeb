@@ -32,7 +32,7 @@ include ('../includes/dbh.inc.php');
 			 $.ajax({
 			  type: "POST",
 			  url: '../includes/updateInfo.inc.php',
-			  data: {institute: $("#Institute").val(), job: $("#Job").val(), tel: $("#Tel").val(), birthday: $("#Birthday").val() }
+			  data: {institute: $("#Institute").val(), job: $("#Job").val(), tel: $("#Tel").val(), birthday: $("#Birthday").val(), description: $("#description").val() }
 			}).done(function( msg ) {
 			  window.location.href='./myAccount.php?user='+msg;
 			});    
@@ -104,26 +104,19 @@ include ('../includes/dbh.inc.php');
 				</div>
 				
 				<form id="uploadimage" action="" method="POST" enctype="multipart/form-data">
-					<input type="file" name="file" required/>
-<!--
-					<input type="submit" value="submit" id="submit" class="submit"/>
-<!--
-					<center><button class="btn btn-primary" id="submit" name="submit" type="submit" style="margin-top:50px;">Upload profil image</button></center>
--->
-
-				
+					<input type="file" name="file" required/>			
 				</form>
 			</div></center>
 			           
 			<div class="col-sm-2 col-md-6 col-lg-8">
 				 <blockquote>
-					<p><?php echo $_SESSION['prenom']." ".$_SESSION['nom']?></p> <small><cite title="Source Title">Gotham, United Kingdom  <i class="glyphicon glyphicon-map-marker"></i></cite></small>
+					<p><?php echo $_SESSION['prenom']." ".$_SESSION['nom']?></p> <small><?php if (isset($_SESSION['description'])){echo "<input name='description' id='description' placeholder='".$_SESSION['description']."' size='80'/>";}else{echo "<input name='description' id='description' placeholder='self description' size='80'/>";}?></small>
 				</blockquote>
 				<p>  <br/> <i class="glyphicon glyphicon-envelope"></i> Mail: <?php echo $_SESSION['mail']?>
-					<br/>  <br/> <i class="glyphicon glyphicon-briefcase"></i> Job: <input name="Job" id="Job" value=<?php echo $_SESSION['job']?>>
-					<br/> <br/> <i class="glyphicon glyphicon-home"></i> Institute: <input name="Institute" id="Institute" placeholder="none">
-					<br/> <br/> <i class="glyphicon glyphicon-earphone"></i> Tel: <input name="Tel" id="Tel" placeholder="none"/>
-					<br/> <br/> <i class="glyphicon glyphicon-gift"></i> Birthday: <input name="Institute" id="Institute" placeholder="none"/>
+					<br/> <i class="glyphicon glyphicon-briefcase"></i> Job: <input name="Job" id="Job" placeholder=<?php echo $_SESSION['job']?>>
+					<br/> <i class="glyphicon glyphicon-home"></i> Institute: <?php if (isset ($_SESSION['institute'])){ echo "<input name='Institute' id='Institute' placeholder='".$_SESSION['institute']."'?>";}else{echo "<input name='Institute' id='Institute' placeholder='none'?>";}?>
+					<br/> <i class="glyphicon glyphicon-earphone"></i> Tel: <?php if (isset ($_SESSION['tel'])){ echo "<input name='Tel' id='Tel' placeholder='".$_SESSION['tel']."'?>";}else{echo "<input name='Tel' id='Tel' placeholder='none'?>";}?>
+					<br/> <i class="glyphicon glyphicon-gift"></i> Birthday: <?php if (isset ($_SESSION['birthday'])){ echo "<input name='Birthday' id='Birthday' placeholder='".$_SESSION['birthday']."' maxlength=8?>";}else{echo "<input name='Birthday' id='Birthday' placeholder='yyyymmdd' maxlength=8?>";}?>
 					<br/> <br/> <button id="update">update</button>
 				</p>		
 			</div>
