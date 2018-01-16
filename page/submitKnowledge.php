@@ -1,4 +1,5 @@
 <?php
+ob_start();
 session_start();
 include_once '../includes/dbh.inc.php';
 
@@ -32,4 +33,6 @@ if (isset($_POST['done'])){
 	header("location: ./myAccount.php?user=$user");
 	exit();
 }
+
+ob_end_flush();
 ?>

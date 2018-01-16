@@ -1,4 +1,5 @@
 <?php
+ob_start();
 session_start();
 include_once '../includes/dbh.inc.php';
 ?>
@@ -162,5 +163,6 @@ include_once '../includes/dbh.inc.php';
 	
 	</body>
 </html>
-	
-
+<?php
+ob_end_flush();
+?>

@@ -1,4 +1,5 @@
 <?php
+ob_start();
 session_start();
 include_once 'dbn.inc.php';
 ?>
@@ -46,3 +47,6 @@ include_once 'dbn.inc.php';
 					
 				</div>
 			</nav>
+<?php
+ob_end_flush();
+?>

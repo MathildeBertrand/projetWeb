@@ -1,4 +1,5 @@
 <?php
+ob_start();
 if (isset($_POST['submit'])){
 	include_once 'dbh.inc.php';
 	
@@ -36,3 +37,5 @@ if (isset($_POST['submit'])){
 	header('Location: ../page/signup.php?signup=error');
 	exit();
 }
+ob_end_flush();
+?>

@@ -1,4 +1,5 @@
 <?php
+ob_start();
 session_start();
 require("../page/functions.php");
 
@@ -48,5 +49,5 @@ if (isset($_POST['submit'])){
 	header('location: ../page/login.php?login=error');
 	exit();
 }
-	
+ob_end_flush();
 ?>

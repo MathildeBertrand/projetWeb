@@ -1,6 +1,5 @@
-<!DOCTYPE html>
+<?php session_start();?>
 <?php
-session_start();
 require("functions.php");
 $AFF=FALSE; 
 
@@ -307,7 +306,7 @@ if(isset ($_SESSION['mail'])){ //Si la personne est connectee
 			?> <br><br>
 			<FONT size="6" color="#DB0073" id="Publications"><strong>Publications</FONT></strong>
 			<hr ><br>
-			<center><table border="1" width="1000" >
+			<center><table border="1" background-size: 100% 100%;>
 				<tr>
 					<td><strong>Title</strong></td>
 					<td><strong>Authors</strong></td>
@@ -399,12 +398,12 @@ if(isset ($_SESSION['mail'])){ //Si la personne est connectee
 			}
 			
 			//Affichage des resultats sous forme dun tableau
-			?><center><table border="1" width="1000" id="ma_table">
+			?><center><table border="1"  id="ma_table" background-size: 100% 100%;>
 				<tr>
-					<td><strong>Organism</strong></td>
-					<td><strong>Chain</strong></td>
-					<td><strong>Name</strong></td>
-					<td><strong>Key</strong></td>
+					<td width="200"><strong>Organism</strong></td>
+					<td width="200"><strong>Chain</strong></td>
+					<td width="200"><strong>Name</strong></td>
+					<td width="200"><strong>Key</strong></td>
 				</tr>
 			<?php	
 			
