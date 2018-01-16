@@ -73,7 +73,7 @@ try
 <script src="../js/jquery-2.1.4.min.js" type="text/javascript"></script>
 		
 				
-			<div class="menu">
+			<div class="menu" >
 				<u><strong><FONT size="6">Links</FONT></u></strong><br> <br>
 					<center>
 						<a href=https://www.ncbi.nlm.nih.gov/pubmed><img src="../img/pubmed.png"  width="100"/></a><br><br>

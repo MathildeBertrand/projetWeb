@@ -1,7 +1,4 @@
 <!DOCTYPE html>
-
-<!-- Mise en page -->
-
 <?php
 //session_start();
 require("functions.php");
@@ -15,7 +12,6 @@ $AFF=FALSE;
 mysql_close;
 $dsn = 'mysql:host=127.0.0.1; dbname=ProjetWeb2017';
 $username = 'root';
-//$password = 'Pachadu92'
 $password = 'mysql2017';
 	
 try
@@ -67,37 +63,41 @@ try
 						?>
 							
 						</ul>
-					</div>
-					
+					</div>		
 			</nav>
-		
 	
 <?php
-if(isset ($_SESSION['mail'])){
+///////////////////////////////////////////////
+////// Gestion de la customer Area////////////
+///////////////////////////////////////////////
+
+if(isset ($_SESSION['mail'])){ //Si la personne est connectee
 	$mail=$_SESSION['mail'];
+	
+	//Gestion de laffichage
 	echo "<a href='../includes/logout.inc.php'><img class='icon-logout' src='../img/logout.png'/></a>
 									<li><a href='./myAccount.php'>Customer Area</a></li>";
-						 
-	if ($_GET['type']=="EC"){
+	
+	//Si la personne interroge la base de donnee : 				 
+	
+	if ($_GET['type']=="EC"){ 
 		$num_EC=$_GET['type']." ".$_GET['val'];
 
 		//On test si cest bien un enzyme ; 
 		if((stripos($_GET['val'], 'EC') !== FALSE) ){ //On test le nom de lenzyme (si contient EC ou pas)
-			$response=Excecuter($bd,"SELECT * FROM Enzyme WHERE Enzyme.num_EC='".$_GET['val']."'");
-			
+			$response=Excecuter($bd,"SELECT * FROM Enzyme WHERE Enzyme.num_EC='".$_GET['val']."'");	
 		}else{
 			$response=Excecuter($bd,"SELECT * FROM Enzyme WHERE Enzyme.num_EC='EC ".$_GET['val']."'");
 		}	
 
 		if($data =$response->fetch(PDO::FETCH_ASSOC)){ //Si on a rentre le bon truc alors on remplit la table History
 			$bd->query("INSERT INTO History(mail,num_EC) VALUES ('".$mail."','".$num_EC."')");
-		}else{}//Sinon on ne fait rien
+		}//Sinon on ne fait rien
 
 	}elseif ($_GET['type']=="Cofactor"){
 		$cofactor=$_GET['val'];
 
 		//On test si le cofacteur est bien un cofacteur : 
-
 		$response=Excecuter($bd,"Select num_EC FROM Enzyme WHERE cofactor like '%".$_GET['val']."%' OR cofactor like '".$_GET['val']."%' OR cofactor like '%".$_GET['val']."' OR  cofactor='".$_GET['val']."' ORDER BY num_EC");
 
 		if($data =$response->fetch(PDO::FETCH_ASSOC)){ //Si on a rentre le bon truc alors on remplit la table History
@@ -107,14 +107,15 @@ if(isset ($_SESSION['mail'])){
 	//}elseif ($_GET['type']=="Disease"){
 	//	$disease=$_GET['val'];
 	//	$bd->query("INSERT INTO History(mail,disease_name) VALUES ('".$mail."','".$disease."')");
+
 	}elseif ($_GET['type']=="Protein family"){
 		$protF=$_GET['val'];
 
 		//Verification : 
 		$response=Excecuter($bd,"Select num_EC FROM Family WHERE PROSITE='".$_GET['val']."'");
-			if($data =$response->fetch(PDO::FETCH_ASSOC)){ 
-				$bd->query("INSERT INTO History(mail,family) VALUES ('".$mail."','".$protF."')");
-			}
+		if($data =$response->fetch(PDO::FETCH_ASSOC)){ 
+			$bd->query("INSERT INTO History(mail,family) VALUES ('".$mail."','".$protF."')");
+		}
 
 	}elseif ($_GET['type']=="Name"){
 		$name=$_GET['val'];
@@ -135,8 +136,8 @@ if(isset ($_SESSION['mail'])){
 		}
 	}
 } 
-	
-											
+	//Pourquoi passer par des query et non pas par la fonction Excecuter2 ?
+	// A quoi sert cette ligne ?									
 	Excecuter2($bd,"INSERT INTO History(mail,num_EC, cofactor, disease_name, family, ProtSeq, Name)  VALUES ('".$mail."','".$history."')");
 
 
@@ -165,12 +166,9 @@ if(isset ($_SESSION['mail'])){
 		</form>
 
 		<link rel="stylesheet" href="../css/MyStylesheet.css" />
-			<div class="menu">
-
+			<div class="menu" >
 
 				<u><strong><FONT size="6">Menu</FONT></u></strong> <br>
-
-				
 					<UL>
 						<LI><a href="#Abstract"><FONT size="6">Abstract</a></FONT><br>
 						<LI><a href="#History"><FONT size="6">History</a></FONT><br>
@@ -186,13 +184,11 @@ if(isset ($_SESSION['mail'])){
 						<a href=http://www.uniprot.org><img src="../img/sp.png"  width="100"/></a><br><br>
 						<a href=http://www.kegg.jp/><img src="../img/kegg.jpg"  width="100"/></a><br><br>
 					</center>
-
+			
+				</ul>
 			</div>
-
-			</ul>
 		</nav>
-			
-			
+					
 		<?php
 		
 		//Resume sur lenzyme ----------------------------------------------------------------------------------------------------------------------
@@ -201,8 +197,7 @@ if(isset ($_SESSION['mail'])){
 					//On remplit la table TopEnzyme
 					Excecuter2($bd,"INSERT INTO TopEnzyme(num_EC) VALUES ('".$data['num_EC']."')");
 		?>
-					
-					
+						
 					<div class="contenu">
 					<div class="jumbotron_enzyme">
 						<strong><FONT size="9">ENZYME</strong> : <?php echo $data['num_EC']; ?></FONT><br><br>							
@@ -299,6 +294,7 @@ if(isset ($_SESSION['mail'])){
 		}
 		?>
 		<br> 
+
 		<?php 
 		//History----------------------------------------------------------------------------------------------------------------------
 		
@@ -364,7 +360,6 @@ if(isset ($_SESSION['mail'])){
 			} ?></table></center><?php 
 
 		}else{ //Si on a rentre nimporte quoi 
-
 		}
 			
 		
@@ -399,8 +394,7 @@ if(isset ($_SESSION['mail'])){
 					echo 'Nothing in the Database';
 			}
 				
-			}else{
-			}
+			}else{}
 		
 		//Les Sequences proteiques--------------------------------------------------------------------------------------------------------
 		
@@ -577,7 +571,7 @@ if(isset ($_SESSION['mail'])){
 
 	}else if ($_GET['type']=='Protein sequence'){
 		?>
-			<div class="menu">
+			<div class="menu" style="position:fixed;">
 				<u><strong><FONT size="6">Links</FONT></u></strong> <br>
 					<center>
 						<a href=https://www.ncbi.nlm.nih.gov/pubmed><img src="../img/pubmed.png"  width="100"/></a><br><br>
@@ -606,8 +600,44 @@ if(isset ($_SESSION['mail'])){
 								<strong><FONT size="6">Sorry <?php echo $_GET['val']?> is not in the database</strong><br><br> 
 							</div><?php
 				}
-	}
+	
 
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////Si on rentre un autheur/////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	}else if ($_GET['type']=='Author'){
+		?>
+			<div class="menu" style="position:fixed;">
+				<u><strong><FONT size="6">Links</FONT></u></strong> <br>
+					<center>
+						<a href=https://www.ncbi.nlm.nih.gov/pubmed><img src="../img/pubmed.png"  width="100"/></a><br><br>
+						<a href=http://prosite.expasy.org/><img src="../img/prosite.gif" width="100"/></a><br><br>
+						<a href=http://www.uniprot.org><img src="../img/sp.png"  width="100"/></a><br><br>
+					</center>
+			</div>
+			<?php $response=Excecuter($bd,"Select num_EC,auteurs FROM Publication WHERE auteurs like '%".$_GET['val']."' OR auteurs like '".$_GET['val']."%' OR auteurs='".$_GET['val']."' OR auteurs like '%".$_GET['val']."%'"); 
+
+			if($data =$response->fetch(PDO::FETCH_ASSOC)){ 
+				$aut=$data['auteurs'];?>
+				
+				<div class="contenu">
+						<div class="jumbotron_enzyme">
+							<strong><FONT size="6"><?php echo $aut ?> wrote about :</strong><br><br> 
+						</div><?php
+						$response=Excecuter($bd,"Select num_EC FROM Publication WHERE auteurs like '%".$aut."' OR auteurs like '".$aut."%' OR auteurs='".$aut."'");
+						while($data =$response->fetch(PDO::FETCH_ASSOC)){ //Si on clique sur une enzyme, on peut avoir sa fiche descriptive
+							?><strong><FONT size="6">ENZYME</strong> :<a href="fiche1.php?val=<?php echo $data['num_EC']; ?> &type=EC"> <?php echo $data['num_EC']; ?></a></FONT><br><?php 
+						}
+						?></div> <?php
+				}else{
+					?>
+					<div class="contenu">
+							<div class="jumbotron_enzyme">
+								<strong><FONT size="6">Sorry <?php echo $_GET['val']?> is not in the database</strong><br><br> 
+							</div><?php
+				}
+			}
 ?>
 
 	</body>	

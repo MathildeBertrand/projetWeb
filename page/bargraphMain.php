@@ -88,12 +88,12 @@ try
 				  <input id="impression" name="impression" type="button" onclick="imprimer_page()" value="Print this page" />
 				</form>
 				
-		<div class="menu">
-				<u><strong><FONT size="6">Menu</FONT></u></strong> <br>
+		<div class="menu" >
+				<u ><strong><FONT size="6">Menu</FONT></u></strong> <br>
 				
 					<UL>
-						<LI><a href="#Visitors"><FONT size="3">About the visitors</a></FONT><br>
-						<LI><a href="#Database"><FONT size="3">About the database</a></FONT><br>
+						<LI ><a href="#Visitors"><FONT size="3">About the visitors</a></FONT><br>
+						<LI> <a href="#Database"><FONT size="3">About the database</a></FONT><br>
 						
 						
 					</UL>
@@ -124,7 +124,7 @@ try
 		<strong><FONT id='TopEnzyme'> Number of visits :  </FONT></strong>
 		
 		<?php
-			$nb_visites=fopen('pagesvues.txt','r');
+			$nb_visites=fopen('../pagesvues.txt','r');
 			while (!feof($nb_visites)){
 				$buffer=fgets($nb_visites); 
 				echo ' <strong>' . $buffer . '</strong><br/>';
@@ -214,7 +214,7 @@ try
 			<script type="text/javascript" src="../js/graph_top_orga.js"></script>
 		</div>
 		
-		<br><br>
+		<br>
 
 		<!--Nombre de maladies par enzyme -->
 		
@@ -227,16 +227,16 @@ try
 		</div>	
 			<script type="text/javascript" src="../js/disease.js"></script>
 		-->
-		<br><br>
+		<br><br><br><br>
 		<center>
 		<!--Data coverage -->
 
 		<strong><FONT id='Top'> Data covergae  </FONT></strong><br>
 		<strong><FONT id='buble'></strong></FONT>
 		<center><div id="chart-container">
+		
+			<canvas id="popChart" width="300" height="300"></canvas>
 		</center>
-			<canvas id="popChart" width="50" height="20"></canvas>
-
 		</div>
 		
 		<script type="text/javascript" src="../js/sp_prosite.js"></script>

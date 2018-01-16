@@ -68,7 +68,7 @@ $requete=Excecuter($bd,"SELECT DISTINCT titre,auteurs,year,pubmed FROM Publicati
 
 
 <link rel="stylesheet" href="UI/css/MyStylesheet.css" />
-			<div class="menu">
+			<div class="menu" >
 				<u><strong><FONT size="6">Links</FONT></u></strong><br> <br>
 					<center>
 						<a href=https://www.ncbi.nlm.nih.gov/pubmed><img src="../img/pubmed.png"  width="100"/></a><br><br>

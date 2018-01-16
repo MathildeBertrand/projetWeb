@@ -1,7 +1,7 @@
-<!DOCTYPE html>
 
+<?php session_start();?>
 <?php
-session_start();
+
 include_once 'includes/dbh.inc.php';
 ///////////////////////////////////////////////////////////////////////////////
 //Fichier qui permet de realiser linterface (page dacceuil)////////////////////
@@ -18,7 +18,7 @@ fclose($file);
 //Creation de linterface : 
 ?>
 
-
+<!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="utf-8">
@@ -87,10 +87,11 @@ fclose($file);
 									<OPTION>Protein family
 									<OPTION>Names
 									<OPTION>Protein sequence
+									<OPTION>Author
 									</SELECT>	
 									
 									<!-- Le champ de texte -->
-									<input type="text" name="enter" id="txt" size="60" placeholder="Ex: 1.1.1.1/Zinc/PDOC00060/ADH/ADH1_ALLMI or P80222 "/> 
+									<input type="text" name="enter" id="txt" size="60" placeholder="1.1.1.1/Zinc/PDOC00060/ADH/ADH/P80222 or Wagener"/> 
 									
 									
 									<!-- Gestion des requetes a la bd -->
@@ -107,7 +108,7 @@ fclose($file);
 									 
 										}else{
 											document.getElementById('bouton').disabled=false;
-											open('page/fiche1.php?val='+document.getElementById('txt').value +' &type=' +document.getElementById('liste').value,'_self');
+											open('page/fiche1.php?val='+document.getElementById('txt').value +'&type=' +document.getElementById('liste').value,'_self');
 										}
 									}
 									

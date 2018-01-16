@@ -48,7 +48,7 @@
 /* Mise en page de la page Enzyme */
 .jumbotron_enzyme{
  margin-top:20px;
- margin-right:20px;
+ margin-right:40px;
  margin-left:220px;
  height: 100px;
  color: #cc0066;  
@@ -57,9 +57,11 @@
 .menu{
  float:left;
  width:250px;
- margin-top:200px;
- margin-bottom: 20px;
- position:absolute;
+ margin-top:20px;
+ margin-bottom: 40px;
+ margin-bottom: 100px;
+ padding-bottom: 50px;
+ position:fixed;
  background-color: rgba(255, 255, 255, 0.2);
  }
 

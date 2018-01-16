@@ -73,7 +73,7 @@ $requete=Excecuter($bd,"SELECT Comments.num_EC,Enzyme.accepted_name,group_concat
 			</nav>
 
 <link rel="stylesheet" href="UI/css/MyStylesheet.css" />
-			<div class="menu">
+			<div class="menu" >
 				<u><strong><FONT size="6">Links</FONT></u></strong><br> <br>
 					<center>
 						<a href=https://www.ncbi.nlm.nih.gov/pubmed><img src="../img/pubmed.png"  width="100"/></a><br><br>
