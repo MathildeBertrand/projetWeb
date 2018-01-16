@@ -16,7 +16,7 @@ if (isset($_POST['done'])){
 		
 		$sqlSelect = "SELECT prenom, nom, knowledge, time FROM Users,shareKnowledge WHERE Users.mail=shareKnowledge.mail ORDER BY shareKnowledge.id DESC LIMIT 1;";
 		$result=$bd->query($sqlSelect);
-		while($row=$result->fetch()){			
+		while($row=$result->fetch(PDO::FETCH_ASSOC)){			
 			$name=$row['nom']." ".$row['prenom']."\t".$row['time'];
 			echo "<div class='panel panel-default'>";
 			echo "<div class='panel-heading'><STRONG>$name</STRONG></div>";

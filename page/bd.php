@@ -105,6 +105,7 @@ $requetes=array(
 	"History"=>"CREATE TABLE IF NOT EXISTS History
 	(id INT AUTO_INCREMENT PRIMARY KEY, 
 	mail VARCHAR(100) NOT NULL, 
+	type VARCHAR(20), 
 	num_EC VARCHAR(20), 
 	cofactor TEXT , 
 	disease_name VARCHAR(20), 

@@ -1,7 +1,7 @@
 <?php
 ob_start();
 session_start();
-include_once 'dbn.inc.php';
+include_once '../includes/dbh.inc.php';
 ?>
 
 <!DOCTYPE html>

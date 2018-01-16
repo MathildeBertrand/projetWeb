@@ -1,7 +1,7 @@
 <?php session_start();?>
 <?php
 require("functions.php");
-$AFF=FALSE; 
+
 
 ///////////////////////////////////////////////////////////////////////////////
 //Construction des requetes qui interrogent la bd//////////////////////////////
@@ -9,6 +9,7 @@ $AFF=FALSE;
 
 //Connection a la base : 
 include('../includes/dbh.inc.php');
+$AFF=FALSE; 
 ?>
 
 <html>
@@ -59,6 +60,7 @@ include('../includes/dbh.inc.php');
 
 if(isset ($_SESSION['mail'])){ //Si la personne est connectee
 	$mail=$_SESSION['mail'];
+
 }else{
 	$mail="Anonyme";	
 }
@@ -66,6 +68,7 @@ if(isset ($_SESSION['mail'])){ //Si la personne est connectee
 	
 	if ($_GET['type']=="EC"){ 
 		$num_EC=$_GET['type']." ".$_GET['val'];
+
 
 		//On test si cest bien un enzyme ; 
 		if((stripos($_GET['val'], 'EC') !== FALSE) ){ //On test le nom de lenzyme (si contient EC ou pas)
@@ -75,7 +78,7 @@ if(isset ($_SESSION['mail'])){ //Si la personne est connectee
 		}	
 
 		if($data =$response->fetch(PDO::FETCH_ASSOC)){ //Si on a rentre le bon truc alors on remplit la table History
-			$bd->query("INSERT INTO History(mail,type,name) VALUES ('".$mail."','".$_GET['type']."','".$num_EC."');");
+			Excecuter2($bd,"INSERT INTO History(mail,type,num_EC ) VALUES ('".$mail."','".$_GET['type']."','".$num_EC."')");
 		}//Sinon on ne fait rien
 
 	}elseif ($_GET['type']=="Cofactor"){
@@ -85,7 +88,7 @@ if(isset ($_SESSION['mail'])){ //Si la personne est connectee
 		$response=Excecuter($bd,"Select num_EC FROM Enzyme WHERE cofactor like '%".$_GET['val']."%' OR cofactor like '".$_GET['val']."%' OR cofactor like '%".$_GET['val']."' OR  cofactor='".$_GET['val']."' ORDER BY num_EC");
 
 		if($data =$response->fetch(PDO::FETCH_ASSOC)){ //Si on a rentre le bon truc alors on remplit la table History
-			$bd->query("INSERT INTO History(mail,type,name) VALUES ('".$mail."','".$_GET['type']."','".$cofactor."')");
+			Excecuter2($bd,"INSERT INTO History(mail,type,cofactor) VALUES ('".$mail."','".$_GET['type']."','".$cofactor."')");
 		}else{}//Sinon on ne fait rien
 
 	//}elseif ($_GET['type']=="Disease"){
@@ -98,16 +101,16 @@ if(isset ($_SESSION['mail'])){ //Si la personne est connectee
 		//Verification : 
 		$response=Excecuter($bd,"Select num_EC FROM Family WHERE PROSITE='".$_GET['val']."'");
 		if($data =$response->fetch(PDO::FETCH_ASSOC)){ 
-			$bd->query("INSERT INTO History(mail,type,name) VALUES ('".$mail."','".$_GET['type']."','".$protF."')");
+			Excecuter2($bd,"INSERT INTO History(mail,type,family) VALUES ('".$mail."','".$_GET['type']."','".$protF."')");
 		}
 
-	}elseif ($_GET['type']=="Name"){
+	}elseif ($_GET['type']=="Names"){
 		$name=$_GET['val'];
 
 		//Verfication : 
-		$response=Excecuter($bd,"Select num_EC FROM Family WHERE PROSITE='".$_GET['val']."'");
+		$response=Excecuter($bd,"Select num_EC FROM Names WHERE synonym_name='".$_GET['val']."'");
 		if($data =$response->fetch(PDO::FETCH_ASSOC)){ 
-			$bd->query("INSERT INTO History(mail,type,name) VALUES ('".$mail."','".$_GET['type']."','".$name."')");
+			Excecuter2($bd,"INSERT INTO History(mail,type,Name) VALUES ('".$mail."','".$_GET['type']."','".$name."')");
 		}
 
 	}elseif($_GET['type']=="Protein sequence"){
@@ -116,7 +119,7 @@ if(isset ($_SESSION['mail'])){ //Si la personne est connectee
 		//Verification : 
 		$response=Excecuter($bd,"Select num_EC FROM ProtSeq WHERE SP_id='".$_GET['val']."' OR SP_name='".$_GET['val']."'"); 
 		if($data =$response->fetch(PDO::FETCH_ASSOC)){
-			$bd->query("INSERT INTO History(mail,type,name) VALUES ('".$mail."','".$_GET['type']."','".$protSeq."')");
+			Excecuter2($bd,"INSERT INTO History(mail,type,ProtSeq) VALUES ('".$mail."','".$_GET['type']."','".$protSeq."')");
 		}
 	}
  
